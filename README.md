@@ -1,1 +1,1 @@
-# python-constellation-recognition
+# Constellation Recognition Algorithm (in Python)
