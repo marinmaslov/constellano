@@ -29,7 +29,7 @@ https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ve
 
 
 
-
+RE-WRITE THE WHOLE THING IN NODE.JS AND GENERATE A REACT APP WHICH WILL BE USER INTERACTIVE
 HAAR CASCADE CLASSIFIER:
 https://docs.opencv.org/4.x/db/d28/tutorial_cascade_classifier.html
 
