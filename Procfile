@@ -1,1 +1,1 @@
-web: gunicorn constellano:main.py
+web: gunicorn constellano.constellano:main
