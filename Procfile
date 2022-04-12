@@ -1,1 +1,1 @@
-web: gunicorn constellano:main
+web: gunicorn main:main
