@@ -1,1 +1,1 @@
-web: gunicorn constellano:constellano
+web: gunicorn wsgi:constellano
