@@ -1,8 +1,43 @@
-# Constellation Recognition Algorithm (in Python) 🌌 💻
+# Constellanio: Star recognition algorithm 🌌 💻
 
-An algorithm written in Python able to recognize constellations on a static picture which then applys a layer of lines that connect the constellation's stars onto it. 
+An app written in Python (Flask) that enables you to recognize 👀 constellations on a static picture, using HAAR cascade 🤖.
 
+## 0. Prerequisite ⚙️
+To run this app you'll need to install `python 3.10.x`.
 
+## 1. How to run? 🚀
+Clone the repo using the following command:
+```bash
+git clone git@github.com:marinmaslov/constellano.git
+```
+Position yourself into the constellano directory:
+```bash
+cd constellano
+```
+Create a virtual environment:
+```bash
+python -m venv venv
+```
+Activate it:
+```bash
+source venv/bin/activate
+```
+Install all required modules (make sure you're is the same directory where the requirements.txt file is):
+```bash
+pip install -r requirements.txt
+```
+Run the app with the following command (again make sure you're in the same directory as the app.py file):
+```bash
+flask run
+```
+
+## 2. Live version ⚡
+
+## 3. What's inside? 🧐
+
+## 4. Documentation 📚
+
+## 5. Useful learning materials ✨
 
 
 
@@ -58,3 +93,11 @@ ALGORITAM ZA PREPOZNAVANJE ZVIJEZDA - LINKOVI:
 
 
 DEPLOYMENT FLASK APP NA HEROKU: https://stackabuse.com/deploying-a-flask-application-to-heroku/
+
+
+
+ZA CRTANJE DIJAGRAMA KORISTI: https://app.diagrams.net
+ZA DIZAJN APLIKACIJE KORISTI: https://www.figma.com
+FIGMA PLUGINS: https://dev.to/saviomartin/16-must-have-figma-plugins-for-ui-ux-designers-4ffm
+
+Gatsby app created by Marin Maslov @ [FESB (UNIST)](https://www.fesb.unist.hr/)
