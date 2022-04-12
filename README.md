@@ -53,3 +53,8 @@ ALGORITAM ZA PREPOZNAVANJE ZVIJEZDA - LINKOVI:
 ¤
 ¤
 ¤
+
+
+
+
+DEPLOYMENT FLASK APP NA HEROKU: https://stackabuse.com/deploying-a-flask-application-to-heroku/
