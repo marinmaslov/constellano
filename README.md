@@ -100,4 +100,6 @@ ZA CRTANJE DIJAGRAMA KORISTI: https://app.diagrams.net
 ZA DIZAJN APLIKACIJE KORISTI: https://www.figma.com
 FIGMA PLUGINS: https://dev.to/saviomartin/16-must-have-figma-plugins-for-ui-ux-designers-4ffm
 
+<p align="center">
 Gatsby app created by Marin Maslov @ [FESB (UNIST)](https://www.fesb.unist.hr/)
+</p>
