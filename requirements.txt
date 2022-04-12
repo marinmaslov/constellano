@@ -1,16 +1,22 @@
-Package         Version
---------------- --------
-cycler          0.11.0
-fonttools       4.31.2
-kiwisolver      1.4.2
-matplotlib      3.5.1
-numpy           1.22.3
-opencv-python   4.5.5.64
-packaging       21.3
-Pillow          9.1.0
-pip             22.0.4
-pyparsing       3.0.7
-python-dateutil 2.8.2
-scipy           1.8.0
-setuptools      58.1.0
-six             1.16.0
+cffi==1.15.0
+click==8.1.2
+colorama==0.4.4
+cycler==0.11.0
+Flask==2.1.1
+fonttools==4.31.2
+itsdangerous==2.1.2
+Jinja2==3.1.1
+kiwisolver==1.4.2
+MarkupSafe==2.1.1
+matplotlib==3.5.1
+numpy==1.22.3
+opencv-python==4.5.5.64
+packaging==21.3
+Pillow==9.1.0
+pycparser==2.21
+pyparsing==3.0.7
+python-dateutil==2.8.2
+pyvips==2.1.16
+scipy==1.8.0
+six==1.16.0
+Werkzeug==2.1.1
