@@ -1,1 +1,1 @@
-web: gunicorn constellano/constellano:constellano
+web: gunicorn constellano:constellano
