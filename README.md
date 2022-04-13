@@ -1,4 +1,4 @@
-# 🌟 Constellanio: Star recognition algorithm 🌌 💻
+# 🌟 Constellano: Star recognition algorithm 🌌 💻
 
 An app written in Python (Flask) that enables you to recognize 👀 constellations on a static picture, using HAAR cascade 🤖.
 
