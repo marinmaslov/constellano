@@ -119,3 +119,6 @@ Used literature:
 <p align="center">
   Flask (Python) App created by Marin Maslov @ <a href="https://www.fesb.unist.hr/">FESB (UNIST)</a>
 </p>
+
+
+DOBRE UPUTE KAKO OD NEGATIVA NAPRAVIT "POYITIVE" TAKO DA UVALIŠ SVOJ TRAŽENI OBJEKT U NJIH: https://memememememememe.me/post/training-haar-cascades/
