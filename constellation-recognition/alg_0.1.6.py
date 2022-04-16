@@ -1,3 +1,4 @@
+import sys
 import os
 from os import path
 import cv2
@@ -19,6 +20,8 @@ GAMMA = 0.2
 
 # USED CONTOUR AREA PRECISSION
 MIN_CONTOUR_AREA_PRECISION = 0.18
+if(len(sys.argv) > 1):
+    MIN_CONTOUR_AREA_PRECISION = sys.argv[2]
 
 # USED MARK SIZE
 MARK_SIZE_PERCENTAGE = 0.05
@@ -34,8 +37,8 @@ def gammaCorrection(img, gamma):
 # Functions --------------------------------------- END
 
 # Algorithm --------------------------------------- START
-location = 'C:/Users/easmsma/Desktop/Diplomski/constellation-recognition/constellation-recognition/img/ursa_major/'
-output = location + 'outout/'
+location = 'C:/Users/easmsma/Desktop/Diplomski/constellation-recognition/constellation-recognition/targets/lyra/positive/'
+output = location + 'output/'
 
 print(os.path.exists(output))
 
