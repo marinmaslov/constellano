@@ -119,9 +119,9 @@ def main(argv):
         print("Creating directory: " + final_samples_dir)
         os.mkdir(final_samples_dir)
 
+    new_samples_list = []
     counter = 0
     for directory in os.listdir(samples_dir):
-        print("DIR: " + str(directory))
         current_samples_dir = str(samples_dir) + \
             "samples_" + str(counter) + "/"
         current_samples_list = []
@@ -138,10 +138,20 @@ def main(argv):
                 source_file = str(current_samples_dir) + str(file)
                 destination_file = str(
                     final_samples_dir) + "final_sample_" + str(counter) + "_" + str(inner_counter) + ".jpg"
-                print("COPY!")
                 shutil.copy(source_file, destination_file)
+
+                for i in range(current_samples_list):
+                    if file in current_samples_list[i]:
+                        new_samples_list.append(
+                            str(destination_file) + str(current_samples_list[i].split(".jpg")[1]))
             inner_counter = inner_counter + 1
         counter = counter + 1
+
+    new_list_file_path = str(final_samples_dir) + "final_samples.txt"
+    listfile = open(new_list_file_path, 'w')
+    for line in new_samples_list:
+        listfile.write(line, + "\n")
+    listfile.close()
 
 
 if __name__ == "__main__":
