@@ -136,14 +136,13 @@ def main(argv):
         for file in os.listdir(current_samples_dir):
             if file.endswith(".jpg"):
                 source_file = str(current_samples_dir) + str(file)
-                destination_file = "final_sample_" + \
+                destination_file = str(final_samples_dir) + "final_sample_" + \
                     str(counter) + "_" + str(inner_counter) + ".jpg"
                 shutil.copy(source_file, destination_file)
 
                 for item in current_samples_list:
                     if file in item:
-                        new_samples_list.append(
-                            str(destination_file) + str(item.split(".jpg")[1]))
+                        new_samples_list.append(str(item.split(".jpg")[1]))
             inner_counter = inner_counter + 1
         counter = counter + 1
 
