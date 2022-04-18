@@ -187,4 +187,4 @@ python3 preparing_samples_v0.0.1.py -p pos/ -n neg/ -num 10 -bgcolor 0 -bgthresh
 
 
 
-python3 preparing_samples_v0.0.1.py -p p/ -n n/ --num=10 --bgcolor=0 --bgthresh=0 --maxxangle=1.1 --maxyangle=1.1 --maxzangle=0.5 --maxidev=40 --width=500 --height=500
+python3.10 preparing_samples_v0.0.1.py -p p/ -n n/ --num=10 --bgcolor=0 --bgthresh=0 --maxxangle=1.1 --maxyangle=1.1 --maxzangle=0.5 --maxidev=40 --width=500 --height=500
