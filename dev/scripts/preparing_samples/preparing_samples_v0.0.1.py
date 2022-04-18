@@ -105,7 +105,7 @@ def main(argv):
             if not os.path.exists(current_samples_dir) != False:
                 print("Creating directory: " + current_samples_dir)
                 os.mkdir(current_samples_dir)
-            command = "opencv_createsamples -img " + str(positives_dir + file) + " -bg negatives.txt " + "-info " + str(samples_dir) + "samples_" + str(counter) + ".txt -pngoutput " + str(current_samples_dir) + \
+            command = "opencv_createsamples -img " + str(positives_dir + file) + " -bg negatives.txt " + "-info " + str(current_samples_dir) + ".txt -pngoutput " + str(current_samples_dir) + \
                 " -maxxangle " + str(maxxangle) + " -maxyangle " + str(maxyangle) + \
                 " -maxzangle " + str(maxzangle) + " -num " + \
                 str(number_of_samples)
