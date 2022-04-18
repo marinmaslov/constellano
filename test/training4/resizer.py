@@ -11,8 +11,11 @@ if len(sys.argv) > 2:
 # Constants --------------------------------------- END
 
 # Functions --------------------------------------- START
+
+
 def resize_image(img, newRows, newCols):
-    return cv2.resize(img, (newCols, newRows), interpolation = cv2.INTER_AREA)
+    return cv2.resize(img, (newCols, newRows), interpolation=cv2.INTER_AREA)
+
 
 def fill(img):
     filled = np.zeros((NEW_SIZE, NEW_SIZE, 3), np.uint8)
@@ -40,12 +43,13 @@ def fill(img):
     return filled
 # Functions --------------------------------------- END
 
+
 if len(sys.argv) < 2:
     print("No path to image set defined! Exiting...")
     exit()
 
 # Algorithm --------------------------------------- START
-location = str(sys.argv[1]) #'C:/Users/easmsma/Desktop/Diplomski/constellation-recognition/constellation-recognition/targets/lyra/positive/'
+location = '/Users/marinmaslov/Desktop/Diplomski rad/constellano/test/training4/n/'
 output = location + 'resized/'
 
 if not os.path.exists(output) != False:
@@ -55,11 +59,11 @@ if not os.path.exists(output) != False:
 counter = 0
 
 for file in os.listdir(location):
+    print(counter)
     if file.endswith(".jpg"):
         print(file)
         # READ IMAGE (RGB)
         img = cv2.imread(location + file)
-
 
         rows, cols, _ = img.shape
         resized = 0
@@ -76,7 +80,8 @@ for file in os.listdir(location):
             resized = resize_image(img, newRows, NEW_SIZE)
             filled = fill(resized)
 
-        new_file_name = str(output + os.path.splitext(file)[0] + "_resized.jpg");
+        new_file_name = str(output + os.path.splitext(file)
+                            [0] + "_resized.jpg")
         cv2.imwrite(new_file_name, filled)
         cv2.waitKey(0)
         counter = counter + 1
