@@ -138,7 +138,8 @@ def main(argv):
                         The image size of previous files: {0}""".format(file, image_size, prev_image_size))
                     files_with_different_sizes.append(file)
                     # sys.exit(err_msg)
-                total_num_images += num_images
+                else:
+                    total_num_images += num_images
         except IOError as e:
             print(
                 'An IO error occured while processing the file: {0}'.format(file))
