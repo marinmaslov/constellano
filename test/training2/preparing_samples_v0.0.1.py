@@ -1,12 +1,9 @@
 import os
 import sys
 import getopt
-import struct
-import subprocess
-
-import glob
-import argparse
+import shutil
 import traceback
+import subprocess
 
 
 '''
@@ -103,7 +100,7 @@ def main(argv):
             current_samples_dir = str(samples_dir) + \
                 "samples_" + str(counter) + "/"
             current_samples_list = str(samples_dir) + \
-                "samples_" + str(counter) + "/samples" + str(counter) + ".txt"
+                "samples_" + str(counter) + "/samples_" + str(counter) + ".txt"
             if not os.path.exists(current_samples_dir) != False:
                 print("Creating directory: " + current_samples_dir)
                 os.mkdir(current_samples_dir)
@@ -112,24 +109,36 @@ def main(argv):
                 " -maxzangle " + str(maxzangle) + " -num " + \
                 str(number_of_samples)
             response = subprocess.check_output(command, shell=True)
-            print("COMMAND: " + str(command))
-            print("RESPONSE: " + str(response))
             print("Creating samples from: " + file + " in: " +
                   str(samples_dir) + "/samples_" + str(counter))
             counter = counter + 1
 
-    # STEP 3 - Creating a list of all samples .vec files
-    subprocess.check_output(
-        "find " + samples_dir + " -iname '*.vec' > samples.txt", shell=True)
+    # STEP 3 - Moving all samples into a single directory and list
+    final_samples_dir = "final_samples/"
+    if not os.path.exists(final_samples_dir) != False:
+        print("Creating directory: " + final_samples_dir)
+        os.mkdir(final_samples_dir)
+
+    counter = 0
+    for directory in os.listdir(samples_dir):
+        current_samples_dir = str(samples_dir + "samples_" + counter + "/")
+        current_samples_list = []
+        # Read list from samples_X.txt
+        list_file = str(current_samples_dir + "samples_" + counter + ".txt")
+        with open(list_file, 'r') as listfile:
+            for line in listfile.readlines():
+                current_samples_list.append(line)
+
+        inner_counter = 0
+        for file in directory:
+            if file.endswith(".png"):
+                source_file = str(current_samples_dir + file)
+                destination_file = str(
+                    final_samples_dir + "final_sample_" + counter + "_" + inner_counter + ".png")
+                shutil.copy(source_file, destination_file)
+            inner_counter = inner_counter + 1
+        counter = counter + 1
 
 
 if __name__ == "__main__":
     main(sys.argv[1:])
-
-
-'''
-command = "opencv_createsamples -vec " + str(samples_dir) + "samples_" + str(counter) + ".vec -img " + positives_dir + file + " -bg negatives.txt -num " + str(number_of_samples) + " -bgcolor " + str(bgcolor) + " -bgthresh " + \
-                str(bgthresh) + " -maxxangle " + str(maxxangle) + " -maxyangle " + str(maxyangle) + " -maxzangle " + \
-                str(maxzangle) + " -maxidev " + str(maxidev) + \
-                " -w " + str(width) + " -h " + str(height)
-'''
