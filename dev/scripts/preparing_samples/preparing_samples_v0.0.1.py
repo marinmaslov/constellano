@@ -125,6 +125,7 @@ def main(argv):
 
     # Get the total number of images
     total_num_images = 0
+    files_with_different_sizes = []
     for file in os.listdir(samples_dir):
         try:
             with open(samples_dir + file, 'rb') as vecfile:
@@ -133,8 +134,9 @@ def main(argv):
                 num_images = val[0]
                 image_size = val[1]
                 if image_size != prev_image_size:
-                    err_msg = """The image sizes in the .vec files differ. These values must be the same. \n The image size of file {0}: {1}\n
-                        The image size of previous files: {0}""".format(file, image_size, prev_image_size)
+                    print("""The image sizes in the .vec files differ. These values must be the same. \n The image size of file {0}: {1}\n
+                        The image size of previous files: {0}""".format(file, image_size, prev_image_size))
+                    files_with_different_sizes.append(file)
                     # sys.exit(err_msg)
                 total_num_images += num_images
         except IOError as e:
@@ -150,7 +152,7 @@ def main(argv):
             outputfile.write(header)
 
             for file in os.listdir(samples_dir):
-                if file.endswith(".vec"):
+                if file.endswith(".vec") and file not in files_with_different_sizes:
                     with open(positives_dir + samples_dir + file, 'rb') as vecfile:
                         content = ''.join(str(line)
                                           for line in vecfile.readlines())
