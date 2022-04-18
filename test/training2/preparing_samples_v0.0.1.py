@@ -140,10 +140,10 @@ def main(argv):
                     final_samples_dir) + "final_sample_" + str(counter) + "_" + str(inner_counter) + ".jpg"
                 shutil.copy(source_file, destination_file)
 
-                for i in range(current_samples_list):
-                    if file in current_samples_list[i]:
+                for item in current_samples_list:
+                    if file in item:
                         new_samples_list.append(
-                            str(destination_file) + str(current_samples_list[i].split(".jpg")[1]))
+                            str(destination_file) + str(item.split(".jpg")[1]))
             inner_counter = inner_counter + 1
         counter = counter + 1
 
