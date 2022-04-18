@@ -112,7 +112,8 @@ def main(argv):
     # Get the value for the first image size
     prev_image_size = 0
     try:
-        with open(positives_dir + os.listdir(samples_dir)[0], 'rb') as vecfile:
+        print("TRYING TO OPEN FILE: " + str(os.listdir(samples_dir)[0]))
+        with open(os.listdir(samples_dir)[0], 'rb') as vecfile:
             content = ''.join(str(line) for line in vecfile.readlines())
             val = struct.unpack('<iihh', content[:12])
             prev_image_size = val[1]
@@ -132,12 +133,12 @@ def main(argv):
                 image_size = val[1]
                 if image_size != prev_image_size:
                     err_msg = """The image sizes in the .vec files differ. These values must be the same. \n The image size of file {0}: {1}\n 
-                        The image size of previous files: {0}""".format(f, image_size, prev_image_size)
+                        The image size of previous files: {0}""".format(file, image_size, prev_image_size)
                     sys.exit(err_msg)
                     total_num_images += num_images
         except IOError as e:
             print(
-                'An IO error occured while processing the file: {0}'.format(f))
+                'An IO error occured while processing the file: {0}'.format(file))
             exception_response(e)
 
     # Iterate through the .vec files, writing their data (not the header) to the output file
