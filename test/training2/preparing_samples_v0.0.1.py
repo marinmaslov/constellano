@@ -116,7 +116,7 @@ def main(argv):
         file_to_open = samples_dir + os.listdir(samples_dir)[0]
         with open(file_to_open, 'rb') as vecfile:
             content = ''.join(str(line) for line in vecfile.readlines())
-            val = struct.unpack('<iihh', byte(content[:12], 'utf-8)'))
+            val = struct.unpack('<iihh', bytes(content[:12], 'utf-8)'))
             prev_image_size = val[1]
     except IOError as e:
         print(
@@ -129,7 +129,7 @@ def main(argv):
         try:
             with open(samples_dir + file, 'rb') as vecfile:
                 content = ''.join(str(line) for line in vecfile.readlines())
-                val = struct.unpack('<iihh', byte(content[:12], 'utf-8)'))
+                val = struct.unpack('<iihh', bytes(content[:12], 'utf-8)'))
                 num_images = val[0]
                 image_size = val[1]
                 if image_size != prev_image_size:
