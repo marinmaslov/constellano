@@ -127,7 +127,7 @@ def main(argv):
     total_num_images = 0
     for file in os.listdir(samples_dir):
         try:
-            with open(positives_dir + file, 'rb') as vecfile:
+            with open(positives_dir + samples_dir + file, 'rb') as vecfile:
                 content = ''.join(str(line) for line in vecfile.readlines())
                 val = struct.unpack('<iihh', byte(content[:12], 'utf-8)'))
                 num_images = val[0]
@@ -151,7 +151,7 @@ def main(argv):
 
             for file in os.listdir(samples_dir):
                 if file.endswith(".vec"):
-                    with open(file, 'rb') as vecfile:
+                    with open(positives_dir + samples_dir + file, 'rb') as vecfile:
                         content = ''.join(str(line)
                                           for line in vecfile.readlines())
                         data = content[12:]
