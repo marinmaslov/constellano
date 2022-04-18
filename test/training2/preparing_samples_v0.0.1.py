@@ -124,6 +124,9 @@ def main(argv):
         print("DIR: " + str(directory))
         current_samples_dir = str(samples_dir) + \
             "samples_" + str(counter) + "/"
+        if not os.path.exists(current_samples_dir) != False:
+            print("Creating directory: " + current_samples_dir)
+            os.mkdir(current_samples_dir)
         current_samples_list = []
         # Read list from samples_X.txt
         list_file = str(current_samples_dir) + \
