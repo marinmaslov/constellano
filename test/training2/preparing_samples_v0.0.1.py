@@ -137,7 +137,7 @@ def main(argv):
             if file.endswith(".jpg"):
                 source_file = str(current_samples_dir) + str(file)
                 destination_file = str(
-                    final_samples_dir) + "final_sample_" + str(counter) + "_" + str(inner_counter) + ".png"
+                    final_samples_dir) + "final_sample_" + str(counter) + "_" + str(inner_counter) + ".jpg"
                 print("COPY!")
                 shutil.copy(source_file, destination_file)
             inner_counter = inner_counter + 1
