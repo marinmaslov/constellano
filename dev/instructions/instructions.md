@@ -153,9 +153,15 @@ The directory structure now is:
 └── samples.txt
 ```
 
-### Creating samples.vec containing all the generated samples
+### Creating list of all samples.vec files
+Same as lists above.
 
 
+
+## Cascade training
+Command:
+
+opencv_traincascade -
 
 
 

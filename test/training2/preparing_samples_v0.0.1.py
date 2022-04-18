@@ -91,7 +91,7 @@ def main(argv):
         "find " + negatives_dir + " -iname '*.jpg' > negatives.txt", shell=True)
     print("Creating positives.txt and negatives.txt DONE!")
 
-    # STEP 2 - Creating samples.vec for each positive file
+    # STEP 2 - Creating samples images for each positive file
     samples_dir = positives_dir + "samples/"
     if not os.path.exists(samples_dir) != False:
         print("Creating directory: " + samples_dir)
@@ -100,11 +100,10 @@ def main(argv):
     counter = 0
     for file in os.listdir(positives_dir):
         if file.endswith(".jpg"):
-            command = "opencv_createsamples -vec " + str(samples_dir) + "samples_" + str(counter) + ".vec -img " + positives_dir + file + " -bg negatives.txt -num " + str(number_of_samples) + " -bgcolor " + str(bgcolor) + " -bgthresh " + \
-                str(bgthresh) + " -maxxangle " + str(maxxangle) + " -maxyangle " + str(maxyangle) + " -maxzangle " + \
-                str(maxzangle) + " -maxidev " + str(maxidev) + \
-                " -w " + str(width) + " -h " + str(height)
-            response = subprocess.check_output(command, shell=True)
+            command = "opencv_createsamples -img " + str(samples_dir + file) + " -bg negatives.txt " + "-info " + samples_dir + "/samples_" + counter + ".txt -pngoutput " + + samples_dir + "/samples_" + counter + \
+                " -maxxangle " + str(maxxangle) + " -maxyangle " + str(maxyangle) + " -maxzangle " + str(maxzangle) + " -num " + str(number_of_samples) + \
+                " -maxidev " + str(maxidev) + " -w " + \
+                str(width) + " -h " + str(height)
             print("Creating samples" + "_" + str(counter) + ".vec DONE!")
             counter = counter + 1
 
@@ -115,3 +114,11 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv[1:])
+
+
+'''
+command = "opencv_createsamples -vec " + str(samples_dir) + "samples_" + str(counter) + ".vec -img " + positives_dir + file + " -bg negatives.txt -num " + str(number_of_samples) + " -bgcolor " + str(bgcolor) + " -bgthresh " + \
+                str(bgthresh) + " -maxxangle " + str(maxxangle) + " -maxyangle " + str(maxyangle) + " -maxzangle " + \
+                str(maxzangle) + " -maxidev " + str(maxidev) + \
+                " -w " + str(width) + " -h " + str(height)
+'''
