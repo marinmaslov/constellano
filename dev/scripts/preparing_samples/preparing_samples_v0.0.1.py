@@ -90,7 +90,10 @@ def main(argv):
                 str(bgthresh) + " -maxxangle " + str(maxxangle) + " -maxyangle " + str(maxyangle) + " -maxzangle " + \
                 str(maxzangle) + " -maxidev " + str(maxidev) + \
                 " -w " + str(width) + " -h " + str(height)
-            subprocess.check_output(command, shell=True)
+            print("Executing: " + command)
+            response = subprocess.check_output(command, shell=True)
+            print("Response: " + response)
+            print("Creating samples" + "_" + str(counter) + " .vec DONE!")
             counter = counter + 1
 
 
