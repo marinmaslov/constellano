@@ -104,7 +104,9 @@ def main(argv):
                 " -maxxangle " + str(maxxangle) + " -maxyangle " + str(maxyangle) + " -maxzangle " + str(maxzangle) + " -num " + str(number_of_samples) + \
                 " -maxidev " + str(maxidev) + " -w " + \
                 str(width) + " -h " + str(height)
-            print("Creating samples" + "_" + str(counter) + ".vec DONE!")
+            subprocess.check_output(command, shell=True)
+            print("Creating samples from: " + file + " in: " +
+                  str(samples_dir) + "/samples_" + str(counter))
             counter = counter + 1
 
     # STEP 3 - Creating a list of all samples .vec files
