@@ -121,6 +121,7 @@ def main(argv):
 
     counter = 0
     for directory in os.listdir(samples_dir):
+        print("DIR: " + str(directory))
         current_samples_dir = str(samples_dir) + \
             "samples_" + str(counter) + "/"
         current_samples_list = []
