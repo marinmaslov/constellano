@@ -104,7 +104,9 @@ def main(argv):
                 " -maxxangle " + str(maxxangle) + " -maxyangle " + str(maxyangle) + " -maxzangle " + str(maxzangle) + " -num " + str(number_of_samples) + \
                 " -maxidev " + str(maxidev) + " -w " + \
                 str(width) + " -h " + str(height)
-            subprocess.check_output(command, shell=True)
+            response = subprocess.check_output(command, shell=True)
+            print("COMMAND: " + str(command))
+            print("RESPONSE: " + str(response))
             print("Creating samples from: " + file + " in: " +
                   str(samples_dir) + "/samples_" + str(counter))
             counter = counter + 1
