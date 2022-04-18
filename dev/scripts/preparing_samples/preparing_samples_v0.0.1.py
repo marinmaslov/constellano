@@ -121,10 +121,12 @@ def main(argv):
 
     counter = 0
     for directory in os.listdir(samples_dir):
-        current_samples_dir = str(samples_dir + "samples_" + counter + "/")
+        current_samples_dir = str(samples_dir) + \
+            "samples_" + str(counter) + "/"
         current_samples_list = []
         # Read list from samples_X.txt
-        list_file = str(current_samples_dir + "samples_" + counter + ".txt")
+        list_file = str(current_samples_dir) + \
+            "samples_" + str(counter) + ".txt"
         with open(list_file, 'r') as listfile:
             for line in listfile.readlines():
                 current_samples_list.append(line)
@@ -132,9 +134,9 @@ def main(argv):
         inner_counter = 0
         for file in directory:
             if file.endswith(".png"):
-                source_file = str(current_samples_dir + file)
+                source_file = str(current_samples_dir) + str(file)
                 destination_file = str(
-                    final_samples_dir + "final_sample_" + counter + "_" + inner_counter + ".png")
+                    final_samples_dir) + "final_sample_" + str(counter) + "_" + str(inner_counter) + ".png"
                 shutil.copy(source_file, destination_file)
             inner_counter = inner_counter + 1
         counter = counter + 1
