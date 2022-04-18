@@ -108,59 +108,9 @@ def main(argv):
             print("Creating samples" + "_" + str(counter) + ".vec DONE!")
             counter = counter + 1
 
-    # STEP 3 - Merging all samples .vec files into one
-    # Get the value for the first image size
-    prev_image_size = 0
-    try:
-        print("TRYING TO OPEN FILE: " + str(os.listdir(samples_dir)[0]))
-        file_to_open = samples_dir + os.listdir(samples_dir)[0]
-        with open(file_to_open, 'rb') as vecfile:
-            content = ''.join(str(line) for line in vecfile.readlines())
-            val = struct.unpack('<iihh', bytes(content[:12], 'utf-8)'))
-            prev_image_size = val[1]
-    except IOError as e:
-        print(
-            'An IO error occured while processing the file: {0}'.format(file))
-        exception_response(e)
-
-    # Get the total number of images
-    total_num_images = 0
-    files_with_different_sizes = []
-    for file in os.listdir(samples_dir):
-        try:
-            with open(samples_dir + file, 'rb') as vecfile:
-                content = ''.join(str(line) for line in vecfile.readlines())
-                val = struct.unpack('<iihh', bytes(content[:12], 'utf-8)'))
-                num_images = val[0]
-                image_size = val[1]
-                if image_size != prev_image_size:
-                    print("""The image sizes in the .vec files differ. These values must be the same. \n The image size of file {0}: {1}\n
-                        The image size of previous files: {0}""".format(file, image_size, prev_image_size))
-                    files_with_different_sizes.append(file)
-                    # sys.exit(err_msg)
-                else:
-                    total_num_images += num_images
-        except IOError as e:
-            print(
-                'An IO error occured while processing the file: {0}'.format(file))
-            exception_response(e)
-
-    # Iterate through the .vec files, writing their data (not the header) to the output file
-    # '<iihh' means 'little endian, int, int, short, short'
-    header = struct.pack('<iihh', total_num_images, image_size, 0, 0)
-    try:
-        with open("samples.vec", 'wb') as outputfile:
-            outputfile.write(header)
-
-            for file in os.listdir(samples_dir):
-                if file.endswith(".vec") and file not in files_with_different_sizes:
-                    with open(positives_dir + samples_dir + file, 'rb') as vecfile:
-                        content = ''.join(str(line)
-                                          for line in vecfile.readlines())
-                        data = content[12:]
-                        outputfile.write(data)
-    except Exception as e:
-        exception_response(e)
+    # STEP 3 - Creating a list of all samples .vec files
+    subprocess.check_output(
+        "find " + samples_dir + " -iname '*.vec' > samples.txt", shell=True)
 
 
 if __name__ == "__main__":
