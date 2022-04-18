@@ -133,7 +133,7 @@ def main(argv):
                 current_samples_list.append(line)
 
         inner_counter = 0
-        for file in directory:
+        for file in os.listdir(current_samples_dir):
             if file.endswith(".jpg"):
                 source_file = str(current_samples_dir) + str(file)
                 destination_file = str(
