@@ -124,9 +124,6 @@ def main(argv):
         print("DIR: " + str(directory))
         current_samples_dir = str(samples_dir) + \
             "samples_" + str(counter) + "/"
-        if not os.path.exists(current_samples_dir) != False:
-            print("Creating directory: " + current_samples_dir)
-            os.mkdir(current_samples_dir)
         current_samples_list = []
         # Read list from samples_X.txt
         list_file = str(current_samples_dir) + \
@@ -137,10 +134,11 @@ def main(argv):
 
         inner_counter = 0
         for file in directory:
-            if file.endswith(".png"):
+            if file.endswith(".jpg"):
                 source_file = str(current_samples_dir) + str(file)
                 destination_file = str(
                     final_samples_dir) + "final_sample_" + str(counter) + "_" + str(inner_counter) + ".png"
+                print("COPY!")
                 shutil.copy(source_file, destination_file)
             inner_counter = inner_counter + 1
         counter = counter + 1
