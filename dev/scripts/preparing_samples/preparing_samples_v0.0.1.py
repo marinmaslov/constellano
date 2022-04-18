@@ -86,13 +86,11 @@ def main(argv):
     counter = 0
     for file in os.listdir(positives_dir):
         if file.endswith(".jpg"):
-            command = "opencv_createsamples -vec samples_" + str(counter) + ".vec -img " + file + " -bg negatives.txt -num " + str(number_of_samples) + " -bgcolor " + str(bgcolor) + " -bgthresh " + \
+            command = "opencv_createsamples -vec " + str(samples_dir) + "samples_" + str(counter) + ".vec -img " + positives_dir + file + " -bg negatives.txt -num " + str(number_of_samples) + " -bgcolor " + str(bgcolor) + " -bgthresh " + \
                 str(bgthresh) + " -maxxangle " + str(maxxangle) + " -maxyangle " + str(maxyangle) + " -maxzangle " + \
                 str(maxzangle) + " -maxidev " + str(maxidev) + \
                 " -w " + str(width) + " -h " + str(height)
-            print("Executing: " + command)
             response = subprocess.check_output(command, shell=True)
-            print("Response: " + response)
             print("Creating samples" + "_" + str(counter) + " .vec DONE!")
             counter = counter + 1
 
