@@ -154,6 +154,11 @@ def main(argv):
     listfile.close()
 
     # STEP 4 - Generating positives.vec from final_samples
+    print("Generating positives.vec")
+    command = "opencv_createsamples -info final_samples/final_samples.txt -num " + \
+        str(number_of_samples) + " -w " + str(width) + \
+        " -h " + str(height) + " + -vec positives.vec"
+    subprocess.check_output(command, shell=True)
 
 
 if __name__ == "__main__":
