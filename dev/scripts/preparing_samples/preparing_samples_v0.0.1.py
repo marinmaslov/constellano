@@ -93,7 +93,9 @@ def main(argv):
 
     # STEP 2 - Creating samples.vec for each positive file
     samples_dir = positives_dir + "samples/"
-    os.mkdir(samples_dir)
+    if not os.path.exists(samples_dir) != False:
+        print("Creating directory: " + samples_dir)
+        os.mkdir(samples_dir)
 
     counter = 0
     for file in os.listdir(positives_dir):
