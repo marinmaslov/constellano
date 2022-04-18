@@ -150,7 +150,7 @@ def main(argv):
     new_list_file_path = str(final_samples_dir) + "final_samples.txt"
     listfile = open(new_list_file_path, 'w')
     for line in new_samples_list:
-        listfile.write(line, + "\n")
+        listfile.write(line + "\n")
     listfile.close()
 
 
