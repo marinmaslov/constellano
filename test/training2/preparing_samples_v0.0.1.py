@@ -135,8 +135,8 @@ def main(argv):
                 if image_size != prev_image_size:
                     err_msg = """The image sizes in the .vec files differ. These values must be the same. \n The image size of file {0}: {1}\n
                         The image size of previous files: {0}""".format(file, image_size, prev_image_size)
-                    sys.exit(err_msg)
-                    total_num_images += num_images
+                    # sys.exit(err_msg)
+                total_num_images += num_images
         except IOError as e:
             print(
                 'An IO error occured while processing the file: {0}'.format(file))
