@@ -52,6 +52,7 @@ def main(argv):
     print("Running HAAR cascade training...")
     command = "opencv_traincascade -data " + str(destination_data_dir) + " -vec " + str(positives_dir) + " -bg " + str(negatives_dir) + " -numPos " + str(
         numpos) + " -numNeg " + str(numneg) + " -numStages " + str(numstages) + " -w " + str(width) + " -h " + str(height)
+    subprocess.check_output(command, shell=True)
     print("HAAR cascade training finished!")
 
 
