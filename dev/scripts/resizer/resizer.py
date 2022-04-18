@@ -1,15 +1,24 @@
+#!/usr/bin/env python
+""" Constellano Resizer
+
+Python script for resizing of images and filling gaps to create a 1:1 aspect ratio image.
+
+Command example:
+    py resizer.py -d <images-directory> -s <image-size>
+"""
+
 import sys
 import os
 import cv2
 import numpy as np
-
-
-import os
-import sys
 import getopt
-import shutil
-import traceback
-import subprocess
+
+__author__ = "Marin Maslov"
+__license__ = "MIT Licence"
+__version__ = "1.0.0"
+__maintainer__ = "Marin Maslov"
+__email__ = "mmaslo00@fesb.hr"
+__status__ = "Stable"
 
 
 COMMAND_FORMAT = "Error! The command should be: resizer.py -d <images_dir> -s <image_size>"
@@ -63,8 +72,6 @@ def main(argv):
         elif opt in ("-s"):
             image_size = arg
 
-    # Algorithm --------------------------------------- START
-    # 'C:/Users/easmsma/Desktop/Diplomski/constellation-recognition/constellation-recognition/targets/lyra/positive/'
     location = str(images_dir)
     output = location + 'resized/'
 
@@ -99,12 +106,14 @@ def main(argv):
 
             new_file_name = str(
                 output + os.path.splitext(file)[0] + "_resized.jpg")
-            cv2.imwrite(new_file_name, filled)
+            if not cols == rows:
+                cv2.imwrite(new_file_name, filled)
+            else:
+                cv2.imwrite(new_file_name, resized)
             cv2.waitKey(0)
             counter = counter + 1
 
     print("Total images resized: " + str(counter)),
-    # Algorithm --------------------------------------- END
 
 
 if __name__ == "__main__":
