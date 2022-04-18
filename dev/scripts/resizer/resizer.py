@@ -88,12 +88,14 @@ def main(argv):
                 rowsRatio = float(int(image_size) / rows)
                 newCols = int(rowsRatio * cols)
                 resized = resize_image(img, int(image_size), newCols)
-                filled = fill(resized, int(image_size))
+                if not cols == rows:
+                    filled = fill(resized, int(image_size))
             else:
                 colsRatio = float(int(image_size) / cols)
                 newRows = int(colsRatio * rows)
                 resized = resize_image(img, newRows, int(image_size))
-                filled = fill(resized, int(image_size))
+                if not cols == rows:
+                    filled = fill(resized, int(image_size))
 
             new_file_name = str(
                 output + os.path.splitext(file)[0] + "_resized.jpg")
