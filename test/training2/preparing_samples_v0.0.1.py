@@ -105,7 +105,7 @@ def main(argv):
                 str(maxzangle) + " -maxidev " + str(maxidev) + \
                 " -w " + str(width) + " -h " + str(height)
             response = subprocess.check_output(command, shell=True)
-            print("Creating samples" + "_" + str(counter) + " .vec DONE!")
+            print("Creating samples" + "_" + str(counter) + ".vec DONE!")
             counter = counter + 1
 
     # STEP 3 - Merging all samples .vec files into one
@@ -113,7 +113,8 @@ def main(argv):
     prev_image_size = 0
     try:
         print("TRYING TO OPEN FILE: " + str(os.listdir(samples_dir)[0]))
-        with open(os.listdir(samples_dir)[0], 'rb') as vecfile:
+        file_to_open = positives_dir + os.listdir(samples_dir)[0]
+        with open(file_to_open, 'rb') as vecfile:
             content = ''.join(str(line) for line in vecfile.readlines())
             val = struct.unpack('<iihh', content[:12])
             prev_image_size = val[1]
