@@ -113,7 +113,7 @@ def main(argv):
     prev_image_size = 0
     try:
         print("TRYING TO OPEN FILE: " + str(os.listdir(samples_dir)[0]))
-        file_to_open = positives_dir + samples_dir + os.listdir(samples_dir)[0]
+        file_to_open = samples_dir + os.listdir(samples_dir)[0]
         with open(file_to_open, 'rb') as vecfile:
             content = ''.join(str(line) for line in vecfile.readlines())
             val = struct.unpack('<iihh', byte(content[:12], 'utf-8)'))
@@ -127,7 +127,7 @@ def main(argv):
     total_num_images = 0
     for file in os.listdir(samples_dir):
         try:
-            with open(positives_dir + samples_dir + file, 'rb') as vecfile:
+            with open(samples_dir + file, 'rb') as vecfile:
                 content = ''.join(str(line) for line in vecfile.readlines())
                 val = struct.unpack('<iihh', byte(content[:12], 'utf-8)'))
                 num_images = val[0]
