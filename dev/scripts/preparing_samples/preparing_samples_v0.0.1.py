@@ -105,7 +105,7 @@ def main(argv):
                 str(maxzangle) + " -maxidev " + str(maxidev) + \
                 " -w " + str(width) + " -h " + str(height)
             response = subprocess.check_output(command, shell=True)
-            print("Creating samples" + "_" + str(counter) + " .vec DONE!")
+            print("Creating samples" + "_" + str(counter) + ".vec DONE!")
             counter = counter + 1
 
     # STEP 3 - Merging all samples .vec files into one
@@ -113,9 +113,10 @@ def main(argv):
     prev_image_size = 0
     try:
         print("TRYING TO OPEN FILE: " + str(os.listdir(samples_dir)[0]))
-        with open(os.listdir(samples_dir)[0], 'rb') as vecfile:
+        file_to_open = positives_dir + os.listdir(samples_dir)[0]
+        with open(file_to_open, 'rb') as vecfile:
             content = ''.join(str(line) for line in vecfile.readlines())
-            val = struct.unpack('<iihh', content[:12])
+            val = struct.unpack('<iihh', byte(content[:12], 'utf-8)'))
             prev_image_size = val[1]
     except IOError as e:
         print(
@@ -126,13 +127,13 @@ def main(argv):
     total_num_images = 0
     for file in os.listdir(samples_dir):
         try:
-            with open(file, 'rb') as vecfile:
+            with open(positives_dir + file, 'rb') as vecfile:
                 content = ''.join(str(line) for line in vecfile.readlines())
-                val = struct.unpack('<iihh', content[:12])
+                val = struct.unpack('<iihh', byte(content[:12], 'utf-8)'))
                 num_images = val[0]
                 image_size = val[1]
                 if image_size != prev_image_size:
-                    err_msg = """The image sizes in the .vec files differ. These values must be the same. \n The image size of file {0}: {1}\n 
+                    err_msg = """The image sizes in the .vec files differ. These values must be the same. \n The image size of file {0}: {1}\n
                         The image size of previous files: {0}""".format(file, image_size, prev_image_size)
                     sys.exit(err_msg)
                     total_num_images += num_images
