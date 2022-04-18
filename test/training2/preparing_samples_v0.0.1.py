@@ -142,14 +142,15 @@ def main(argv):
 
                 for item in current_samples_list:
                     if file in item:
-                        new_samples_list.append(str(item.split(".jpg")[1]))
+                        new_samples_list.append("final_sample_" + str(counter) + "_" + str(
+                            inner_counter) + ".jpg" + str(item.split(".jpg")[1]))
             inner_counter = inner_counter + 1
         counter = counter + 1
 
     new_list_file_path = str(final_samples_dir) + "final_samples.txt"
     listfile = open(new_list_file_path, 'w')
     for line in new_samples_list:
-        listfile.write(line + "\n")
+        listfile.write(line)
     listfile.close()
 
     # STEP 4 - Generating positives.vec from final_samples
