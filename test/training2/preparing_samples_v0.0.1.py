@@ -112,12 +112,13 @@ def main(argv):
     # Get the value for the first image size
     prev_image_size = 0
     try:
-        with open(os.listdir(samples_dir)[0], 'rb') as vecfile:
+        with open(positives_dir + os.listdir(samples_dir)[0], 'rb') as vecfile:
             content = ''.join(str(line) for line in vecfile.readlines())
             val = struct.unpack('<iihh', content[:12])
             prev_image_size = val[1]
     except IOError as e:
-        print('An IO error occured while processing the file: {0}'.format(f))
+        print(
+            'An IO error occured while processing the file: {0}'.format(file))
         exception_response(e)
 
     # Get the total number of images
