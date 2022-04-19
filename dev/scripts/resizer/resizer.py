@@ -99,7 +99,10 @@ def main(argv):
 
             new_file_name = str(
                 output + os.path.splitext(file)[0] + "_resized.jpg")
-            cv2.imwrite(new_file_name, filled)
+            if not cols == rows:
+                cv2.imwrite(new_file_name, filled)
+            else:
+                cv2.imwrite(new_file_name, resized)
             cv2.waitKey(0)
             counter = counter + 1
 
