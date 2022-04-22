@@ -1,0 +1,13 @@
+{
+    "constellations": {
+        "cassiopeia": {
+            "name": "Cassiopeia",
+            "iau": "Cas",
+            "nasa": "Cass",
+            "brightest-star": "Schedar",
+            "stars": {
+                "...": "....."
+            }
+        }
+    }
+}

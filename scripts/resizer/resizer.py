@@ -74,7 +74,7 @@ def main(argv):
             image_size = arg
 
     # Algorithm --------------------------------------- START
-    # 'C:/Users/easmsma/Desktop/Diplomski/constellation-recognition/constellation-recognition/targets/lyra/positive/'
+    # 'C:/Users/easmsma/Desktop/Diplomski/constellation-recognition/constellation-recognition/targets/lyra/positive/
     location = str(images_dir)
     output = location + 'resized/'
 
@@ -86,7 +86,8 @@ def main(argv):
 
     for file in os.listdir(location):
         if file.endswith(".jpg"):
-            print(file)
+            new_file_name = str(output + os.path.splitext(file)[0] + "_resized.jpg")
+            print("[INFO]\tResizing file: " + str(file) + " (saving resized image to: " + str(new_file_name) + ")")
             # READ IMAGE (RGB)
             img = cv2.imread(location + file)
 
@@ -107,8 +108,6 @@ def main(argv):
                 if not cols == rows:
                     filled = fill(resized, int(image_size))
 
-            new_file_name = str(
-                output + os.path.splitext(file)[0] + "_resized.jpg")
             if not cols == rows:
                 cv2.imwrite(new_file_name, filled)
             else:
@@ -116,7 +115,8 @@ def main(argv):
             cv2.waitKey(0)
             counter = counter + 1
 
-    print("Total images resized: " + str(counter)),
+    print("------------------------------------")
+    print("Total number of resized images: " + str(counter)),
     # Algorithm --------------------------------------- END
 
 
