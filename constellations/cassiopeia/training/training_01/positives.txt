@@ -1,0 +1,6 @@
+p/target_002_detected_resized.jpg
+p/target_003_detected_resized.jpg
+p/target_001_detected_resized.jpg
+p/target_005_detected_resized.jpg
+p/target_004_detected_resized.jpg
+p/target_000_detected_resized.jpg

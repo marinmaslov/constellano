@@ -1,6 +1,0 @@
-positives/output_cropped/resized/target_000_detected_resized.jpg
-positives/output_cropped/resized/target_001_detected_resized.jpg
-positives/output_cropped/resized/target_002_detected_resized.jpg
-positives/output_cropped/resized/target_003_detected_resized.jpg
-positives/output_cropped/resized/target_004_detected_resized.jpg
-positives/output_cropped/resized/target_005_detected_resized.jpg
