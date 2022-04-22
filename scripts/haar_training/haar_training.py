@@ -3,13 +3,16 @@
 Python script for HAAR training.
 
 Command format:
-    py haar_training.py --data <positives_dir> --vec <samples.vec> --bg <negatives_dir> --numPos <number_of_positives> --numNeg <number_of_negatives>
+    py haar_training.py --data <positives_dir> --vec <samples.vec> --neg <negatives_dir> --numPos <number_of_positives> --numNeg <number_of_negatives>
                             --numStages <number_of_stages> --width <width_for_haar_training> --height <height_for_haar_training> --mode ALL --bt DAB
                             --minHitRate 0.995 --maxFalseAlarmRate 0.5 --maxWeakCount 100 --maxDepth 1 --precalcValBufSize 1024 --precalcIdxBufSize 1024
 
 Command example:
-    py haar_training.py --data data/ --vec samples.vec --bg negs/ --numPos 1000 --numNeg 1500 --numStages 20 --width 24 --height 24 --mode ALL --bt DAB
-                            --minHitRate 0.995 --maxFalseAlarmRate 0.5 --maxWeakCount 100 --maxDepth 1 --precalcValBufSize 1024 --precalcIdxBufSize 1024
+    py haar_training.py --data p/ --vec positives.vec --neg negatives.txt --numPos 1000 --numNeg 1500 --numStages 20 --width 24 --height 24 --mode ALL --bt DAB --minHitRate 0.995 --maxFalseAlarmRate 0.5 --maxWeakCount 100 --maxDepth 1 --precalcValBufSize 1024 --precalcIdxBufSize 1024
+
+HAAR OPENCV COMMAND:
+    opencv_traincascade -data p/ -vec positives.vec -bg negatives.txt -numPos 1000 -numNeg 1200 -numStages 20 -width 24 -height 24 -mode ALL -bt DAB -minHitRate 0.995 -maxFalseAlarmRate 0.5 -maxWeakCount 100 -maxDepth 1 -precalcValBufSize 1024 --precalcIdxBufSize 1024
+
 """
 
 import sys
@@ -24,7 +27,7 @@ __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
 
-COMMAND_FORMAT = "Error! The command should be: py haar_training.py --data data/ --vec samples.vec --bg negs/ --numPos 1000 --numNeg 1500 --numStages 20 --width 24 --height 24 --mode ALL --bt DAB --minHitRate 0.995 --maxFalseAlarmRate 0.5 --maxWeakCount 100 --maxDepth 1 --precalcValBufSize 1024 --precalcIdxBufSize 1024"
+COMMAND_FORMAT = "Error! The command should be: py haar_training.py --data data/ --vec samples.vec --neg negs/ --numPos 1000 --numNeg 1500 --numStages 20 --width 24 --height 24 --mode ALL --bt DAB --minHitRate 0.995 --maxFalseAlarmRate 0.5 --maxWeakCount 100 --maxDepth 1 --precalcValBufSize 1024 --precalcIdxBufSize 1024"
 
 
 def exception_response(e):
@@ -98,9 +101,9 @@ def main(argv):
 
     # Generating positives.vec from final_samples
     print("Running HAAR training")
-    command = "opencv_traincascade --data " + str(data) + " --vec " + str(vec) + " --bg " + str(neg) + " --numPos " + str(numPos) + " --numNeg " + str(numNeg) +\
-        + " --numStages " + str(numStages) + " --width " + str(width) + " --height " + str(height) + " --mode " + str(mode) + " --bt " + str(bt) + " --minHitRate " + str(minHitRate) +\
-        + " --maxFalseAlarmRate " + str(maxFalseAlarmRate) + " --maxWeakCount " + str(maxWeakCount) + " --maxDepth " + str(maxDepth) + " --precalcValBufSize " + str(precalcValBufSize) + " --precalcIdxBufSize " + str(precalcIdxBufSize)
+    command = "opencv_traincascade -data " + str(data) + " -vec " + str(vec) + " -bg " + str(neg) + " -numPos " + str(numPos) + " -numNeg " + str(numNeg) +\
+        " -numStages " + str(numStages) + " -width " + str(width) + " -height " + str(height) + " -mode " + str(mode) + " -bt " + str(bt) + " -minHitRate " + str(minHitRate) +\
+        " -maxFalseAlarmRate " + str(maxFalseAlarmRate) + " -maxWeakCount " + str(maxWeakCount) + " -maxDepth " + str(maxDepth) + " -precalcValBufSize " + str(precalcValBufSize) + " --precalcIdxBufSize " + str(precalcIdxBufSize)
     subprocess.check_output(command, shell=True)
 
 if __name__ == "__main__":
