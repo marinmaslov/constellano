@@ -1,1 +1,0 @@
-HAAR Cascade Classifier

@@ -1,0 +1,49 @@
+// Name: Grep negatives
+// License: MIT License
+// Author: marinmaslov
+// Last Modified: 2022/04/22
+// Description: Use RA/DEC coordinates to take screenshots of everything except ROI
+
+// EQ COORDINATES
+// RA coordinates (decimal) [right-left]
+const RA_TARGET_START = 31.31;
+const RA_TARGET_END = 326.31;
+
+// DEC coordinates (decimal) [up-down]
+const DEC_TARGET_START = 6.304111;
+const DEC_TARGET_END = 42.43369;
+
+
+LabelMgr.labelScreen("Taking negative shoots'.", 200, 200, true, 20, "#ff0000");
+core.wait(2);
+LabelMgr.deleteAllLabels();
+StelMovementMgr.zoomTo(18.0, 1);
+StelSkyDrawer.setFlagStarMagnitudeLimit(true);
+StelSkyDrawer.setCustomStarMagnitudeLimit(6.5);
+core.setGuiVisible(false);
+core.setProjectionMode("ProjectionPerspective");
+core.wait(3);
+
+//Movement code
+LabelMgr.deleteAllLabels();
+LabelMgr.labelScreen("Capturing sample images.", 200, 200, true, 20, "#ff0000");
+core.wait(2);
+LabelMgr.deleteAllLabels();
+core.wait(2);
+
+
+var targetRadiusCheck = StelMovementMgr.getCurrentFov() / 2;
+
+for (var i = 0.0; i <=90.0; i = i + 5.0) {
+	for (var j = 0.0; j <= 360.0; j = j + 5.0) {
+		if (!(i + targetRadiusCheck < RA_TARGET_START && i - targetRadiusCheck < RA_TARGET_END && j + targetRadiusCheck < DEC_TARGET_START && j - targetRadiusCheck < DEC_TARGET_END)) {
+			core.moveToRaDec(j, i, 0);
+			core.screenshot("negative_", false, "C:/Users/easmsma/Desktop/data/andromeda/negative/", false, "jpg");
+			core.wait(0.5);
+		}
+		core.wait(0.5);
+	}
+	core.wait(1);
+}
+core.wait(2);
+core.setGuiVisible(true);

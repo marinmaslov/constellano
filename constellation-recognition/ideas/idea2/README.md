@@ -1,1 +1,0 @@
-BLOKOVI DCT transformacija
