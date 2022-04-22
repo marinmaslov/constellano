@@ -24,7 +24,6 @@ __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
 
 COMMAND_FORMAT = "Error! The command should be: py preparing_samples.py -p <positives_dir> -n <negatives_dir> -num <number_of_new_positive_samples_to_be_created> -maxxangle <max_x_rotation_angle> -maxyangle <max_y_rotation_angle> -maxzangle <max_z_rotation_angle>"
-OUTPUT_DIR_NAME = "training_data/"
 
 def exception_response(e):
     exc_type, exc_value, exc_traceback = sys.exc_info()
@@ -79,18 +78,14 @@ def main(argv):
         print("Please create it an re-run the script!")
         exit()
 
-    if not os.path.exists(os.getcwd().replace("\\", "/") + "/" + OUTPUT_DIR_NAME) != False:
-        print("Creating directory: " + os.getcwd().replace("\\", "/") + "/" + OUTPUT_DIR_NAME)
-        os.mkdir(os.getcwd().replace("\\", "/") + "/" + OUTPUT_DIR_NAME)
-
     subprocess.check_output(
-        "find " + positives_dir + " -iname '*.jpg' > " + os.getcwd().replace("\\", "/") + "/" + OUTPUT_DIR_NAME + "positives.txt", shell=True)
+        "find " + positives_dir + " -iname '*.jpg' > positives.txt", shell=True)
     subprocess.check_output(
-        "find " + negatives_dir + " -iname '*.jpg' > " + os.getcwd().replace("\\", "/") + "/" + OUTPUT_DIR_NAME + "negatives.txt", shell=True)
+        "find " + negatives_dir + " -iname '*.jpg' > negatives.txt", shell=True)
     print("Creating positives.txt and negatives.txt DONE!")
 
     # STEP 2 - Creating samples images for each positive file
-    samples_dir = OUTPUT_DIR_NAME + "samples/"
+    samples_dir =  "samples/"
     if not os.path.exists(samples_dir) != False:
         print("Creating directory: " + samples_dir)
         os.mkdir(samples_dir)
@@ -112,7 +107,7 @@ def main(argv):
             crutial_counter = crutial_counter + 1
 
     # STEP 3 - Moving all samples into a single directory and list
-    final_samples_dir = OUTPUT_DIR_NAME + "final_samples/"
+    final_samples_dir = "final_samples/"
     if not os.path.exists(final_samples_dir) != False:
         print("Creating directory: " + final_samples_dir)
         os.mkdir(final_samples_dir)
@@ -120,7 +115,7 @@ def main(argv):
     new_samples_list = []
     counter = 0
     for directory in os.listdir(samples_dir):
-        current_samples_dir = OUTPUT_DIR_NAME + str(samples_dir) + "samples_" + str(counter) + "/"
+        current_samples_dir = str(samples_dir) + "samples_" + str(counter) + "/"
         current_samples_list = []
         # Read list from samples_X.txt
         list_file = str(current_samples_dir) + "samples_" + str(counter) + ".txt"
