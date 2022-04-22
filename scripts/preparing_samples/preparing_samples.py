@@ -108,7 +108,7 @@ def main(argv):
                             " -maxzangle " + str(maxzangle) + " -num " + \
                 str(number_of_samples)
             response = subprocess.check_output(command, shell=True)
-            print("Creating samples from: " + file + " in: " + str(samples_dir) + "/samples_" + str(crutial_counter))
+            print("[INFO]\tCreating samples from: " + file + " in: " + str(samples_dir) + "samples_" + str(crutial_counter))
             crutial_counter = crutial_counter + 1
 
     # STEP 3 - Moving all samples into a single directory and list
@@ -120,7 +120,7 @@ def main(argv):
     new_samples_list = []
     counter = 0
     for directory in os.listdir(samples_dir):
-        current_samples_dir = str(samples_dir) + "samples_" + str(counter) + "/"
+        current_samples_dir = OUTPUT_DIR_NAME + str(samples_dir) + "samples_" + str(counter) + "/"
         current_samples_list = []
         # Read list from samples_X.txt
         list_file = str(current_samples_dir) + "samples_" + str(counter) + ".txt"
