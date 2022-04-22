@@ -1,8 +1,8 @@
 // Name: Grep negatives
 // License: MIT License
 // Author: marinmaslov
-// Last Modified: 2022/04/16
-// Description: Take snaps of northen sky except for defined FOV
+// Last Modified: 2022/04/22
+// Description: Use RA/DEC coordinates to take screenshots of everything except ROI
 
 // EQ COORDINATES
 // RA coordinates (decimal) [right-left]

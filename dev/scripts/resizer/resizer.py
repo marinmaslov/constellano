@@ -1,18 +1,28 @@
+#!/usr/bin/env python
+""" Constellano Star Recognition
+Python script for finding biggest and brightest stars in images and overlaying a target over them.
+
+Command format:
+    py resizer.py -d <image_dir> -s <wanted_image_size>
+
+Command example:
+    py resizer.py -d img/ -s 500
+"""
+
 import sys
 import os
 import cv2
 import numpy as np
-
-
-import os
-import sys
 import getopt
-import shutil
-import traceback
-import subprocess
 
+__author__ = "Marin Maslov"
+__license__ = "MIT Licence"
+__version__ = "1.0.1"
+__maintainer__ = "Marin Maslov"
+__email__ = "mmaslo00@fesb.hr"
+__status__ = "Stable"
 
-COMMAND_FORMAT = "Error! The command should be: resizer.py -d <images_dir> -s <image_size>"
+COMMAND_FORMAT = "Error! The command should be: py resizer.py -d <images_dir> -s <image_size>"
 
 
 def resize_image(img, newRows, newCols):
