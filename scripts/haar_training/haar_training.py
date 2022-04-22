@@ -12,10 +12,8 @@ Command example:
                             --minHitRate 0.995 --maxFalseAlarmRate 0.5 --maxWeakCount 100 --maxDepth 1 --precalcValBufSize 1024 --precalcIdxBufSize 1024
 """
 
-from ast import While
 import sys
 import getopt
-from tkinter import W
 import traceback
 import subprocess
 

@@ -6,7 +6,7 @@ Command format:
     py create_samples.py -d <samples.txt> --num <number_of_samples_to_use> --width <width_for_haar_training> --height <height_for_haar_training>
 
 Command example:
-    py create_samples.py -d final_dir/samples.txt --num 1000 -w 24 -h 24
+    py create_samples.py -d final_dir/samples.txt --num 1000 --width 24 --height 24
 """
 
 import sys
