@@ -17,12 +17,12 @@ import getopt
 
 __author__ = "Marin Maslov"
 __license__ = "MIT Licence"
-__version__ = "1.0.1"
+__version__ = "2.0.0"
 __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
 
-COMMAND_FORMAT = "Error! The command should be: py resizer.py -d <images_dir> -s <image_size>"
+COMMAND_FORMAT = "Error! The command should be: py resizer.py --images <images_dir> --size <final_image_size> --grayscale <0_if_images_sould_be_bw> --log <wanted_log_level>"
 
 
 def resize_image(img, newRows, newCols):
@@ -58,9 +58,11 @@ def fill(img, size):
 def main(argv):
     images_dir = ''
     image_size = ''
+    grayscale = ''
+    log_level = ''
 
     try:
-        opts, args = getopt.getopt(argv, "hd:s:")
+        opts, args = getopt.getopt(argv, "h", ["images=", "size=", "grayscale=", "log="])
     except getopt.GetoptError:
         print(COMMAND_FORMAT)
         sys.exit(2)
@@ -68,13 +70,16 @@ def main(argv):
         if opt == '-h':
             print(COMMAND_FORMAT)
             sys.exit()
-        elif opt in ("-d"):
+        elif opt in ("--images"):
             images_dir = arg
-        elif opt in ("-s"):
+        elif opt in ("--size"):
             image_size = arg
+        elif opt in ("--grayscale"):
+            grayscale = arg
+        elif opt in ("--log"):
+            log_level = arg
 
     # Algorithm --------------------------------------- START
-    # 'C:/Users/easmsma/Desktop/Diplomski/constellation-recognition/constellation-recognition/targets/lyra/positive/
     location = str(images_dir)
     output = location + 'resized/'
 
@@ -85,9 +90,17 @@ def main(argv):
     counter = 0
 
     for file in os.listdir(location):
-        if file.endswith(".jpg"):
-            new_file_name = str(output + os.path.splitext(file)[0] + "_resized.jpg")
-            print("[INFO]\tResizing file: " + str(file) + " (saving resized image to: " + str(new_file_name) + ")")
+        if file.endswith(".png"):
+            # PREPARE OUTPUT NAME
+            zeros = "00000"
+            zeros_counter = len(str(counter))
+            while zeros_counter > 0:
+                zeros = zeros - "0";
+                zeros_counter = zeros_counter - 1
+
+            new_file_name = str(output + "resized_" + str(zeros) + str(counter) + ".png")
+
+            print("\033[2;32;40m[INFO]\033[0;0m" + "\tResizing file: " + str(file) + " (saving resized image to: " + str(new_file_name) + ")")
             # READ IMAGE (RGB)
             img = cv2.imread(location + file)
 
@@ -109,9 +122,17 @@ def main(argv):
                     filled = fill(resized, int(image_size))
 
             if not cols == rows:
-                cv2.imwrite(new_file_name, filled)
+                if grayscale == 0:
+                    img_bw = cv2.cvtColor(filled, cv2.COLOR_BGR2GRAY)
+                    cv2.imwrite(new_file_name, img_bw)
+                else:
+                    cv2.imwrite(new_file_name, filled)
             else:
-                cv2.imwrite(new_file_name, resized)
+                if grayscale == 0:
+                    img_bw = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)
+                    cv2.imwrite(new_file_name, img_bw)
+                else:
+                    cv2.imwrite(new_file_name, resized)
             cv2.waitKey(0)
             counter = counter + 1
 
