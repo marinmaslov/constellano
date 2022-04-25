@@ -14,10 +14,11 @@ import os
 import cv2
 import numpy as np
 import getopt
+import time
 
 __author__ = "Marin Maslov"
 __license__ = "MIT Licence"
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
@@ -95,12 +96,12 @@ def main(argv):
             zeros = "00000"
             zeros_counter = len(str(counter))
             while zeros_counter > 0:
-                zeros = zeros - "0";
+                zeros = zeros[:-1]
                 zeros_counter = zeros_counter - 1
 
             new_file_name = str(output + "resized_" + str(zeros) + str(counter) + ".png")
 
-            print("\033[2;32;40m[INFO]\033[0;0m" + "\tResizing file: " + str(file) + " (saving resized image to: " + str(new_file_name) + ")")
+            print("\033[2;32;40m[INFO]\033[0;0m" + "\tResizing file:\t" + str(file) + "\t(saving resized image to:\t" + str(new_file_name) + ")")
             # READ IMAGE (RGB)
             img = cv2.imread(location + file)
 
@@ -122,13 +123,13 @@ def main(argv):
                     filled = fill(resized, int(image_size))
 
             if not cols == rows:
-                if grayscale == 0:
+                if int(grayscale) == 0:
                     img_bw = cv2.cvtColor(filled, cv2.COLOR_BGR2GRAY)
                     cv2.imwrite(new_file_name, img_bw)
                 else:
                     cv2.imwrite(new_file_name, filled)
             else:
-                if grayscale == 0:
+                if int(grayscale) == 0:
                     img_bw = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)
                     cv2.imwrite(new_file_name, img_bw)
                 else:
@@ -142,4 +143,6 @@ def main(argv):
 
 
 if __name__ == "__main__":
+    start_time = time.time()
     main(sys.argv[1:])
+    print("\033[2;32;40m[INFO]\033[0;0m" + "\tTotal execution time: " + str((time.time() - start_time)) + " seconds.\033[0;0m")

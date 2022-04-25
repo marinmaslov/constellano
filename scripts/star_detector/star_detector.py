@@ -14,12 +14,12 @@ import os
 import cv2
 import numpy as np
 import math
-import logging
+import time
 import getopt
 
 __author__ = "Marin Maslov"
 __license__ = "MIT Licence"
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
@@ -105,7 +105,7 @@ def main(argv):
             zeros = "00000"
             zeros_counter = len(str(counter))
             while zeros_counter > 0:
-                zeros = zeros - "0";
+                zeros = zeros[:-1]
                 zeros_counter = zeros_counter - 1
 
             new_file_name = str(output + "detected_" + str(zeros) + str(counter) + ".png")
@@ -299,8 +299,10 @@ def main(argv):
             cv2.waitKey(0)
             counter = counter + 1
     print("------------------------------------")
-    print("Total files created: " + str(counter))
+    print("\033[2;32;40m[INFO]\033[0;0m" + "\t\033[2;44;47mTotal files created:\t" + str(counter) + "\033[0;0m")
     # Algorithm --------------------------------------- END
 
 if __name__ == "__main__":
+    start_time = time.time()
     main(sys.argv[1:])
+    print("\033[2;32;40m[INFO]\033[0;0m" + "\tTotal execution time: " + str((time.time() - start_time)) + " seconds.\033[0;0m")
