@@ -135,6 +135,13 @@ def main(argv):
                         new_samples_list.append("final_sample_" + str(counter) + "_" + str(inner_counter) + ".jpg" + str(item.split(".jpg")[1]))
             inner_counter = inner_counter + 1
         counter = counter + 1
+    inner_counter = 0
+    for file in os.listdir(positives_dir):
+        if file.endswith(".jpg"):
+            source_file = str(positives_dir) + str(file)
+            destination_file = str(final_samples_dir) + "final_sample_" + str(counter) + "_" + str(inner_counter) + ".jpg"  
+            shutil.copy(source_file, destination_file)
+            inner_counter = inner_counter + 1
 
     new_list_file_path = str(final_samples_dir) + "final_samples.txt"
     listfile = open(new_list_file_path, 'w')

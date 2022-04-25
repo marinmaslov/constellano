@@ -45,7 +45,7 @@ if(len(sys.argv) > 3):
     UNSET_MINIMUM_STARS = int(sys.argv[3])
 
 # USED MARK SIZE
-MARK_SIZE_PERCENTAGE = 0.05
+MARK_SIZE_PERCENTAGE = 0.12
 # Constants --------------------------------------- END
 
 # Functions --------------------------------------- START
