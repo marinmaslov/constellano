@@ -99,10 +99,16 @@ def main(argv):
         os.mkdir(output)
 
     counter = 0
-
     for file in os.listdir(images_dir):
-        if file.endswith(".jpg"):
-            new_file_name = str(output + os.path.splitext(file)[0] + "_detected.jpg")
+        if file.endswith(".png"):
+            # PREPARE OUTPUT NAME
+            zeros = "00000"
+            zeros_counter = len(str(counter))
+            while zeros_counter > 0:
+                zeros = zeros - "0";
+                zeros_counter = zeros_counter - 1
+
+            new_file_name = str(output + "detected_" + str(zeros) + str(counter) + ".png")
 
             # READ IMAGE (RGB and BW)
             if (log_level.upper() == "DEBUG"):

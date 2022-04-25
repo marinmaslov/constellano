@@ -9,16 +9,16 @@ const ZOOM_FACTOR = 18.0;
 const STEP = 1.5;
 
 // DESTINATION PATH
-const DESTINATION_PATH = "C:/Users/easmsma/Desktop/data/cassiopeia/negatives/"
+const DESTINATION_PATH = "C:/Users/easmsma/Desktop/data/lyra/negatives/"
 
 // EQ COORDINATES
 // RA coordinates (decimal) [right-left]
-const RA_TARGET_START = 28.98;
-const RA_TARGET_END = 2.58;
+const RA_TARGET_START = 279.23;
+const RA_TARGET_END = 284.73;
 
 // DEC coordinates (decimal) [up-down]
-const DEC_TARGET_START = 56.65539;
-const DEC_TARGET_END = 63.77714;
+const DEC_TARGET_START = 32.69069;
+const DEC_TARGET_END = 38.78472;
 
 
 LabelMgr.labelScreen("Taking negative shoots.", 200, 200, true, 20, "#ff0000");
