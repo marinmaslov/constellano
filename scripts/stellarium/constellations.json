@@ -4,10 +4,166 @@
             "name": "Cassiopeia",
             "iau": "Cas",
             "nasa": "Cass",
+            "meaning": "Cassiopeia (mythological character)",
             "brightest-star": "Schedar",
             "stars": {
                 "...": "....."
+            },
+            "coordinates": {
+                "date": "2000-01-01 00:00:00 UTC+01:00",
+                "eq": {
+                    "ra": {
+                        "start": "2.29",
+                        "end": "28.6"
+                    },
+                    "dec": {
+                        "start": "56.54019",
+                        "end": "63.67272"
+                    },
+                    "type": "decimal-degrees"
+                }
+            }
+        },
+        "lyra": {
+            "name": "Lyra",
+            "iau": "Lyr",
+            "nasa": "Lyra",
+            "meaning": "Lyre",
+            "brightest-star": "Vega",
+            "stars": {
+                "alpha": {
+                    "name": "Vega",
+                    "magnitude": "0.00",
+                    "double": "false"
+                },
+                "beta": {
+                    "name": "Sheliak",
+                    "magnitude": "3.50",
+                    "double": "false"
+                },
+                "gamma": {
+                    "name": "Sulafat",
+                    "magnitude": "3.20",
+                    "double": "false"
+                },
+                "delta": {
+                    "name": "Delta Lyrae",
+                    "magnitude": "0.00",
+                    "double": "true"
+                }
+            },
+            "coordinates": {
+                "date": "2000-01-01 00:00:00 UTC+01:00",
+                "eq": {
+                    "ra": {
+                        "start": "279.23",
+                        "end": "284.73"
+                    },
+                    "dec": {
+                        "start": "32.69069",
+                        "end": "38.78472"
+                    },
+                    "type": "decimal-degrees"
+                }
+            }
+        },
+        "ursa-minor": {
+            "name": "Ursa Minor",
+            "iau": "UMi",
+            "nasa": "UMin",
+            "meaning": "Lesser bear",
+            "brightest-star": "Polaris",
+            "stars": {
+                "...": "....."
+            },
+            "coordinates": {
+                "date": "2000-01-01 00:00:00 UTC+01:00",
+                "eq": {
+                    "ra": {
+                        "start": "",
+                        "end": ""
+                    },
+                    "dec": {
+                        "start": "",
+                        "end": ""
+                    },
+                    "type": "decimal-degrees"
+                }
+            }
+        },
+        "delphinus": {
+            "name": "Delphinus",
+            "iau": "Del",
+            "nasa": "Dlph",
+            "meaning": "Dolphin",
+            "brightest-star": "Rotanev",
+            "stars": {
+                "...": "....."
+            },
+            "coordinates": {
+                "date": "2000-01-01 00:00:00 UTC+01:00",
+                "eq": {
+                    "ra": {
+                        "start": "",
+                        "end": ""
+                    },
+                    "dec": {
+                        "start": "",
+                        "end": ""
+                    },
+                    "type": "decimal-degrees"
+                }
+            }
+        },
+        "corona-borealis": {
+            "name": "Corona Borealis",
+            "iau": "CrB",
+            "nasa": "CorB",
+            "meaning": "Northern crown",
+            "brightest-star": "Alphecca",
+            "stars": {
+                "...": "....."
+            },
+            "coordinates": {
+                "date": "2000-01-01 00:00:00 UTC+01:00",
+                "eq": {
+                    "ra": {
+                        "start": "",
+                        "end": ""
+                    },
+                    "dec": {
+                        "start": "",
+                        "end": ""
+                    },
+                    "type": "decimal-degrees"
+                }
+            }
+        },
+        "cygnus": {
+            "name": "Cygnus",
+            "iau": "Cyg",
+            "nasa": "Cygn",
+            "meaning": "Swan or Northern Cross",
+            "brightest-star": "Deneb",
+            "stars": {
+                "...": "....."
+            },
+            "coordinates": {
+                "date": "2000-01-01 00:00:00 UTC+01:00",
+                "eq": {
+                    "ra": {
+                        "start": "",
+                        "end": ""
+                    },
+                    "dec": {
+                        "start": "",
+                        "end": ""
+                    },
+                    "type": "decimal-degrees"
+                }
             }
         }
-    }
+    },
+    "list-type": "IAU",
+    "coordinate-date": "2000-01-01 00:00:00 UTC+01:00"
 }
