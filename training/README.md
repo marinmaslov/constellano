@@ -53,7 +53,7 @@ Run this script on your negative and positive (where the stars have been detecte
 
 Now you the resized negative and positive (with detected stars) images.
 
-### 🚀 STEP 4: Run the PRotator script
+### 🚀 STEP 4: Run the Rotator script
 Constellations can be rotated in any direction depending on the date, and location, on which you thake photographs of them. For HAAR to be very accurate, we'll also prepare rotated positive samples. The opencv_createsamples command also provides parameters for the max angles on x, y and z axis, but when rotating images on z axis it cuts out part of the image. Therefore, we'll rotate the images on our own.
 
 Run this command only on positive images with detected stars.

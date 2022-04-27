@@ -238,8 +238,13 @@ def main(argv):
             
                             # The corner is BOTTOM-RIGHT
                             else:
-                                mark_cropped = mark_resized[0: mark_dimensions - (y_end - dimensions[1]), abs(x_offset): mark_dimensions]
-                                img_rgb_resized[y_offset: dimensions[1], 0: x_end] = overlayImages(img_rgb_resized[y_offset: dimensions[1], 0: x_end], mark_cropped)
+                                print(str(dimensions[0]) + " " + str(dimensions[1]))
+                                print(str(y) + " " + str(x))
+                                mark_cropped = mark_resized[0 : int(mark_dimensions/2) + dimensions[0] - y, 0 : int(mark_dimensions/2) + dimensions[1] - x]
+
+
+                                #mark_cropped = mark_resized[0: dimensions[1] - y_offset - (dimensions[1] - y), 0: dimensions[0] - x_offset - (dimensions[0] - x)]
+                                img_rgb_resized[y - int(mark_dimensions/2): dimensions[1], x - int(mark_dimensions/2): dimensions[0]] = overlayImages(img_rgb_resized[y - int(mark_dimensions/2): dimensions[1], x - int(mark_dimensions/2): dimensions[0]], mark_cropped)
                                 if (log_level.upper() == "DEBUG"):
                                     print("\033[2;35;40m[DEBUG]\033[0;0m" + "\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " in BOTTOM-RIGHT corner. \033[2;36;40mApplying mask with corner fix.\033[0;0m")
                         # The contour is on the secondary diagonal
