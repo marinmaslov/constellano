@@ -15,10 +15,11 @@ import getopt
 import shutil
 import traceback
 import subprocess
+import time
 
 __author__ = "Marin Maslov"
 __license__ = "MIT Licence"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
@@ -142,5 +143,11 @@ def main(argv):
         listfile.write(line)
     listfile.close()
 
+    print("Removing directory: " + samples_dir + "\tas it is of no use.")
+    command = "rm -rf " + samples_dir   
+    subprocess.check_output(command, shell=True)
+
 if __name__ == "__main__":
+    start_time = time.time()
     main(sys.argv[1:])
+    print("\033[2;32;40m[INFO]\033[0;0m" + "\tTotal execution time: " + str((time.time() - start_time)) + " seconds.\033[0;0m")
