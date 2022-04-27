@@ -1,6 +1,7 @@
 # 🤖 HAAR training branch
 
 ## Data preparation procedure
+
 ### STEP 1: Run the Stellarium scripts
 Copy the `grep_negatives.ssc` and `grep_positives.ssc` scripts to Stellarium scripts directory.
 
@@ -10,7 +11,25 @@ Run each script, but before running hide every possible label (for stars, planet
 
 Now you have your positive and negative data.
 
+Move them to your training directory, along with the following scripts, so that the directory structure will look like this:
+
+    .
+    └── training_n
+            |── positives/
+            |       |── img_000.jpg
+            |       |── ...
+            |       └── img_nnn.jpg
+            |── negatives/
+            |       |── img_000.jpg
+            |       |── ...
+            |       └── img_nnn.jpg
+            |── star_detector.py
+            |── resizer.py
+            |── rotator.py
+            └── preparing_samples.py
+
 ### STEP 2: Run the Star detector script on positive images
+
 Hit the command:
 ```bash
 py star_detector.py --images <positives_directory_(e.g. positives/)> --percision <percision_rate_(e.g. 0.18)> --log <log_level_(e.g. INFO)>
