@@ -100,7 +100,7 @@ def main(argv):
 
     counter = 0
     for file in os.listdir(images_dir):
-        if file.endswith(".png"):
+        if file.endswith(".jpg"):
             # PREPARE OUTPUT NAME
             zeros = "00000"
             zeros_counter = len(str(counter))
@@ -108,7 +108,7 @@ def main(argv):
                 zeros = zeros[:-1]
                 zeros_counter = zeros_counter - 1
 
-            new_file_name = str(output + "detected_" + str(zeros) + str(counter) + ".png")
+            new_file_name = str(output + "detected_" + str(zeros) + str(counter) + ".jpg")
 
             # READ IMAGE (RGB and BW)
             if (log_level.upper() == "DEBUG"):

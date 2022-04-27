@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-""" Constellano Star Recognition
+""" Constellano Image Rotator
 Python script for finding biggest and brightest stars in images and overlaying a target over them.
 
 Command format:
@@ -18,12 +18,12 @@ import time
 
 __author__ = "Marin Maslov"
 __license__ = "MIT Licence"
-__version__ = "2.0.1"
+__version__ = "0.0.1"
 __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
 
-COMMAND_FORMAT = "Error! The command should be: py resizer.py --images <images_dir> --size <final_image_size> --grayscale <0_if_images_sould_be_bw> --log <wanted_log_level>"
+COMMAND_FORMAT = "Error! The command should be: py resizer.py --images <images_dir> --maxangle <max_roration_angle> --log <wanted_log_level>"
 
 
 def resize_image(img, newRows, newCols):
@@ -59,11 +59,11 @@ def fill(img, size):
 def main(argv):
     images_dir = ''
     image_size = ''
-    grayscale = ''
+    max_angle = ''
     log_level = ''
 
     try:
-        opts, args = getopt.getopt(argv, "h", ["images=", "size=", "grayscale=", "log="])
+        opts, args = getopt.getopt(argv, "h", ["images=", "maxangle=", "log="])
     except getopt.GetoptError:
         print(COMMAND_FORMAT)
         sys.exit(2)
@@ -73,16 +73,14 @@ def main(argv):
             sys.exit()
         elif opt in ("--images"):
             images_dir = arg
-        elif opt in ("--size"):
-            image_size = arg
-        elif opt in ("--grayscale"):
-            grayscale = arg
+        elif opt in ("--maxangle"):
+            max_angle = float(arg)
         elif opt in ("--log"):
             log_level = arg
 
     # Algorithm --------------------------------------- START
     location = str(images_dir)
-    output = location + 'resized/'
+    output = location + 'rotated/'
 
     if not os.path.exists(output) != False:
         print("Creating directory: " + output)
@@ -91,54 +89,37 @@ def main(argv):
     counter = 0
 
     for file in os.listdir(location):
-        if file.endswith(".jpg"):
-            # PREPARE OUTPUT NAME
-            zeros = "00000"
-            zeros_counter = len(str(counter))
-            while zeros_counter > 0:
-                zeros = zeros[:-1]
-                zeros_counter = zeros_counter - 1
+        if file.endswith(".png"):
+            print("\033[2;32;40m[INFO]\033[0;0m" + "\tRotating file:\t" + str(file))
+            i = 5
+            while i <= int(max_angle):
+                # PREPARE OUTPUT NAME
+                zeros = "00000"
+                zeros_counter = len(str(counter))
+                while zeros_counter > 0:
+                    zeros = zeros[:-1]
+                    zeros_counter = zeros_counter - 1
 
-            new_file_name = str(output + "resized_" + str(zeros) + str(counter) + ".jpg")
+                new_file_name = str(output + "rotated_" + str(zeros) + str(counter) + ".png")
 
-            print("\033[2;32;40m[INFO]\033[0;0m" + "\tResizing file:\t" + str(file) + "\t(saving resized image to:\t" + str(new_file_name) + ")")
-            # READ IMAGE (RGB)
-            img = cv2.imread(location + file)
+                print("\033[2;32;40m[INFO]\033[0;0m" + "\tSaving rotated (angle: " + str(float(i)) + ") image to:\t" + str(new_file_name))
+                # READ IMAGE (RGB)
+                img = cv2.imread(location + file)
 
-            rows, cols, _ = img.shape
-            resized = 0
-            filled = 0
+                # FIND CENTER OF IMAGE
+                h, w, _ = img.shape
+                (cX, cY) = (w // 2, h // 2)
 
-            if rows > cols:
-                rowsRatio = float(int(image_size) / rows)
-                newCols = int(rowsRatio * cols)
-                resized = resize_image(img, int(image_size), newCols)
-                if not cols == rows:
-                    filled = fill(resized, int(image_size))
-            else:
-                colsRatio = float(int(image_size) / cols)
-                newRows = int(colsRatio * rows)
-                resized = resize_image(img, newRows, int(image_size))
-                if not cols == rows:
-                    filled = fill(resized, int(image_size))
-
-            if not cols == rows:
-                if int(grayscale) == 0:
-                    img_bw = cv2.cvtColor(filled, cv2.COLOR_BGR2GRAY)
-                    cv2.imwrite(new_file_name, img_bw)
-                else:
-                    cv2.imwrite(new_file_name, filled)
-            else:
-                if int(grayscale) == 0:
-                    img_bw = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)
-                    cv2.imwrite(new_file_name, img_bw)
-                else:
-                    cv2.imwrite(new_file_name, resized)
-            cv2.waitKey(0)
-            counter = counter + 1
+                # ROTATE IMAGE BY i DEGREES
+                M = cv2.getRotationMatrix2D((cX, cY), float(i), 1.0)
+                rotated = cv2.warpAffine(img, M, (w, h))
+                cv2.imwrite(new_file_name, rotated)
+                cv2.waitKey(0)
+                i = i + 5
+                counter = counter + 1
 
     print("------------------------------------")
-    print("Total number of resized images: " + str(counter)),
+    print("Total number of rotated images: " + str(counter)),
     # Algorithm --------------------------------------- END
 
 
