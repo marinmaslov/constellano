@@ -19,7 +19,7 @@ import time
 
 __author__ = "Marin Maslov"
 __license__ = "MIT Licence"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
@@ -88,7 +88,7 @@ def main(argv):
     # STEP 2 - Creating samples images for each positive file
     samples_dir =  "samples/"
     if not os.path.exists(samples_dir) != False:
-        print("[INFO]\tCreating directory: " + samples_dir)
+        print("Creating directory: " + samples_dir)
         os.mkdir(samples_dir)
 
     crutial_counter = 0
@@ -97,23 +97,23 @@ def main(argv):
             current_samples_dir = str(samples_dir) + "samples_" + str(crutial_counter) + "/"
             current_samples_list = str(samples_dir) + "samples_" + str(crutial_counter) + "/samples_" + str(crutial_counter) + ".txt"
             if not os.path.exists(current_samples_dir) != False:
-                print("[INFO]\tCreating directory: " + current_samples_dir)
+                print("Creating directory: " + current_samples_dir)
                 os.mkdir(current_samples_dir)
             command = "opencv_createsamples -img " + str(positives_dir + file) + " -bg negatives.txt " + "-info " + str(current_samples_list) + \
                             " -pngoutput " + str(current_samples_dir) + " -maxxangle " + str(maxxangle) + " -maxyangle " + str(maxyangle) + \
-                            " -maxzangle " + str(maxzangle) + " -num " + str(number_of_samples)
-            subprocess.check_output(command, shell=True)
-            print("[INFO]\tCreated " + str(number_of_samples) + " samples from:\t" + file + "\tin:\t" + str(samples_dir) + "samples_" + str(crutial_counter))
+                            " -maxzangle " + str(maxzangle) + " -num " + \
+                str(number_of_samples)
+            response = subprocess.check_output(command, shell=True)
+            print("[INFO]\tCreating samples from: " + file + " in: " + str(samples_dir) + "samples_" + str(crutial_counter))
             crutial_counter = crutial_counter + 1
 
     # STEP 3 - Moving all samples into a single directory and list
     final_samples_dir = "final_samples/"
     if not os.path.exists(final_samples_dir) != False:
-        print("[INFO]\tCreating directory: " + final_samples_dir)
+        print("Creating directory: " + final_samples_dir)
         os.mkdir(final_samples_dir)
 
     new_samples_list = []
-    overall_counter = 0
     counter = 0
     for directory in os.listdir(samples_dir):
         current_samples_dir = str(samples_dir) + "samples_" + str(counter) + "/"
@@ -126,31 +126,26 @@ def main(argv):
 
         inner_counter = 0
         for file in os.listdir(current_samples_dir):
-            # PREPARE OUTPUT NAME
-            zeros = "0000000"
-            zeros_counter = len(str(overall_counter))
-            while zeros_counter > 0:
-                zeros = zeros[:-1]
-                zeros_counter = zeros_counter - 1
-
             if file.endswith(".jpg"):
                 source_file = str(current_samples_dir) + str(file)
-                print("[INFO]\tMoving sample:\t" + file + "\tto:\t" + str(final_samples_dir) + "\t(renaming it to:\tfinal_sample_" + str(zeros) + str(overall_counter) + ".jpg")
-                destination_file = str(final_samples_dir) + "final_sample_" + str(zeros) + str(overall_counter) + ".jpg"
+                destination_file = str(final_samples_dir) + "final_sample_" + str(counter) + "_" + str(inner_counter) + ".jpg"
                 shutil.copy(source_file, destination_file)
 
                 for item in current_samples_list:
                     if file in item:
-                        new_samples_list.append("final_sample_" + str(zeros) + str(overall_counter) + ".jpg")
+                        new_samples_list.append("final_sample_" + str(counter) + "_" + str(inner_counter) + ".jpg" + str(item.split(".jpg")[1]))
             inner_counter = inner_counter + 1
-            overall_counter = overall_counter + 1
         counter = counter + 1
 
     new_list_file_path = str(final_samples_dir) + "final_samples.txt"
     listfile = open(new_list_file_path, 'w')
     for line in new_samples_list:
-        listfile.write(line + "\n")
+        listfile.write(line)
     listfile.close()
+
+    print("Removing directory: " + samples_dir + "\tas it is of no use.")
+    command = "rm -rf " + samples_dir   
+    subprocess.check_output(command, shell=True)
 
 if __name__ == "__main__":
     start_time = time.time()

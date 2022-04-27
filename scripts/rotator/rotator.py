@@ -89,7 +89,7 @@ def main(argv):
     counter = 0
 
     for file in os.listdir(location):
-        if file.endswith(".png"):
+        if file.endswith(".jpg"):
             print("\033[2;32;40m[INFO]\033[0;0m" + "\tRotating file:\t" + str(file))
             i = 5
             while i <= int(max_angle):
@@ -100,7 +100,7 @@ def main(argv):
                     zeros = zeros[:-1]
                     zeros_counter = zeros_counter - 1
 
-                new_file_name = str(output + "rotated_" + str(zeros) + str(counter) + ".png")
+                new_file_name = str(output + "rotated_" + str(zeros) + str(counter) + ".jpg")
 
                 print("\033[2;32;40m[INFO]\033[0;0m" + "\tSaving rotated (angle: " + str(float(i)) + ") image to:\t" + str(new_file_name))
                 # READ IMAGE (RGB)

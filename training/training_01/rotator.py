@@ -90,7 +90,7 @@ def main(argv):
 
     for file in os.listdir(location):
         if file.endswith(".jpg"):
-            print("\033[2;32;40m[INFO]\033[0;0m" + "\Rotating file:\t" + str(file))
+            print("\033[2;32;40m[INFO]\033[0;0m" + "\tRotating file:\t" + str(file))
             i = 5
             while i <= int(max_angle):
                 # PREPARE OUTPUT NAME
