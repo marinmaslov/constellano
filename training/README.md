@@ -1,8 +1,8 @@
 # 🤖 HAAR training branch
 
-## Data preparation procedure
+## ⚙️ Data preparation procedure
 
-### STEP 1: Run the Stellarium scripts
+### 🚀 STEP 1: Run the Stellarium scripts
 Copy the `grep_negatives.ssc` and `grep_positives.ssc` scripts to Stellarium scripts directory.
 
 Find the bounding coordinates of your prefered targed (on the date: 2000-01-01 00:00:00 UTC+02:00), and put them into the scripts. Also, change the `DESTINATION_PATH` in the scripts to your desired (and existing) images storing directory.
@@ -28,7 +28,7 @@ Move them to your training directory, along with the following scripts, so that 
             |── rotator.py
             └── preparing_samples.py
 
-### STEP 2: Run the Star detector script on positive images
+### 🚀 STEP 2: Run the Star detector script on positive images
 
 Hit the command:
 ```bash
@@ -39,7 +39,7 @@ This script should only be run on the positive images.
 
 After the execution finishes, a output directory containing the images with detected stars will appear within the positives directory.
 
-### STEP 3: Run the Resizer script
+### 🚀 STEP 3: Run the Resizer script
 Before using images for the HAAR cascade, we should resize them as the proccess of genereting the vector file and the cascade file will use a lot of proccessing power. 
 
 Hit the command:
@@ -51,7 +51,7 @@ Run this script on your negative and positive (where the stars have been detecte
 
 Now you the resized negative and positive (with detected stars) images.
 
-### STEP 4: Run the Preparing samples script
+### 🚀 STEP 4: Run the Preparing samples script
 Constellations can be rotated in any direction depending on the date, and location, on which you thake photographs of them. For HAAR to be very accurate, we'll also prepare rotated positive samples. The opencv_createsamples command also provides parameters for the max angles on x, y and z axis, but when rotating images on z axis it cuts out part of the image. Therefore, we'll rotate the images on our own.
 
 Run this command only on positive images with detected stars.
@@ -61,7 +61,7 @@ Hit the command:
 py rotator.py --images <images_directory_(e.g. positives/)> --maxangle <e.g. 360> --log <log_level_(e.g. INFO)>
 ```
 
-### STEP 5: Run the Preparing samples script
+### 🚀 STEP 5: Run the Preparing samples script
 This script will generate new positives overlayed over the negatives, which will be used for generating the vector file for cascade training.
 
 Hit the command:
@@ -71,7 +71,7 @@ py resizer.py -p <rotated_positives_directory> -n <negatives_directory> --num <n
 
 After executin this script, you will have your final_example positive images, and three lists that will be used for the generation of the .vec file.
 
-### STEP 6: Generate the vector file
+### 🚀 STEP 6: Generate the vector file
 Execute the following command:
 ```bash
 opencv_createsamples -info final_samples/final_samples.txt -num 10000 -w 24 -h 24 -vec positives.vec -maxxangle 0.0 -maxyangle 0.0 -maxzangle 0.0
@@ -79,7 +79,7 @@ opencv_createsamples -info final_samples/final_samples.txt -num 10000 -w 24 -h 2
 
 As output you should get the .vec file.
 
-### STEP 7: Run the HAAR training
+### 🚀 STEP 7: Run the HAAR training
 Execute the following command:
 ```bash
 opencv_traincascade -data p/ -vec positives.vec -bg negatives.txt -numPos 1000 -numNeg 1200 -numStages 20 -width 24 -height 24 -mode ALL -bt DAB -minHitRate 0.995 -maxFalseAlarmRate 0.5 -maxWeakCount 100 -maxDepth 1 -precalcValBufSize 1024 --precalcIdxBufSize 1024
