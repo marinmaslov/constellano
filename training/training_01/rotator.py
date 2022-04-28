@@ -114,7 +114,7 @@ def main(argv):
                 M = cv2.getRotationMatrix2D((cX, cY), float(i), 1.0)
                 rotated = cv2.warpAffine(img, M, (w, h))
                 cv2.imwrite(new_file_name, rotated)
-                cv2.waitKey(0)
+                #cv2.waitKey(0)
                 i = i + 5
                 counter = counter + 1
 

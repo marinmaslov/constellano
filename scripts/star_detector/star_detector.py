@@ -301,7 +301,7 @@ def main(argv):
             if (log_level.upper() == "DEBUG"):
                 print("\033[2;32;40m[INFO]\033[0;0m" + "\tSaving image: " + str(new_file_name))
             cv2.imwrite(new_file_name, img_rgb_resized)
-            cv2.waitKey(0)
+            #cv2.waitKey(0)
             counter = counter + 1
     print("------------------------------------")
     print("\033[2;32;40m[INFO]\033[0;0m" + "\t\033[2;44;47mTotal files created:\t" + str(counter) + "\033[0;0m")
