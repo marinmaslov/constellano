@@ -6,8 +6,36 @@
             "nasa": "Cass",
             "meaning": "Cassiopeia (mythological character)",
             "brightest-star": "Schedar",
-            "stars": {
-                "...": "....."
+            "star-list": {
+                "type": "sorted-by-size",
+                "stars": {
+                    "0": {
+                        "name": "navi",
+                        "greek": "gamma",
+                        "magnitude": "2.15"
+                    },
+                    "1": {
+                        "name": "schedar",
+                        "greek": "alpha",
+                        "magnitude": "2.20"
+                    },
+                    "2": {
+                        "name": "caph",
+                        "greek": "beta",
+                        "magnitude": "2.25"
+                    },
+                    "3": {
+                        "name": "ruchbah",
+                        "greek": "delta",
+                        "magnitude": "2.65"
+                    },
+                    "4": {
+                        "name": "segin",
+                        "greek": "epsilon",
+                        "magnitude": "3.35"
+                    }
+                },
+                "connections": [[0, 4], [2, 4], [1, 2], [1, 3], [3, 4]]
             },
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
@@ -36,41 +64,31 @@
                     "0": {
                         "name": "vega",
                         "greek": "alpha",
-                        "symbol": "\u03B1",
-                        "magnitude": "0.00",
-                        "double": "false"
+                        "magnitude": "0.00"
                     },
                     "1": {
                         "name": "sulafat",
                         "greek": "gamma",
-                        "symbol": "\u03B3",
-                        "magnitude": "3.25",
-                        "double": "false"
+                        "magnitude": "3.25"
                     },
                     "2": {
                         "name": "sheliak",
                         "greek": "beta",
-                        "symbol": "\u03B2",
-                        "magnitude": "3.50",
-                        "double": "false"
+                        "magnitude": "3.50"
                     },
                     "3": {
                         "name": "delta lyrae",
                         "greek": "delta",
-                        "symbol": "\u03B4",
-                        "magnitude": "4.20",
-                        "double": "true"
+                        "magnitude": "4.20"
                     },
                     "4": {
                         "name": "nasr alwaki",
                         "greek": "zeta",
-                        "symbol": "\u03B6",
-                        "magnitude": "4.30",
-                        "double": "true"
+                        "magnitude": "4.30"
                     }
-                }
+                },
+                "connections": [[0, 4], [2, 4], [1, 2], [1, 3], [3, 4]]
             },
-            "connections": [[0, 4], [2, 4], [1, 2], [1, 3], [3, 4]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "eq": {
