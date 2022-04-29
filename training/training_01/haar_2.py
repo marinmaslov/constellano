@@ -16,6 +16,7 @@ import numpy as np
 import math
 import time
 import getopt
+import json
 
 __author__ = "Marin Maslov"
 __license__ = "MIT Licence"
@@ -108,6 +109,13 @@ def main(argv):
         os.mkdir(output)
 
     cascade = cv2.CascadeClassifier(cascade)
+    constellations_data = json.load(open('constellations.json'))
+    lyra_data = (constellations_data["constellations"])["lyra"]
+    lyra_star_list_data = (lyra_data)["star-list"]
+    lyra_stars_data = (lyra_star_list_data)["stars"]
+    lyra_connections_data = (lyra_data)["connections"]
+    print(lyra_stars_data)
+    print(lyra_connections_data)
     counter = 0
     for file in os.listdir(images_dir):
         if file.endswith(".jpg"):
@@ -167,8 +175,7 @@ def main(argv):
             # FIND CONTURES (STARS)
             if (log_level.upper() == "DEBUG"):
                 print("\033[2;35;40m[DEBUG]\033[0;0m" + "\tDetecting stars.")
-            contours = cv2.findContours(
-                thresholds, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)[-2]
+            contours = cv2.findContours(thresholds, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)[-2]
 
             # FIND THE GREATEST CONTOUR AREA
             if (log_level.upper() == "DEBUG"):
@@ -334,32 +341,87 @@ def main(argv):
             constellations = cascade.detectMultiScale(gray, float(scale), int(min_nghb), flags=cv2.CASCADE_SCALE_IMAGE)
 
             font = cv2.FONT_HERSHEY_SIMPLEX
-            for (x,y,w,h) in constellations:
-                cv2.rectangle(img_rgb, (x, y), (x+w, y+h), (0, 0, 255), 2)
-                cv2.putText(img_rgb, "Lyra", (x, y - 20), font, 1, (0, 0, 255), 2, cv2.LINE_AA)
+            for (x, y, w, h) in constellations:
+                # FETCH THE CROPPED IMAGE OF THE DETECTED CONSTELLATION
+                #print(str(img_rgb[y : y + h, x : x + w].shape))
+                detected_constellation_img = img_rgb[y : y + h, x : x + w]
+                #print(str(detected_constellation_img.shape))
+
+                #cv2.rectangle(img_rgb, (x - 2, y - 2), (x + w + 2, y + h + 2), (0, 0, 255), 2)
+                cv2.putText(img_rgb, str(lyra_data["name"].title()), (x, y - 20), font, 1.2, (255, 255, 255), 2, cv2.LINE_AA)
+
+                # GET CONTOURS ON CROPPED DETECTED IMAGE
+                #detected_constellation_img
+                #haar_adjusted = cv2.convertScaleAbs(detected_constellation_img, alpha=CONTRAST, beta=BRIGHTNESS)
+                #haar_adjusted = gammaCorrection(haar_adjusted, GAMMA)
+                haar_img_bw = cv2.cvtColor(detected_constellation_img, cv2.COLOR_BGR2GRAY)
+                haar_thresholds = cv2.threshold(haar_img_bw, 180, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+                haar_contours = cv2.findContours(haar_thresholds, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)[-2]
+
+                # Create contours dict
+                #haar_contours_dict = {}
+                #for contour in haar_contours:
+                #    haar_contours_dict[cv2.contourArea(contour)] = contour
+
+                # Create sorted list of dict values
+                haar_contours_sorted = []
+                for contour in haar_contours:
+                    haar_contours_sorted.append(cv2.contourArea(contour))
+                haar_contours_sorted.sort(reverse = True)
+                
+
+
+                #haar_contours_dict_sorted = collections.OrderedDict(sorted(haar_contours_dict.items()))
+                """
+                print("CONTURE AREAS!")
+                print(haar_contours_sorted)
+
+                for i in range(0, len(haar_contours_sorted) - 1):
+                    print("ZVIJEZDA: " + str(lyra_stars_data[str(i)]))
+                    print("odgovara konturi: " + str(haar_contours_sorted[i]))
+                """
+
+                #cv2.line(image, start_point, end_point, color, thickness)
+                
+
+                haar_contours_sorted_coordinates = []
+                star = 0
+                for area in haar_contours_sorted:
+                    for contour in haar_contours:
+                        if area == cv2.contourArea(contour):
+                            x1, y1, w1, h1 = cv2.boundingRect(contour)
+                            haar_contours_sorted_coordinates.append((int(x1 + (w1/2)), int(y1 + (h1/2))))
+                            cv2.putText(detected_constellation_img, str(((lyra_stars_data[str(star)])["name"].title())[:3]), (x1 - 45, y1 - 20), font, 0.7, (255, 255, 255), 2, cv2.LINE_AA)
+                            #print(str((lyra_stars_data[str(star)])["symbol"]))
+                            #cv2.addText(detected_constellation_img, str((lyra_stars_data[str(star)])["symbol"]), (x1 - 10, y1 - 10), QFont("Arial", 10, QFont.Bold))
+                            
+                    star = star + 1
+
+                # DRAW LINES
+                for connection in lyra_connections_data:
+                    cv2.line(detected_constellation_img, haar_contours_sorted_coordinates[connection[0]], haar_contours_sorted_coordinates[connection[1]], (255, 255, 255), 2)
+
+                # WRITE NAMES
+                
+
+                #for star in lyra_stars_data:
+                #    cv2.putText(detected_constellation_img, str(area), (x1, y1), font, 1, (255, 255, 255), 1, cv2.LINE_AA)
+
+                #img_rgb[y : y + h, x : x + w] = detected_constellation_img
+                img_rgb[y : y + h, x : x + w] = detected_constellation_img
+
+                #mark_cropped = mark_resized[abs(y_offset):mark_dimensions, 0:mark_dimensions]
+                #img_rgb_resized[0: y_end, x_offset: x_end] = overlayImages(img_rgb_resized[0: y_end, x_offset: x_end], mark_cropped)
+
+                #cv2.imwrite(new_file_name, detected_constellation_img)
 
             print("\033[2;32;40m[INFO]\033[0;0m" + "\tSaving image: " + str(new_file_name))
             cv2.imwrite(new_file_name, img_rgb)
+            
             haar_counter = haar_counter + 1
             print("------------------------------------")
             print("\033[2;32;40m[INFO]\033[0;0m" + "\t\033[2;44;47mTotal files created:\t" + str(counter) + "\033[0;0m")
-
-
-
-
-
-
-
-
-
-
             counter = counter + 1
-
-
-
-
-
-
 
 
     print("------------------------------------")

@@ -30,38 +30,47 @@
             "nasa": "Lyra",
             "meaning": "Lyre",
             "brightest-star": "Vega",
-            "stars": {
-                "0": {
-                    "name": "vega",
-                    "greek": "alpha",
-                    "magnitude": "0.00",
-                    "double": "false"
-                },
-                "1": {
-                    "name": "sheliak",
-                    "greek": "beta",
-                    "magnitude": "3.50",
-                    "double": "false"
-                },
-                "2": {
-                    "name": "sulafat",
-                    "greek": "gamma",
-                    "magnitude": "3.25",
-                    "double": "false"
-                },
-                "3": {
-                    "name": "delta lyrae",
-                    "greek": "delta",
-                    "magnitude": "4.20",
-                    "double": "true"
-                },
-                "4": {
-                    "name": "nasr alwaki",
-                    "greek": "zeta",
-                    "magnitude": "4.30",
-                    "double": "true"
+            "star-list": {
+                "type": "sorted-by-size",
+                "stars": {
+                    "0": {
+                        "name": "vega",
+                        "greek": "alpha",
+                        "symbol": "\u03B1",
+                        "magnitude": "0.00",
+                        "double": "false"
+                    },
+                    "1": {
+                        "name": "sulafat",
+                        "greek": "gamma",
+                        "symbol": "\u03B3",
+                        "magnitude": "3.25",
+                        "double": "false"
+                    },
+                    "2": {
+                        "name": "sheliak",
+                        "greek": "beta",
+                        "symbol": "\u03B2",
+                        "magnitude": "3.50",
+                        "double": "false"
+                    },
+                    "3": {
+                        "name": "delta lyrae",
+                        "greek": "delta",
+                        "symbol": "\u03B4",
+                        "magnitude": "4.20",
+                        "double": "true"
+                    },
+                    "4": {
+                        "name": "nasr alwaki",
+                        "greek": "zeta",
+                        "symbol": "\u03B6",
+                        "magnitude": "4.30",
+                        "double": "true"
+                    }
                 }
             },
+            "connections": [[0, 4], [2, 4], [1, 2], [1, 3], [3, 4]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "eq": {
