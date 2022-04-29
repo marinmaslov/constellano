@@ -113,7 +113,7 @@ def main(argv):
     lyra_data = (constellations_data["constellations"])["lyra"]
     lyra_star_list_data = (lyra_data)["star-list"]
     lyra_stars_data = (lyra_star_list_data)["stars"]
-    lyra_connections_data = (lyra_data)["connections"]
+    lyra_connections_data = (lyra_star_list_data)["connections"]
     print(lyra_stars_data)
     print(lyra_connections_data)
     counter = 0
