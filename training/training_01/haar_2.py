@@ -318,7 +318,8 @@ def main(argv):
             print("\033[2;32;40m[INFO]\033[0;0m" + "\tSaving image: " + str(new_file_name))
             #cv2.imwrite(new_file_name, img_rgb_resized)
             #cv2.waitKey(0)
-
+            cv2.imshow("Input", img_rgb_resized)
+            cv2.waitKey(0)
 
 
 
@@ -337,6 +338,16 @@ def main(argv):
             #new_file_name = str(output + "haar_detected_" + str(counter) + ".jpg")
 
             img = img_rgb_resized #cv2.imread(images + file)
+
+            rows, cols = img_bw.shape
+            new_cols = int((1000 * cols) / rows)
+            dimensions = (new_cols, 1000)
+            if (log_level.upper() == "DEBUG"):
+                print("\033[2;35;40m[DEBUG]\033[0;0m" + "\tResizing image from: (" + str(rows) + ", " + str(cols) + ") to (" + str(1000) + ", " + str(new_cols) + ").")
+            #img_bw_resized = cv2.resize(img_bw, dimensions)
+            img_rgb_resized = cv2.resize(img_rgb, dimensions)
+
+            
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             constellations = cascade.detectMultiScale(gray, float(scale), int(min_nghb), flags=cv2.CASCADE_SCALE_IMAGE)
 
@@ -344,11 +355,13 @@ def main(argv):
             for (x, y, w, h) in constellations:
                 # FETCH THE CROPPED IMAGE OF THE DETECTED CONSTELLATION
                 #print(str(img_rgb[y : y + h, x : x + w].shape))
-                detected_constellation_img = img_rgb[y : y + h, x : x + w]
+                detected_constellation_img = img_rgb_resized[y : y + h, x : x + w]
                 #print(str(detected_constellation_img.shape))
+                cv2.imshow("Input", detected_constellation_img)
+                cv2.waitKey(0)
 
                 #cv2.rectangle(img_rgb, (x - 2, y - 2), (x + w + 2, y + h + 2), (0, 0, 255), 2)
-                cv2.putText(img_rgb, str(lyra_data["name"].title()), (x, y - 20), font, 1.2, (255, 255, 255), 2, cv2.LINE_AA)
+                cv2.putText(img_rgb_resized, str(lyra_data["name"].title()), (x, y - 20), font, 1.2, (255, 255, 255), 2, cv2.LINE_AA)
 
                 # GET CONTOURS ON CROPPED DETECTED IMAGE
                 #detected_constellation_img
@@ -368,8 +381,10 @@ def main(argv):
                 for contour in haar_contours:
                     haar_contours_sorted.append(cv2.contourArea(contour))
                 haar_contours_sorted.sort(reverse = True)
-                
 
+                # THERE SHOULD BE A MAXIMUM OF len(constellation_star_list) STARS
+                trimmed_contours = []
+                trimmed_contours_areas = []
 
                 #haar_contours_dict_sorted = collections.OrderedDict(sorted(haar_contours_dict.items()))
                 """
@@ -386,12 +401,16 @@ def main(argv):
 
                 haar_contours_sorted_coordinates = []
                 star = 0
-                for area in haar_contours_sorted:
+                for area in haar_contours_sorted[:len(lyra_stars_data)]:
                     for contour in haar_contours:
                         if area == cv2.contourArea(contour):
                             x1, y1, w1, h1 = cv2.boundingRect(contour)
                             haar_contours_sorted_coordinates.append((int(x1 + (w1/2)), int(y1 + (h1/2))))
-                            cv2.putText(detected_constellation_img, str(((lyra_stars_data[str(star)])["name"].title())[:3]), (x1 - 45, y1 - 20), font, 0.7, (255, 255, 255), 2, cv2.LINE_AA)
+                            print(str((int(x1 - 45), int(y1 - 20))))
+                            cv2.putText(detected_constellation_img, str(((lyra_stars_data[str(star)])["name"].title())[:3]), (int(x1 - 45), int(y1 - 20)), cv2.FONT_HERSHEY_SIMPLEX, float(0.7), (255, 255, 255), 2)
+                            """
+                                Imamo Errore jer su tu i zvijezde koje nisu bas pozeljene!!!!
+                            """
                             #print(str((lyra_stars_data[str(star)])["symbol"]))
                             #cv2.addText(detected_constellation_img, str((lyra_stars_data[str(star)])["symbol"]), (x1 - 10, y1 - 10), QFont("Arial", 10, QFont.Bold))
                             
@@ -408,7 +427,7 @@ def main(argv):
                 #    cv2.putText(detected_constellation_img, str(area), (x1, y1), font, 1, (255, 255, 255), 1, cv2.LINE_AA)
 
                 #img_rgb[y : y + h, x : x + w] = detected_constellation_img
-                img_rgb[y : y + h, x : x + w] = detected_constellation_img
+                img_rgb_resized[y : y + h, x : x + w] = detected_constellation_img
 
                 #mark_cropped = mark_resized[abs(y_offset):mark_dimensions, 0:mark_dimensions]
                 #img_rgb_resized[0: y_end, x_offset: x_end] = overlayImages(img_rgb_resized[0: y_end, x_offset: x_end], mark_cropped)
@@ -416,7 +435,7 @@ def main(argv):
                 #cv2.imwrite(new_file_name, detected_constellation_img)
 
             print("\033[2;32;40m[INFO]\033[0;0m" + "\tSaving image: " + str(new_file_name))
-            cv2.imwrite(new_file_name, img_rgb)
+            cv2.imwrite(new_file_name, img_rgb_resized)
             
             haar_counter = haar_counter + 1
             print("------------------------------------")
