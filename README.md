@@ -122,3 +122,50 @@ Used literature:
 
 
 DOBRE UPUTE KAKO OD NEGATIVA NAPRAVIT "POYITIVE" TAKO DA UVALIŠ SVOJ TRAŽENI OBJEKT U NJIH: https://memememememememe.me/post/training-haar-cascades/
+
+
+
+
+
+VGG LITERATURE:
+
+https://machinelearningmastery.com/use-pre-trained-vgg-model-classify-objects-photographs/
+https://pyimagesearch.com/2020/10/05/object-detection-bounding-box-regression-with-keras-tensorflow-and-deep-learning/
+
+
+
+VGG16 from scratch: https://narenltk.medium.com/vgg16-from-scratch-using-transfer-learning-with-keras-and-tensorflow-ffee5ae460fb (ovaj pokazuje kako sve applyjat na sliku)
+
+
+https://blog.roboflow.com/how-to-train-a-vgg-16-image-classification-model-on-your-own-dataset/ 
+
+
+
+DOBAR12: https://thedatafrog.com/en/articles/image-recognition-transfer-learning/
+
+
+
+https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html
+
+
+
+
+VGG16 i custom dataset: https://www.youtube.com/watch?v=mjk4vDYOwq0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INCEPTION:
+https://analyticsindiamag.com/guide-to-simple-object-detection-using-inceptionresnet_v2/
+
+Koristimo stvari iz: https://github.com/googlecodelabs/tensorflow-for-poets-2
