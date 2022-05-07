@@ -71,11 +71,12 @@ def overlayImages(roi, mark_cropped):
 # Algorithm --------------------------------------- START
 def main(argv):
     images_dir = ''
+    output_name = ''
     percision = ''
     log_level = ''
 
     try:
-        opts, args = getopt.getopt(argv, "h", ["images=", "percision=", "log="])
+        opts, args = getopt.getopt(argv, "h", ["images=", "outputname=", "percision=", "log="])
     except getopt.GetoptError:
         print(COMMAND_FORMAT)
         sys.exit(2)
@@ -85,6 +86,8 @@ def main(argv):
             sys.exit()
         elif opt in ("--images"):
             images_dir = arg
+        elif opt in ("--outputname"):
+            output_name = arg
         elif opt in ("--percision"):
             percision = arg
         elif opt in ("--log"):
@@ -108,7 +111,7 @@ def main(argv):
                 zeros = zeros[:-1]
                 zeros_counter = zeros_counter - 1
 
-            new_file_name = str(output + "detected_" + str(zeros) + str(counter) + ".jpg")
+            new_file_name = str(output + str(output_name) + "_" + str(zeros) + str(counter) + ".jpg")
 
             # READ IMAGE (RGB and BW)
             if (log_level.upper() == "DEBUG"):
@@ -208,100 +211,97 @@ def main(argv):
             mark_dimensions = int(math.ceil(dimensions[1] * MARK_SIZE_PERCENTAGE))
             if (log_level.upper() == "DEBUG"):
                 print("\033[2;35;40m[DEBUG]\033[0;0m" + "\tMark dimensions selected: (" + str(mark_dimensions) + ", " + str(mark_dimensions) + ").")
-            mark_dimensions_offset = int(math.ceil(mark_dimensions/2 - 0.15*mark_dimensions))
+            #mark_dimensions_offset = int(math.ceil(mark_dimensions/2 - 0.15*mark_dimensions))
             mark_resized = cv2.resize(mark, (mark_dimensions, mark_dimensions))
 
             print("\033[2;32;40m[INFO]\033[0;0m" + "\tDetected: " + str(len(trimmed_contours)) + " in file: " + str(file) + " (saving output to: " + new_file_name + ")")
 
             for trimmed_cnt in trimmed_contours:
-                x, y, _, _ = cv2.boundingRect(trimmed_cnt)
+                # x_contour and y_contour represent the contour center which refers to its position in the big image
+                x_contour, y_contour, _, _ = cv2.boundingRect(trimmed_cnt)
 
-                x_offset = x - mark_dimensions_offset
-                y_offset = y - mark_dimensions_offset
+                x_big_image = int(dimensions[0])
+                y_big_image = int(dimensions[1])
 
-                x_end = x_offset + mark_dimensions
-                y_end = y_offset + mark_dimensions
+                x_mark_start = int(x_contour - mark_dimensions / 2)
+                y_mark_start = int(y_contour - mark_dimensions / 2)
+
+                x_mark_end = int(x_contour + mark_dimensions / 2)
+                y_mark_end = int(y_contour + mark_dimensions / 2)
 
                 # DECISION TREE
                 # CHECK: Is the contour on any image border?
-                if x_offset < 0 or y_offset < 0 or x_end > dimensions[0] or y_end > dimensions[1]:
+                if x_mark_start < 0 or y_mark_start < 0 or x_mark_end > x_big_image or y_mark_end > y_big_image:
                     # CHECK: Is the contour in any corner?
-                    if (x_offset < 0 and y_offset < 0) or (x_end > dimensions[0] and y_end > dimensions[1]) or (x_offset < 0 and y_end > dimensions[1]) or (y_offset < 0 and x_end > dimensions[0]):
+                    if (x_mark_start < 0 and y_mark_start < 0) or (x_mark_end > x_big_image and y_mark_end > y_big_image) or (x_mark_start < 0 and y_mark_end > y_big_image) or (x_mark_end > x_big_image and y_mark_start < 0):
                         # CHECK: Is the corner on the main diagonal?
-                        if (x_offset < 0 and y_offset < 0) or (x_end > dimensions[0] and y_end > dimensions[1]):
+                        if (x_mark_start < 0 and y_mark_start < 0) or (x_mark_end > x_big_image and y_mark_end > y_big_image):
                             # CHECK: Is the corner TOP-LEFT?
-                            if (x_offset < 0 and y_offset < 0):
-                                mark_cropped = mark_resized[abs(y_offset): mark_dimensions, abs(x_offset): mark_dimensions]
-                                img_rgb_resized[0: y_end, 0: x_end] = overlayImages(img_rgb_resized[0: y_end, 0: x_end], mark_cropped)
+                            if (x_mark_start < 0 and y_mark_start < 0):
+                                mark_cropped = mark_resized[int(mark_dimensions - (mark_dimensions / 2 + y_contour)) : mark_dimensions, int(mark_dimensions - (mark_dimensions / 2 + x_contour)) : mark_dimensions]
+                                img_rgb_resized[0 : y_mark_end, 0 : x_mark_end] = overlayImages(img_rgb_resized[0 : (mark_dimensions / 2 + y_contour), 0 : ( mark_dimensions / 2 + x_contour)], mark_cropped)
                                 if (log_level.upper() == "DEBUG"):
-                                    print("\033[2;35;40m[DEBUG]\033[0;0m" + "\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " in TOP-LEFT corner. \033[2;36;40mApplying mask with corner fix.\033[0;0m")
-            
+                                    print("[DEBUG]\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " in TOP-LEFT corner.\tApplying mask with corner fix.")
                             # The corner is BOTTOM-RIGHT
                             else:
-                                print(str(dimensions[0]) + " " + str(dimensions[1]))
-                                print(str(y) + " " + str(x))
-                                mark_cropped = mark_resized[0 : int(mark_dimensions/2) + dimensions[0] - y, 0 : int(mark_dimensions/2) + dimensions[1] - x]
-
-
-                                #mark_cropped = mark_resized[0: dimensions[1] - y_offset - (dimensions[1] - y), 0: dimensions[0] - x_offset - (dimensions[0] - x)]
-                                img_rgb_resized[y - int(mark_dimensions/2): dimensions[1], x - int(mark_dimensions/2): dimensions[0]] = overlayImages(img_rgb_resized[y - int(mark_dimensions/2): dimensions[1], x - int(mark_dimensions/2): dimensions[0]], mark_cropped)
+                                mark_cropped = mark_resized[0 : int(mark_dimensions / 2 + (y_big_image - y_contour)), 0 : int(mark_dimensions / 2 + (x_big_image - x_contour))]
+                                img_rgb_resized[y_mark_start : y_big_image, x_mark_start : x_big_image] = overlayImages(img_rgb_resized[y_mark_start : y_big_image, x_mark_start : x_big_image], mark_cropped)
                                 if (log_level.upper() == "DEBUG"):
-                                    print("\033[2;35;40m[DEBUG]\033[0;0m" + "\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " in BOTTOM-RIGHT corner. \033[2;36;40mApplying mask with corner fix.\033[0;0m")
+                                    print("[DEBUG]\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " in BOTTOM-RIGHT corner.\tApplying mask with corner fix.")
                         # The contour is on the secondary diagonal
                         else:
                             # CHECK: Is the corner TOP-RIGHT?
-                            if (y_offset < 0 and x_end > dimensions[0]):
-                                mark_cropped = mark_resized[abs(y_offset): mark_dimensions, 0: mark_dimensions - (x_end - dimensions[0])]
-                                img_rgb_resized[0: y_end, x_offset: dimensions[0]] = overlayImages(img_rgb_resized[0: y_end, x_offset: dimensions[0]], mark_cropped)
+                            if (y_mark_start < 0 and x_mark_end > x_big_image):
+                                mark_cropped = mark_resized[int(mark_dimensions - (mark_dimensions / 2 + y_contour)) : mark_dimensions, 0 : int((mark_dimensions / 2) + (x_big_image - x_contour))]
+                                img_rgb_resized[0 : y_mark_end, x_mark_start : x_big_image] = overlayImages(img_rgb_resized[0 : y_mark_end, x_mark_start : x_big_image], mark_cropped)
                                 if (log_level.upper() == "DEBUG"):
-                                    print("\033[2;35;40m[DEBUG]\033[0;0m" + "\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " in TOP-RIGHT corner. \033[2;36;40mApplying mask with corner fix.\033[0;0m")
+                                    print("[DEBUG]\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " in TOP-RIGHT corner.\tApplying mask with corner fix.")
                             # The croner is BOTTOM-LEFT
                             else:
-                                mark_cropped = mark_resized[0: mark_dimensions - (y_end - dimensions[1]), abs(x_offset): mark_dimensions]
-                                img_rgb_resized[y_offset: dimensions[1], 0: x_end] = overlayImages(img_rgb_resized[y_offset: dimensions[1], 0: x_end], mark_cropped)
+                                mark_cropped = mark_resized[0 : int((y_big_image - y_contour) + (mark_dimensions / 2)), int(mark_dimensions - (mark_dimensions / 2 + x_contour)) : mark_dimensions]
+                                img_rgb_resized[y_mark_start : y_big_image, 0 : x_mark_end] = overlayImages(img_rgb_resized[y_mark_start : y_big_image, 0 : x_mark_end], mark_cropped)
                                 if (log_level.upper() == "DEBUG"):
-                                    print("\033[2;35;40m[DEBUG]\033[0;0m" + "\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " in BOTTOM-LEFT corner. \033[2;36;40mApplying mask with corner fix.\033[0;0m")
+                                    print("[DEBUG]\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " in BOTTOM-LEFT corner.\tApplying mask with corner fix.")
                     # The contour is not in any corner, which means that is just on one of the borders
                     else:
                         # CHECK: Is the contour on the starting (top-left) borders?
-                        if (x_offset < 0 or y_offset < 0):
+                        if (x_mark_start < 0 or y_mark_start < 0):
                             # CHECK: Is the contour on the left border?
-                            if x_offset < 0:
-                                mark_cropped = mark_resized[0:mark_dimensions, abs(x_offset):mark_dimensions]
-                                img_rgb_resized[y_offset: y_end, 0: x_end] = overlayImages(img_rgb_resized[y_offset: y_end, 0: x_end], mark_cropped)
+                            if x_mark_start < 0:
+                                mark_cropped = mark_resized[0 : mark_dimensions, int(mark_dimensions - (mark_dimensions / 2 + x_contour)) : mark_dimensions]
+                                img_rgb_resized[y_mark_start : y_mark_end, 0 : x_mark_end] = overlayImages(img_rgb_resized[y_mark_start : y_mark_end, 0 : x_mark_end], mark_cropped)
                                 if (log_level.upper() == "DEBUG"):
-                                    print("\033[2;35;40m[DEBUG]\033[0;0m" + "\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " on the LEFT border. \033[2;36;40mApplying mask with border fix.\033[0;0m")
+                                    print("[DEBUG]\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " on the LEFT border.\tApplying mask with border fix.")
                             # The contour is on the top border
                             else:
-                                mark_cropped = mark_resized[abs(y_offset):mark_dimensions, 0:mark_dimensions]
-                                img_rgb_resized[0: y_end, x_offset: x_end] = overlayImages(img_rgb_resized[0: y_end, x_offset: x_end], mark_cropped)
+                                mark_cropped = mark_resized[int(mark_dimensions - (mark_dimensions / 2 + y_contour)) : mark_dimensions, 0 : mark_dimensions]
+                                img_rgb_resized[0 : y_mark_end, x_mark_start : x_mark_end] = overlayImages(img_rgb_resized[0 : y_mark_end, x_mark_start : x_mark_end], mark_cropped)
                                 if (log_level.upper() == "DEBUG"):
-                                    print("\033[2;35;40m[DEBUG]\033[0;0m" + "\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " on the TOP border. \033[2;36;40mApplying mask with border fix.\033[0;0m")
+                                    print("[DEBUG]\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " on the TOP border.\tApplying mask with border fix.")
                         # The contour is on the ending (bottom-right) borders
                         else:
                             # CHECK: Is the contour on the right border?
-                            if x_end > dimensions[0]:
-                                mark_cropped = mark_resized[0:mark_dimensions, 0: mark_dimensions - (x_end - dimensions[0])]
-                                img_rgb_resized[y_offset: y_end, x_offset: dimensions[0]] = overlayImages(img_rgb_resized[y_offset: y_end, x_offset: dimensions[0]], mark_cropped)
+                            if x_mark_end > x_big_image:
+                                mark_cropped = mark_resized[0 : mark_dimensions, 0 : int(mark_dimensions / 2 + (x_big_image - x_contour))]
+                                img_rgb_resized[y_mark_start : y_mark_end, x_mark_start : x_big_image] = overlayImages(img_rgb_resized[y_mark_start : y_mark_end, x_mark_start : x_big_image], mark_cropped)
                                 if (log_level.upper() == "DEBUG"):
-                                    print("\033[2;35;40m[DEBUG]\033[0;0m" + "\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " on the RIGHT border. \033[2;36;40mApplying mask with border fix.\033[0;0m")
+                                    print("[DEBUG]\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " on the RIGHT border.\tApplying mask with border fix.")
                             # The contour is on the bottom border
                             else:
-                                mark_cropped = mark_resized[0:mark_dimensions - (y_end - dimensions[1]), 0:mark_dimensions]
-                                img_rgb_resized[y_offset: dimensions[1], x_offset: x_end] = overlayImages(img_rgb_resized[y_offset: dimensions[1], x_offset: x_end], mark_cropped)
+                                mark_cropped = mark_resized[0 : int(mark_dimensions / 2 + (y_big_image - y_contour)), 0 : mark_dimensions]
+                                img_rgb_resized[y_mark_start : y_big_image, x_mark_start : x_mark_end] = overlayImages(img_rgb_resized[y_mark_start : y_big_image, x_mark_start : x_mark_end], mark_cropped)
                                 if (log_level.upper() == "DEBUG"):
-                                    print("\033[2;35;40m[DEBUG]\033[0;0m" + "\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " on the BOTTOM border. \033[2;36;40mApplying mask with border fix.\033[0;0m")
+                                    print("[DEBUG]\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " on the BOTTOM border.\tApplying mask with border fix.")
                 # The contour is in not on the border, no further preparation is needed
                 else:
-                    img_rgb_resized[y_offset: y_end, x_offset: x_end] = overlayImages(img_rgb_resized[y_offset: y_end, x_offset: x_end], mark_resized)
+                    img_rgb_resized[y_mark_start: y_mark_end, x_mark_start: x_mark_end] = overlayImages(img_rgb_resized[y_mark_start: y_mark_end, x_mark_start: x_mark_end], mark_resized)
                     if (log_level.upper() == "DEBUG"):
-                        print("\033[2;35;40m[DEBUG]\033[0;0m" + "\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " in image. \033[2;36;40mApplying mask.\033[0;0m")
+                        print("[DEBUG]\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " in image.\tApplying mask.")
 
             # SAVE THE FINAL IMAGE
-            if (log_level.upper() == "DEBUG"):
-                print("\033[2;32;40m[INFO]\033[0;0m" + "\tSaving image: " + str(new_file_name))
+            print("\033[2;32;40m[INFO]\033[0;0m" + "\tSaving image: " + str(new_file_name))
             cv2.imwrite(new_file_name, img_rgb_resized)
-            #cv2.waitKey(0)
+            cv2.waitKey(0)
             counter = counter + 1
     print("------------------------------------")
     print("\033[2;32;40m[INFO]\033[0;0m" + "\t\033[2;44;47mTotal files created:\t" + str(counter) + "\033[0;0m")

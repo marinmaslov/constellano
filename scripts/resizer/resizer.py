@@ -99,7 +99,7 @@ def main(argv):
                 zeros = zeros[:-1]
                 zeros_counter = zeros_counter - 1
 
-            new_file_name = str(output + "resized_" + str(zeros) + str(counter) + ".jpg")
+            new_file_name = str(output + "negative_" + str(zeros) + str(counter) + ".jpg")
 
             print("\033[2;32;40m[INFO]\033[0;0m" + "\tResizing file:\t" + str(file) + "\t(saving resized image to:\t" + str(new_file_name) + ")")
             # READ IMAGE (RGB)

@@ -43,11 +43,8 @@ var targetRadiusCheck = StelMovementMgr.getCurrentFov() / 2;
 
 for (var i = 0.0; i <=90.0; i = i + STEP) {
 	for (var j = 0.0; j <= 360.0; j = j + STEP) {
-		if (!(i + targetRadiusCheck < RA_TARGET_START && i - targetRadiusCheck < RA_TARGET_END && j + targetRadiusCheck < DEC_TARGET_START && j - targetRadiusCheck < DEC_TARGET_END)) {
-			core.moveToRaDec(j, i, 0);
-			core.screenshot("negative_", false, DESTINATION_PATH, false, "jpg");
-			core.wait(0.1);
-		}
+		core.moveToRaDec(j, i, 0);
+		core.screenshot("negative_", false, DESTINATION_PATH, false, "jpg");
 		core.wait(0.1);
 	}
 	core.wait(0.1);
