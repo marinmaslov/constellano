@@ -1,0 +1,11 @@
+positives/cygnus_00004.jpg
+positives/cygnus_00009.jpg
+positives/cygnus_00001.jpg
+positives/cygnus_00002.jpg
+positives/cygnus_00008.jpg
+positives/cygnus_00000.jpg
+positives/cygnus_00003.jpg
+positives/cygnus_00006.jpg
+positives/cygnus_00005.jpg
+positives/cygnus_00010.jpg
+positives/cygnus_00007.jpg
