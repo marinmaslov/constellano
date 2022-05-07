@@ -24,7 +24,7 @@ __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
 
-COMMAND_FORMAT = "Error! The command should be: py resizer.py --images <images_dir> --percision <percision> --log <log_level>"
+COMMAND_FORMAT = "Error! The command should be: py resizer.py --images <images_dir> --markersize <size_in_percentage> --outputname <name> --percision <percision> --log <log_level>"
 
 # Constants --------------------------------------- START
 # USED RGB COLORS
@@ -71,12 +71,13 @@ def overlayImages(roi, mark_cropped):
 # Algorithm --------------------------------------- START
 def main(argv):
     images_dir = ''
+    marker_size = ''
     output_name = ''
     percision = ''
     log_level = ''
 
     try:
-        opts, args = getopt.getopt(argv, "h", ["images=", "outputname=", "percision=", "log="])
+        opts, args = getopt.getopt(argv, "h", ["images=", "markersize=", "outputname=", "percision=", "log="])
     except getopt.GetoptError:
         print(COMMAND_FORMAT)
         sys.exit(2)
@@ -86,6 +87,8 @@ def main(argv):
             sys.exit()
         elif opt in ("--images"):
             images_dir = arg
+        elif opt in ("--markersize"):
+            marker_size = arg
         elif opt in ("--outputname"):
             output_name = arg
         elif opt in ("--percision"):
@@ -208,13 +211,13 @@ def main(argv):
             current_file_parent_directory = __file__.replace(current_file_name, "")
             mark_path = current_file_parent_directory + '/img/target.png'
             mark = cv2.imread(mark_path)
-            mark_dimensions = int(math.ceil(dimensions[1] * MARK_SIZE_PERCENTAGE))
+            mark_dimensions = int(math.ceil(dimensions[1] * float(marker_size)))
             if (log_level.upper() == "DEBUG"):
                 print("\033[2;35;40m[DEBUG]\033[0;0m" + "\tMark dimensions selected: (" + str(mark_dimensions) + ", " + str(mark_dimensions) + ").")
             #mark_dimensions_offset = int(math.ceil(mark_dimensions/2 - 0.15*mark_dimensions))
             mark_resized = cv2.resize(mark, (mark_dimensions, mark_dimensions))
 
-            print("\033[2;32;40m[INFO]\033[0;0m" + "\tDetected: " + str(len(trimmed_contours)) + " in file: " + str(file) + " (saving output to: " + new_file_name + ")")
+            print("[INFO]\tDetected: " + str(len(trimmed_contours)) + " in file: " + str(file) + " (saving output to: " + new_file_name + ")")
 
             for trimmed_cnt in trimmed_contours:
                 # x_contour and y_contour represent the contour center which refers to its position in the big image
@@ -239,7 +242,7 @@ def main(argv):
                             # CHECK: Is the corner TOP-LEFT?
                             if (x_mark_start < 0 and y_mark_start < 0):
                                 mark_cropped = mark_resized[int(mark_dimensions - (mark_dimensions / 2 + y_contour)) : mark_dimensions, int(mark_dimensions - (mark_dimensions / 2 + x_contour)) : mark_dimensions]
-                                img_rgb_resized[0 : y_mark_end, 0 : x_mark_end] = overlayImages(img_rgb_resized[0 : (mark_dimensions / 2 + y_contour), 0 : ( mark_dimensions / 2 + x_contour)], mark_cropped)
+                                img_rgb_resized[0 : y_mark_end, 0 : x_mark_end] = overlayImages(img_rgb_resized[0 : y_mark_end, 0 : x_mark_end], mark_cropped)
                                 if (log_level.upper() == "DEBUG"):
                                     print("[DEBUG]\tDetected star of size: " + str(cv2.contourArea(trimmed_cnt)) + " in TOP-LEFT corner.\tApplying mask with corner fix.")
                             # The corner is BOTTOM-RIGHT

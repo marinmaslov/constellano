@@ -60,10 +60,11 @@ def main(argv):
     images_dir = ''
     image_size = ''
     grayscale = ''
+    output_name = ''
     log_level = ''
 
     try:
-        opts, args = getopt.getopt(argv, "h", ["images=", "size=", "grayscale=", "log="])
+        opts, args = getopt.getopt(argv, "h", ["images=", "outputname=", "size=", "grayscale=", "log="])
     except getopt.GetoptError:
         print(COMMAND_FORMAT)
         sys.exit(2)
@@ -73,6 +74,8 @@ def main(argv):
             sys.exit()
         elif opt in ("--images"):
             images_dir = arg
+        elif opt in ("--outputname"):
+            output_name = arg
         elif opt in ("--size"):
             image_size = arg
         elif opt in ("--grayscale"):
@@ -99,7 +102,7 @@ def main(argv):
                 zeros = zeros[:-1]
                 zeros_counter = zeros_counter - 1
 
-            new_file_name = str(output + "negative_" + str(zeros) + str(counter) + ".jpg")
+            new_file_name = str(output + output_name + "_" + str(zeros) + str(counter) + ".jpg")
 
             print("\033[2;32;40m[INFO]\033[0;0m" + "\tResizing file:\t" + str(file) + "\t(saving resized image to:\t" + str(new_file_name) + ")")
             # READ IMAGE (RGB)
