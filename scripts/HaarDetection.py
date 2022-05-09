@@ -117,7 +117,6 @@ def haarDetection(images_dir, output_name, mask_size, percision, output, cascade
             counter = counter + 1
             print("------------------------------------")
             print("[INFO]\tTotal files created: " + str(files_created))
-        print()
 
 def main(argv):
     images_dir = ''
