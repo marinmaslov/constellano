@@ -23,7 +23,7 @@ __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
 
 COMMAND_FORMAT = """Error! The command should be: py HaarDetection.py --images <images_dir> --masksize <size_in_percentage> --outputname <name> --percision <percision> 
-                    --cascade <cascade_file> --scale <scale> --minNghb <min_neighbour> --json <path_to_json>"""
+                    --cascade <cascade_dir> --scale <scale> --minNghb <min_neighbour> --json <path_to_json>"""
 
 # Constants --------------------------------------- START
 # USED RGB COLORS
