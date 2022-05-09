@@ -1,0 +1,58 @@
+// Name: Grep negatives
+// License: MIT License
+// Author: marinmaslov
+// Last Modified: 2022/04/16
+// Description: Take snaps of northen sky except for defined FOV
+
+// CONSTS
+const ZOOM_FACTOR = 18.0;
+const STEP = 1.5;
+
+// DESTINATION PATH
+const DESTINATION_PATH = "C:/Users/easmsma/Desktop/data/lyra/negatives/"
+
+// EQ COORDINATES
+// RA coordinates (decimal) [right-left]
+const RA_TARGET_START = 279.23;
+const RA_TARGET_END = 284.73;
+
+// DEC coordinates (decimal) [up-down]
+const DEC_TARGET_START = 32.69069;
+const DEC_TARGET_END = 38.78472;
+
+
+LabelMgr.labelScreen("Taking negative shoots.", 200, 200, true, 20, "#ff0000");
+core.wait(1);
+LabelMgr.deleteAllLabels();
+StelMovementMgr.zoomTo(ZOOM_FACTOR, 1);
+StelSkyDrawer.setFlagStarMagnitudeLimit(true);
+StelSkyDrawer.setCustomStarMagnitudeLimit(6.5);
+core.setGuiVisible(false);
+core.setProjectionMode("ProjectionPerspective");
+core.wait(1);
+
+//Movement code
+LabelMgr.deleteAllLabels();
+LabelMgr.labelScreen("Capturing sample images.", 200, 200, true, 20, "#ff0000");
+core.wait(1);
+LabelMgr.deleteAllLabels();
+core.wait(1);
+
+
+var targetRadiusCheck = StelMovementMgr.getCurrentFov() / 2;
+
+for (var i = 0.0; i <=90.0; i = i + STEP) {
+	for (var j = 0.0; j <= 360.0; j = j + STEP) {
+		core.moveToRaDec(j, i, 0);
+		core.screenshot("negative_", false, DESTINATION_PATH, false, "jpg");
+		core.wait(0.1);
+	}
+	core.wait(0.1);
+}
+core.wait(3);
+LabelMgr.deleteAllLabels();
+LabelMgr.labelScreen("Capturing finished.", 200, 200, true, 20, "#ff0000");
+core.wait(2);
+LabelMgr.deleteAllLabels();
+core.wait(2);
+core.setGuiVisible(true);
