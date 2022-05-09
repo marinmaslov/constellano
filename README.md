@@ -169,3 +169,10 @@ INCEPTION:
 https://analyticsindiamag.com/guide-to-simple-object-detection-using-inceptionresnet_v2/
 
 Koristimo stvari iz: https://github.com/googlecodelabs/tensorflow-for-poets-2
+
+
+
+
+
+
+OVO: https://towardsdatascience.com/training-inception-with-tensorflow-on-custom-images-using-cpu-8ecd91595f26
