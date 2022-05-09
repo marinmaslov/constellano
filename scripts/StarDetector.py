@@ -152,7 +152,7 @@ def overlayImages(roi, mask_cropped):
 def applyMask(file, new_file_name, trimmed_contours, mask, img, dimensions):
     print("[INFO]\tDetected: " + str(len(trimmed_contours)) + " stars in file: " + str(file) + " (saving output to: " + new_file_name + ")")
     print("------------------------------------")
-    print("[INFO]\tApplying star masks.")
+    print("Applying star masks.")
     print("------------------------------------")
     for trimmed_cnt in trimmed_contours:
         # x_contour and y_contour represent the contour center which refers to its position in the big image

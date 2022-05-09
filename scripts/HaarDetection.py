@@ -28,15 +28,15 @@ COMMAND_FORMAT = """Error! The command should be: py HaarDetection.py --images <
 # Constants --------------------------------------- START
 # USED RGB COLORS
 RGB_WHITE = (255, 255, 255)
-RGB_BLACK = (0, 0, 0)
-RBG_GREEN = (0, 255, 0)
 # Constants --------------------------------------- END
 
 def haarDetection(images_dir, output_name, mask_size, percision, output, cascade, scale, min_nghb, json_path):
     start_time = datetime.now()
 
     cascade_name = cascade.split("/")[-1].split(".")[0]
-    print("[INFO]\tTrying to detect object: " + str(cascade_name))
+    print("------------------------------------")
+    print("Trying to detect object: " + str(cascade_name.upper()))
+    print("------------------------------------")
     cascade = cv2.CascadeClassifier(cascade)
 
     # Fetch constellations json
@@ -57,21 +57,27 @@ def haarDetection(images_dir, output_name, mask_size, percision, output, cascade
             gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
             constellations = cascade.detectMultiScale(gray, float(scale), int(min_nghb), flags=cv2.CASCADE_SCALE_IMAGE)
 
+            print()
             print("[INFO]\tDetected: " + str(len(constellations)) + " objects that HAAR believes to be '" + str(cascade_name) + "' in file: " + str(file))
+            print()
 
             if len(constellations) == 0:
+                print("[ERROR]\tNo objects were detected!")
                 break
 
             haar_counter = 0
             files_created = 0
             font = cv2.FONT_HERSHEY_SIMPLEX
             for (x, y, w, h) in constellations:
+                print("------------------------------------")
+                print("Applying star names to detected object at position: [x_start, y_start]: " + str((x, y)) + ", [x_end, y_end]: " + str((x + w, y + h)))
+                print("------------------------------------")
                 # FETCH THE CROPPED IMAGE OF THE DETECTED CONSTELLATION
                 detected_constellation_img = img_rgb_resized[y : y + h, x : x + w]
 
                 StarDetector.plotImage(detected_constellation_img)
 
-                cv2.putText(img_rgb_resized, str(((constellations_data["constellations"])[str(cascade_name)])["name"].title()), (x, y - 20), font, 1.2, (255, 255, 255), 2, cv2.LINE_AA)
+                cv2.putText(img_rgb_resized, str(((constellations_data["constellations"])[str(cascade_name)])["name"].title()), (x, y - 20), font, 1.2, RGB_WHITE, 2, cv2.LINE_AA)
 
                 # GET CONTOURS ON CROPPED DETECTED IMAGE
                 haar_img_bw = cv2.cvtColor(detected_constellation_img, cv2.COLOR_BGR2GRAY)
@@ -99,6 +105,9 @@ def haarDetection(images_dir, output_name, mask_size, percision, output, cascade
                 if len(constellation_connections_data) != len(haar_contours_sorted_coordinates):
                     print("[ERROR]\tIncompatible object detected!")
                 else:
+                    print("------------------------------------")
+                    print("Drawing star connections for object at position: [x_start, y_start]: " + str((x, y)) + ", [x_end, y_end]: " + str((x + w, y + h)))
+                    print("------------------------------------")
                     for connection in constellation_connections_data:
                         cv2.line(detected_constellation_img, haar_contours_sorted_coordinates[connection[0]], haar_contours_sorted_coordinates[connection[1]], (255, 255, 255), 2)
                         print("[INFO]\tConnecting stars: " + str(haar_contours_sorted_coordinates[connection[0]]) + " and " + str(haar_contours_sorted_coordinates[connection[1]]) + ".")
@@ -161,6 +170,9 @@ def main(argv):
     if not os.path.exists(output) != False:
         print("[INFO]\tCreating directory: " + output)
         os.mkdir(output)
+
+    print("------------------------------------")
+    print("Starting HAAR Detector")
 
     haarDetection(images_dir, output_name, mask_size, percision, output, cascade, scale, min_nghb, json_path)
 
