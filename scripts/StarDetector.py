@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 
 __author__ = "Marin Maslov"
 __license__ = "MIT Licence"
-__version__ = "3.1.8"
+__version__ = "3.2.8"
 __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"

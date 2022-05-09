@@ -15,7 +15,7 @@ from datetime import datetime
 
 __author__ = "Marin Maslov"
 __license__ = "MIT Licence"
-__version__ = "2.0.2"
+__version__ = "2.1.2"
 __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
