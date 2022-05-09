@@ -17,7 +17,7 @@ import StarDetector
 
 __author__ = "Marin Maslov"
 __license__ = "MIT Licence"
-__version__ = "2.0.0"
+__version__ = "3.0.1"
 __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
@@ -30,14 +30,8 @@ COMMAND_FORMAT = """Error! The command should be: py HaarDetection.py --images <
 RGB_WHITE = (255, 255, 255)
 # Constants --------------------------------------- END
 
-def haarDetection(images_dir, output_name, mask_size, percision, output, cascade, scale, min_nghb, json_path):
-    start_time = datetime.now()
-
-    cascade_name = cascade.split("/")[-1].split(".")[0]
-    print("------------------------------------")
-    print("Trying to detect object: " + str(cascade_name.upper()))
-    print("------------------------------------")
-    cascade = cv2.CascadeClassifier(cascade)
+def haarDetection(images_dir, output_name, mask_size, percision, output, cascade_path, scale, min_nghb, json_path, cascade_name):
+    cascade = cv2.CascadeClassifier(cascade_path)
 
     # Fetch constellations json
     with open(json_path) as file:
@@ -53,6 +47,7 @@ def haarDetection(images_dir, output_name, mask_size, percision, output, cascade
     for file in os.listdir(images_dir):
         if file.endswith(".jpg"):
             img_rgb, new_file_name, img_rgb_resized = StarDetector.detectStars(images_dir, output_name, mask_size, percision, file, output, counter)
+            StarDetector.plotImage(img_rgb)
 
             gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
             constellations = cascade.detectMultiScale(gray, float(scale), int(min_nghb), flags=cv2.CASCADE_SCALE_IMAGE)
@@ -122,11 +117,7 @@ def haarDetection(images_dir, output_name, mask_size, percision, output, cascade
             counter = counter + 1
             print("------------------------------------")
             print("[INFO]\tTotal files created: " + str(files_created))
-
-    print("------------------------------------")
-    end_time = datetime.now()
-    print("[INFO]\tTotal execution time: " + str(end_time - start_time) + ".")
-
+        print()
 
 def main(argv):
     images_dir = ''
@@ -164,6 +155,8 @@ def main(argv):
         elif opt in ("--json"):
             json_path = arg
 
+    start_time = datetime.now()
+
     # Call the HAAR Detection function
     output = images_dir + 'output_haar/'
 
@@ -174,7 +167,21 @@ def main(argv):
     print("------------------------------------")
     print("Starting HAAR Detector")
 
-    haarDetection(images_dir, output_name, mask_size, percision, output, cascade, scale, min_nghb, json_path)
+    for file in os.listdir(cascade):
+        if file.endswith(".xml"):
+            cascade_path = str(cascade) + str(file)
+            cascade_name = file.split("/")[-1].split(".")[0]
+            print("------------------------------------")
+            print("Trying to detect object: " + str(cascade_name.upper()))
+            print("------------------------------------")
+
+            haarDetection(images_dir, output_name, mask_size, percision, output, cascade_path, scale, min_nghb, json_path, cascade_name)
+    
+    
+    print("------------------------------------")
+    end_time = datetime.now()
+    print("[INFO]\tTotal execution time: " + str(end_time - start_time) + ".")
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])

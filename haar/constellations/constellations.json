@@ -106,13 +106,13 @@
                 }
             }
         },
-        "ursa-minor": {
+        "ursa_minor": {
             "name": "Ursa Minor",
             "iau": "UMi",
             "nasa": "UMin",
             "meaning": "Lesser bear",
             "brightest-star": "Polaris",
-            "stars-list": {
+            "star-list": {
                 "type": "sorted-by-size",
                 "stars": {
                     "0": {
@@ -175,7 +175,7 @@
             "nasa": "Dlph",
             "meaning": "Dolphin",
             "brightest-star": "Sualocin",
-            "stars-list": {
+            "star-list": {
                 "type": "sorted-by-size",
                 "stars": {
                     "0": {
@@ -222,7 +222,7 @@
                 }
             }
         },
-        "corona-borealis": {
+        "corona_borealis": {
             "name": "Corona Borealis",
             "iau": "CrB",
             "nasa": "CorB",
