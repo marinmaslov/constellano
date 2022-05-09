@@ -1,20 +1,17 @@
 #!/usr/bin/env python
 """ Constellano Star Recognition
-Python script for finding biggest and brightest stars in images and overlaying a target over them.
+Python script for resizing images.
 
 Command format:
-    py resizer.py -d <image_dir> -s <wanted_image_size>
-
-Command example:
-    py resizer.py -d img/ -s 500
+    py Resizer.py --images <images_dir> --size <final_image_size> --grayscale <0_if_images_sould_be_bw>
 """
 
 import sys
 import os
 import cv2
-import numpy as np
 import getopt
-import time
+import numpy as np
+from datetime import datetime
 
 __author__ = "Marin Maslov"
 __license__ = "MIT Licence"
@@ -23,7 +20,7 @@ __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
 
-COMMAND_FORMAT = "Error! The command should be: py resizer.py --images <images_dir> --size <final_image_size> --grayscale <0_if_images_sould_be_bw> --log <wanted_log_level>"
+COMMAND_FORMAT = "Error! The command should be: py Resizer.py --images <images_dir> --size <final_image_size> --grayscale <0_if_images_sould_be_bw>"
 
 
 def resize_image(img, newRows, newCols):
@@ -55,15 +52,34 @@ def fill(img, size):
                     filled[i, j] = 0
     return filled
 
+def resize(img, size):
+    rows, cols, _ = img.shape
+    resized = 0
+    filled = 0
+
+    if rows > cols:
+        rowsRatio = float(int(size) / rows)
+        newCols = int(rowsRatio * cols)
+        resized = resize_image(img, int(size), newCols)
+        if not cols == rows:
+            filled = fill(resized, int(size))
+    else:
+        colsRatio = float(int(size) / cols)
+        newRows = int(colsRatio * rows)
+        resized = resize_image(img, newRows, int(size))
+        if not cols == rows:
+            filled = fill(resized, int(size))
+
+    return filled, resized
+
 
 def main(argv):
     images_dir = ''
     image_size = ''
     grayscale = ''
-    log_level = ''
 
     try:
-        opts, args = getopt.getopt(argv, "h", ["images=", "size=", "grayscale=", "log="])
+        opts, args = getopt.getopt(argv, "h", ["images=", "size=", "grayscale="])
     except getopt.GetoptError:
         print(COMMAND_FORMAT)
         sys.exit(2)
@@ -77,10 +93,8 @@ def main(argv):
             image_size = arg
         elif opt in ("--grayscale"):
             grayscale = arg
-        elif opt in ("--log"):
-            log_level = arg
 
-    # Algorithm --------------------------------------- START
+
     location = str(images_dir)
     output = location + 'resized/'
 
@@ -88,8 +102,8 @@ def main(argv):
         print("Creating directory: " + output)
         os.mkdir(output)
 
+    start_time = datetime.now()
     counter = 0
-
     for file in os.listdir(location):
         if file.endswith(".jpg"):
             # PREPARE OUTPUT NAME
@@ -100,28 +114,14 @@ def main(argv):
                 zeros_counter = zeros_counter - 1
 
             new_file_name = str(output + "resized_" + str(zeros) + str(counter) + ".jpg")
+            print("[INFO]\tResizing file: " + str(file) + " (saving resized image to: " + str(new_file_name) + ").")
 
-            print("\033[2;32;40m[INFO]\033[0;0m" + "\tResizing file:\t" + str(file) + "\t(saving resized image to:\t" + str(new_file_name) + ")")
             # READ IMAGE (RGB)
             img = cv2.imread(location + file)
 
+            filled, resized = resize(img, image_size)
+
             rows, cols, _ = img.shape
-            resized = 0
-            filled = 0
-
-            if rows > cols:
-                rowsRatio = float(int(image_size) / rows)
-                newCols = int(rowsRatio * cols)
-                resized = resize_image(img, int(image_size), newCols)
-                if not cols == rows:
-                    filled = fill(resized, int(image_size))
-            else:
-                colsRatio = float(int(image_size) / cols)
-                newRows = int(colsRatio * rows)
-                resized = resize_image(img, newRows, int(image_size))
-                if not cols == rows:
-                    filled = fill(resized, int(image_size))
-
             if not cols == rows:
                 if int(grayscale) == 0:
                     img_bw = cv2.cvtColor(filled, cv2.COLOR_BGR2GRAY)
@@ -134,15 +134,14 @@ def main(argv):
                     cv2.imwrite(new_file_name, img_bw)
                 else:
                     cv2.imwrite(new_file_name, resized)
-            cv2.waitKey(0)
+
             counter = counter + 1
 
     print("------------------------------------")
-    print("Total number of resized images: " + str(counter)),
-    # Algorithm --------------------------------------- END
+    print("Total number of resized images: " + str(counter))
+    end_time = datetime.now()
+    print("[INFO]\tTotal execution time: " + str(end_time - start_time) + ".")
 
 
 if __name__ == "__main__":
-    start_time = time.time()
     main(sys.argv[1:])
-    print("\033[2;32;40m[INFO]\033[0;0m" + "\tTotal execution time: " + str((time.time() - start_time)) + " seconds.\033[0;0m")

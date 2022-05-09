@@ -3,7 +3,7 @@
 Python script for finding biggest and brightest stars in images and overlaying a mask over them.
 
 Command format:
-    py preparing_samples.py --images <dir> --masksize <size_in_percentage> --outputname <name> --percision <percision>
+    py StarDetector.py --images <images_dir> --masksize <size_in_percentage> --outputname <name> --percision <percision>
 """
 
 import sys
@@ -22,7 +22,7 @@ __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
 
-COMMAND_FORMAT = "Error! The command should be: py resizer.py --images <images_dir> --masksize <size_in_percentage> --outputname <name> --percision <percision>"
+COMMAND_FORMAT = "Error! The command should be: py StarDetector.py --images <images_dir> --masksize <size_in_percentage> --outputname <name> --percision <percision>"
 
 # Constants --------------------------------------- START
 # USED RGB COLORS
