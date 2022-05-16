@@ -23,7 +23,7 @@ __status__ = "Stable"
 COMMAND_FORMAT = "Error! The command should be: py Resizer.py --images <images_dir> --size <final_image_size> --grayscale <0_if_images_sould_be_bw>"
 
 
-def resize_image(img, newRows, newCols):
+def resizeImage(img, newRows, newCols):
     return cv2.resize(img, (int(newCols), int(newRows)), interpolation=cv2.INTER_AREA)
 
 
@@ -60,13 +60,13 @@ def resize(img, size):
     if rows > cols:
         rowsRatio = float(int(size) / rows)
         newCols = int(rowsRatio * cols)
-        resized = resize_image(img, int(size), newCols)
+        resized = resizeImage(img, int(size), newCols)
         if not cols == rows:
             filled = fill(resized, int(size))
     else:
         colsRatio = float(int(size) / cols)
         newRows = int(colsRatio * rows)
-        resized = resize_image(img, newRows, int(size))
+        resized = resizeImage(img, newRows, int(size))
         if not cols == rows:
             filled = fill(resized, int(size))
 
