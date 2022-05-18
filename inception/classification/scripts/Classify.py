@@ -29,6 +29,16 @@ import tensorflow_hub as hub
 
 from datetime import datetime
 
+from object_detection.utils import ops as utils_ops
+from object_detection.utils import label_map_util
+from object_detection.utils import visualization_utils as vis_util
+
+# patch tf1 into `utils.ops`
+utils_ops.tf = tf.compat.v1
+
+# Patch the location of gfile
+tf.gfile = tf.io.gfile
+
 __author__ = "Marin Maslov"
 __license__ = "MIT Licence"
 __version__ = "2.0.1"
@@ -114,10 +124,39 @@ def main(argv):
 
     print("[INFO]\tBuilding model with", model_name)
 
-    detector = hub.load(model_name).signatures['serving_default']
+    #model = hub.load(model_name) #.signatures['serving_default']
+
+    # LOAD THE MODEL
+    model = tf.saved_model.load(str(model_name))
+
+    # LOAD THE LABELS
+    category_index = label_map_util.create_category_index_from_labelmap(label_file, use_display_name=True)
+
+    print(model)
+    print(model.signatures)
+    print(category_index)
+
+    print(model.signatures['serving_default'].output_dtypes)
+    print(model.signatures['serving_default'].output_shapes)
+
+    print(model.signatures['serving_default'].inputs)
+
+    img = loadImage(images_dir)
+    converted_img  = tf.image.convert_image_dtype(img, tf.float32)[tf.newaxis, ...]
+    input_tensor = tf.convert_to_tensor(converted_img)
+
+    model_fn = model.signatures['serving_default']
+
+    print(model_fn)
+
+    output_dict = model_fn(input_tensor)
+
+    print(output_dict)
+
 
     #print(detector.signatures)
 
+    """
     img = loadImage(images_dir)
     converted_img  = tf.image.convert_image_dtype(img, tf.float32)[tf.newaxis, ...]
     result = detector(converted_img)
@@ -144,6 +183,7 @@ def main(argv):
 
     print("------------------------------------")
     print("[INFO]\tObject is probably: " + str(results_dict[next(iter(results_dict))]))
+    """
     print("------------------------------------")
     end_time = datetime.now()
     print("[INFO]\tTotal execution time: " + str(end_time - start_time) + ".")
