@@ -1,0 +1,29 @@
+item {
+ id: 1
+ name: 'cassiopeia'
+}
+
+item {
+ id: 2
+ name: 'corona_borealis'
+}
+
+item {
+ id: 3
+ name: 'cygnus'
+}
+
+item {
+ id: 4
+ name: 'delphinus'
+}
+
+item {
+ id: 5
+ name: 'lyra'
+}
+
+item {
+ id: 6
+ name: 'ursa_minor'
+}

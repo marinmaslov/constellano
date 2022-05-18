@@ -1,0 +1,26 @@
+<annotation>
+	<folder>cassiopeia</folder>
+	<filename>cassiopeia_00046.jpg</filename>
+	<path>C:\Users\easmsma\Desktop\projects\constellano\inception\training\dataset\cassiopeia\cassiopeia_00046.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>500</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>cassiopeia</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>120</xmin>
+			<ymin>44</ymin>
+			<xmax>243</xmax>
+			<ymax>304</ymax>
+		</bndbox>
+	</object>
+</annotation>

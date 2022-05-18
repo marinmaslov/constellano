@@ -1,0 +1,26 @@
+<annotation>
+	<folder>lyra</folder>
+	<filename>lyra_00095.jpg</filename>
+	<path>C:\Users\easmsma\Desktop\projects\constellano\inception\training\dataset\lyra\lyra_00095.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>500</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>lyra</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>181</xmin>
+			<ymin>253</ymin>
+			<xmax>264</xmax>
+			<ymax>356</ymax>
+		</bndbox>
+	</object>
+</annotation>
