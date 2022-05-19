@@ -116,9 +116,10 @@ def main(argv):
     images = ''
     labels = ''
     output = ''
+    name = ''
 
     try:
-        opts, args = getopt.getopt(argv, "h", ["images=", "labels=", "output="])
+        opts, args = getopt.getopt(argv, "h", ["images=", "labels=", "output=", "name="])
     except getopt.GetoptError:
         print(COMMAND_FORMAT)
         sys.exit(2)
@@ -135,6 +136,8 @@ def main(argv):
                 output = arg
             else:
                 output = arg + "/"
+        elif opt in ("--name"):
+            name = arg
 
     start_time = datetime.now()
 
@@ -149,7 +152,7 @@ def main(argv):
     label_map_dict = label_map_util.get_label_map_dict(labels)
 
     print(output)
-    writer = tf.python_io.TFRecordWriter(output + 'train' + ".record")
+    writer = tf.python_io.TFRecordWriter(output + name + ".record")
     examples = xml_to_csv(images)
     grouped = split(examples, 'filename')
 
