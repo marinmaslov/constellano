@@ -110,16 +110,20 @@ def run_inference_for_single_image(model, image):
     converted_img  = tf.image.convert_image_dtype(image, tf.float32)[tf.newaxis, ...]
 
     # The input needs to be a tensor, convert it using `tf.convert_to_tensor`.
-    input_tensor = tf.convert_to_tensor(converted_img)
+    input_tensor = tf.convert_to_tensor(image)
 
     # The model expects a batch of images, so add an axis with `tf.newaxis`.
     input_tensor = input_tensor[tf.newaxis,...]
     print("INPUT TENSOR")
     print(input_tensor.shape)
 
+    
+
     # Run inference
     model_fn = model.signatures['serving_default']
     output_dict = model_fn(input_tensor)
+
+    print(str(int(output_dict.pop('num_detections'))))
 
     # All outputs are batches tensors.
     # Convert to numpy arrays, and take index [0] to remove the batch dimension.
@@ -253,6 +257,34 @@ def main(argv):
 
     # LOAD THE MODEL
     model = tf.saved_model.load(str(model_name))
+
+    # Restore last checkpoint
+    #ckpt = tf.train.Checkpoint(model=model)
+    #ckpt.restore(os.path.join(model_dir))
+    #ckpt.restore("detection/fine_tuned_model/saved_model/")
+
+    #image, shapes = model.preprocess(image)
+
+    for file in os.listdir(images_dir):
+        if file.endswith(".jpg"):
+            #image_detect, shapes = model.preprocess(images_dir + file)
+            #prediction_dict = model.predict(image_detect, shapes)
+            #detections = model.postprocess(prediction_dict, shapes)
+            img = cv2.imread(images_dir + file)
+            im_arr = img.astype(np.uint8)
+            im_tensor = torch.tensor(im_arr)
+            #im_tensor = im_tensor.unsqueeze(0)
+
+            im_tensor = tf.expand_dims(im_tensor, 0)
+
+            #converted_img  = tf.image.convert_image_dtype(images_dir + file, tf.unit8)[tf.newaxis, ...]
+
+            results = model(im_tensor)
+
+            #print(results)
+            print(str(int(results.pop('num_detections'))))
+
+    """
     
 
     print(model)
@@ -275,7 +307,7 @@ def main(argv):
             show_inference(model, images_dir + file, category_index)
     
     
-    """
+    
 
     img = loadImage(images_dir)
     converted_img  = tf.image.convert_image_dtype(img, tf.float32)[tf.newaxis, ...]
@@ -313,8 +345,8 @@ def main(argv):
     plt.figure(figsize=(24,32))
     plt.imshow(image_np_with_detections[0])
     plt.show()
+    
     """
-
     print("------------------------------------")
     end_time = datetime.now()
     print("[INFO]\tTotal execution time: " + str(end_time - start_time) + ".")

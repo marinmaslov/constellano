@@ -29,7 +29,7 @@ MODEL_MAP_TF1 = {
     "faster_rcnn_inception_resnet_v2_atrous_lowproposals_coco": "http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_resnet_v2_atrous_lowproposals_coco_2018_01_28.tar.gz",
     "faster_rcnn_inception_v2_coco": "http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz",
     "ssd_inception_v2_coco": "http://download.tensorflow.org/models/object_detection/ssd_inception_v2_coco_2018_01_28.tar.gz",
-    "ssd_mobilenet_v2_coco": "http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz",
+    "ssd_mobilenet_v2_coco": "http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz",
     "ssd_mobilenet_v1_coco": "http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_coco_2018_01_28.tar.gz",
     "ssd_mobilenet_v3_small_coco": "http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v3_small_coco_2020_01_14.tar.gz",
     "ssd_mobilenet_v3_large_coco": "http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v3_large_coco_2020_01_14.tar.gz"
@@ -38,7 +38,8 @@ MODEL_MAP_TF1 = {
 MODEL_MAP_TF2 = {
     "ssd_mobilenet_v2_320x320_coco17": "http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz",
     "faster_rcnn_resnet50_v1_640x640_coco17": "http://download.tensorflow.org/models/object_detection/tf2/20200711/faster_rcnn_resnet50_v1_640x640_coco17_tpu-8.tar.gz",
-    "faster_rcnn_inception_resnet_v2_640x640_coco17": "http://download.tensorflow.org/models/object_detection/tf2/20200711/faster_rcnn_inception_resnet_v2_640x640_coco17_tpu-8.tar.gz"
+    "faster_rcnn_inception_resnet_v2_640x640_coco17": "http://download.tensorflow.org/models/object_detection/tf2/20200711/faster_rcnn_inception_resnet_v2_640x640_coco17_tpu-8.tar.gz",
+    "mask_rcnn_inception_resnet_v2_1024x1024_coco17": "http://download.tensorflow.org/models/object_detection/tf2/20200711/mask_rcnn_inception_resnet_v2_1024x1024_coco17_gpu-8.tar.gz"
 }
 
 def main(argv):
@@ -66,7 +67,7 @@ def main(argv):
         thetarfile = MODEL_MAP_TF1.get(model)
         ftpstream = urllib.request.urlopen(thetarfile)
         thetarfile = tarfile.open(fileobj=ftpstream, mode="r|gz")
-        print("[INFO]\tExtracting model!")
+        print("[INFO]\tExtracting model...")
         thetarfile.extractall()
 
     if int(tf) == 2:
@@ -74,7 +75,7 @@ def main(argv):
         thetarfile = MODEL_MAP_TF2.get(model)
         ftpstream = urllib.request.urlopen(thetarfile)
         thetarfile = tarfile.open(fileobj=ftpstream, mode="r|gz")
-        print("[INFO]\tExtracting model!")
+        print("[INFO]\tExtracting model...")
         thetarfile.extractall()
 
     if int(tf) != 1 or int(tf) != 2:
