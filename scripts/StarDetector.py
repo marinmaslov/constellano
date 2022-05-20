@@ -64,13 +64,13 @@ def resizeImage(img_rgb, img_bw):
     rows, cols = img_bw.shape
 
     # Calculate new height
-    new_cols = int((1000 * cols) / rows)
+    new_cols = int((3000 * cols) / rows)
 
     if new_cols % 2 != 0:
         new_cols = new_cols + 1
 
     # Defining new dimensions
-    dimensions = (new_cols, 1000)
+    dimensions = (new_cols, 3000)
 
     print("[INFO]\tResizing image from: (" + str(rows) + ", " + str(cols) + ") to (" + str(1000) + ", " + str(new_cols) + ").")
     img_rgb_resized = cv2.resize(img_rgb, dimensions)
@@ -107,7 +107,10 @@ def trimContoursByMinMaxArea(contours, min_contour_area, max_contour_area):
 
     # THERE SHOULD BE A MINIMUM OF 5 STARS
     if len(trimmed_contours) < 5:
-        print("[INFO]\tNumber of stars should not be below 5. Adding back the biggest from the removed ones.")
+        print("[WARN]\tNumber of stars should not be below 5. Adding back the biggest from the removed ones.")
+        if len(contours) < 5:
+            print("[ERROR]\tNo more stars in image.")
+            exit
         while len(trimmed_contours) <= 5:
             min_contour_area = round(min_contour_area - 0.1, 2)
             trimmed_contours = []

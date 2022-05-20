@@ -37,11 +37,16 @@ def haarDetection(images_dir, output_name, mask_size, percision, output, cascade
     with open(json_path) as file:
         constellations_data = json.load(file)
 
-    # Fetch star data
-    constellation_stars_data = (((constellations_data["constellations"])[str(cascade_name)])["star-list"])["stars"]
+    # Should Star mask be applyed?
+    constellation_stars_apply = bool(((constellations_data["constellations"])[str(cascade_name)])["draw-star-mask"] == 'true')
+    print("[INFO]\tShould constellation masks be applyed: " + str(constellation_stars_apply))
 
-    # Fetch star connections data
-    constellation_connections_data = (((constellations_data["constellations"])[str(cascade_name)])["star-list"])["connections"]
+    if constellation_stars_apply:
+        # Fetch star data
+        constellation_stars_data = (((constellations_data["constellations"])[str(cascade_name)])["star-list"])["stars"]
+
+        # Fetch star connections data
+        constellation_connections_data = (((constellations_data["constellations"])[str(cascade_name)])["star-list"])["connections"]
 
     counter = 0
     for file in os.listdir(images_dir):
@@ -58,7 +63,7 @@ def haarDetection(images_dir, output_name, mask_size, percision, output, cascade
 
             if len(constellations) == 0:
                 print("[ERROR]\tNo objects were detected!")
-                break
+                continue
 
             haar_counter = 0
             files_created = 0
@@ -70,48 +75,55 @@ def haarDetection(images_dir, output_name, mask_size, percision, output, cascade
                 # FETCH THE CROPPED IMAGE OF THE DETECTED CONSTELLATION
                 detected_constellation_img = img_rgb_resized[y : y + h, x : x + w]
 
-                StarDetector.plotImage(detected_constellation_img)
+                #StarDetector.plotImage(detected_constellation_img)
 
-                cv2.putText(img_rgb_resized, str(((constellations_data["constellations"])[str(cascade_name)])["name"].title()), (x, y - 20), font, 1.2, RGB_WHITE, 2, cv2.LINE_AA)
 
-                # GET CONTOURS ON CROPPED DETECTED IMAGE
-                haar_img_bw = cv2.cvtColor(detected_constellation_img, cv2.COLOR_BGR2GRAY)
-                haar_thresholds = cv2.threshold(haar_img_bw, 180, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
-                haar_contours = cv2.findContours(haar_thresholds, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)[-2]
+                if constellation_stars_apply:
+                    cv2.putText(img_rgb_resized, str(((constellations_data["constellations"])[str(cascade_name)])["name"].title()), (x, y - 20), font, 1.2, RGB_WHITE, 2, cv2.LINE_AA)
 
-                # Create sorted list of dict values
-                haar_contours_sorted = []
-                for contour in haar_contours:
-                    haar_contours_sorted.append(cv2.contourArea(contour))
-                haar_contours_sorted.sort(reverse = True)
+                    # GET CONTOURS ON CROPPED DETECTED IMAGE
+                    haar_img_bw = cv2.cvtColor(detected_constellation_img, cv2.COLOR_BGR2GRAY)
+                    haar_thresholds = cv2.threshold(haar_img_bw, 180, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+                    haar_contours = cv2.findContours(haar_thresholds, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)[-2]
 
-                haar_contours_sorted_coordinates = []
-                star = 0
-                for area in haar_contours_sorted[:len(constellation_stars_data)]:
+                    # Create sorted list of dict values
+                    haar_contours_sorted = []
                     for contour in haar_contours:
-                        if area == cv2.contourArea(contour):
-                            x1, y1, w1, h1 = cv2.boundingRect(contour)
-                            haar_contours_sorted_coordinates.append((int(x1 + (w1/2)), int(y1 + (h1/2))))
-                            cv2.putText(detected_constellation_img, str(((constellation_stars_data[str(star)])["name"].title())[:3]), (int(x1 - 45), int(y1 - 20)), cv2.FONT_HERSHEY_SIMPLEX, float(0.7), (255, 255, 255), 2)
-                            print("[INFO]\tApplying name for star: " + str((constellation_stars_data[str(star)])["name"].title()) + ", at position:" + str((int(x1 + (w1/2)), int(y1 + (h1/2)))))
-                    star = star + 1
+                        haar_contours_sorted.append(cv2.contourArea(contour))
+                    haar_contours_sorted.sort(reverse = True)
 
-                # DRAW LINES
-                if len(constellation_connections_data) != len(haar_contours_sorted_coordinates):
-                    print("[ERROR]\tIncompatible object detected!")
+                    haar_contours_sorted_coordinates = []
+                    star = 0
+                    for area in haar_contours_sorted[:len(constellation_stars_data)]:
+                        for contour in haar_contours:
+                            if area == cv2.contourArea(contour):
+                                x1, y1, w1, h1 = cv2.boundingRect(contour)
+                                haar_contours_sorted_coordinates.append((int(x1 + (w1/2)), int(y1 + (h1/2))))
+                                cv2.putText(detected_constellation_img, str(((constellation_stars_data[str(star)])["name"].title())[:3]), (int(x1 - 45), int(y1 - 20)), cv2.FONT_HERSHEY_SIMPLEX, float(0.7), (255, 255, 255), 2)
+                                print("[INFO]\tApplying name for star: " + str((constellation_stars_data[str(star)])["name"].title()) + ", at position:" + str((int(x1 + (w1/2)), int(y1 + (h1/2)))))
+                        star = star + 1
+
+                    # DRAW LINES
+                    if len(constellation_connections_data) != len(haar_contours_sorted_coordinates):
+                        print("[ERROR]\tIncompatible object detected!")
+                    else:
+                        print("------------------------------------")
+                        print("Drawing star connections for object at position: [x_start, y_start]: " + str((x, y)) + ", [x_end, y_end]: " + str((x + w, y + h)))
+                        print("------------------------------------")
+                        for connection in constellation_connections_data:
+                            cv2.line(detected_constellation_img, haar_contours_sorted_coordinates[connection[0]], haar_contours_sorted_coordinates[connection[1]], (255, 255, 255), 2)
+                            print("[INFO]\tConnecting stars: " + str(haar_contours_sorted_coordinates[connection[0]]) + " and " + str(haar_contours_sorted_coordinates[connection[1]]) + ".")
+                        files_created = files_created + 1
                 else:
-                    print("------------------------------------")
-                    print("Drawing star connections for object at position: [x_start, y_start]: " + str((x, y)) + ", [x_end, y_end]: " + str((x + w, y + h)))
-                    print("------------------------------------")
-                    for connection in constellation_connections_data:
-                        cv2.line(detected_constellation_img, haar_contours_sorted_coordinates[connection[0]], haar_contours_sorted_coordinates[connection[1]], (255, 255, 255), 2)
-                        print("[INFO]\tConnecting stars: " + str(haar_contours_sorted_coordinates[connection[0]]) + " and " + str(haar_contours_sorted_coordinates[connection[1]]) + ".")
-                    files_created = files_created + 1
+                    cv2.putText(img_rgb_resized, cascade_name, (x, y - 16), font, 0.9, (0, 0, 255), 2, cv2.LINE_AA)
+                    cv2.rectangle(img_rgb_resized, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
                 img_rgb_resized[y : y + h, x : x + w] = detected_constellation_img
 
             print("[INFO]\tSaving image: " + str(new_file_name))
             cv2.imwrite(new_file_name, img_rgb_resized)
+
+            StarDetector.plotImage(img_rgb_resized)
             
             haar_counter = haar_counter + 1
             counter = counter + 1
@@ -129,7 +141,7 @@ def main(argv):
     json_path = ''
 
     try:
-        opts, args = getopt.getopt(argv, "h", ["images=", "masksize=", "outputname=", "percision=", "log=", "cascade=", "scale=", "minNghb=", "json="])
+        opts, args = getopt.getopt(argv, "h", ["images=", "masksize=", "outputname=", "percision=", "cascade=", "scale=", "minNghb=", "json="])
     except getopt.GetoptError:
         print(COMMAND_FORMAT)
         sys.exit(2)

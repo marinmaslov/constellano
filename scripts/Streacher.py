@@ -3,7 +3,7 @@
 Python script for streaching images.
 
 Command format:
-    py Rotator.py --images <images_dir> --maxangle <max_roration_angle> --anglestep <angle_rotation_step> --save <0_for_not_saving_images>
+    py Streacher.py --images <images_dir>
 """
 
 import sys
@@ -21,8 +21,7 @@ __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
 
-COMMAND_FORMAT = """Error! The command should be: py Rotator.py --images <images_dir> --maxangle <max_roration_angle>
-                                        --anglestep <angle_rotation_step> --save <0_for_not_saving_images>"""
+COMMAND_FORMAT = """Error! The command should be: py Streacher.py --images <images_dir>"""
 
 def streachImage(img, size):
     streached = np.zeros((int(size), int(size), 3), np.uint8)
