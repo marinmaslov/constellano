@@ -20,7 +20,7 @@ __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
 
-COMMAND_FORMAT = """Error! The command should be: py PrepareSamples.py --p <positives_dir> --n <negatives_dir> -num <number_of_new_positive_samples_to_be_created>
+COMMAND_FORMAT = """Error! The command should be: py PrepareSamples.py --pos <positives_dir> --n <negatives_dir> -num <number_of_new_positive_samples_to_be_created>
                                 -maxxangle <max_x_rotation_angle> -maxyangle <max_y_rotation_angle> -maxzangle <max_z_rotation_angle>"""
 
 def main(argv):
