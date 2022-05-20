@@ -1,0 +1,68 @@
+(venv) marin@marin:~/Desktop/diplomski/constellano$ opencv_traincascade -data final_samples/ -vec positives.vec -bg negatives.txt -numPos 1000 -numNeg 2000 -numStages 20 -width 24 -height 24 -mode ALL -bt DAB -minHitRate 0.995 -maxFalseAlarmRate 0.5 -maxWeakCount 100 -maxDepth 1 -precalcValBufSize 1024 --precalcIdxBufSize 1024
+PARAMETERS:
+cascadeDirName: final_samples/
+vecFileName: positives.vec
+bgFileName: negatives.txt
+numPos: 1000
+numNeg: 2000
+numStages: 20
+precalcValBufSize[Mb] : 1024
+precalcIdxBufSize[Mb] : 1024
+acceptanceRatioBreakValue : -1
+stageType: BOOST
+featureType: HAAR
+sampleWidth: 24
+sampleHeight: 24
+boostType: DAB
+minHitRate: 0.995
+maxFalseAlarmRate: 0.5
+weightTrimRate: 0.95
+maxDepth: 1
+maxWeakCount: 100
+mode: ALL
+Number of unique features given windowSize [24,24] : 261600
+
+===== TRAINING 0-stage =====
+<BEGIN
+POS count : consumed   1000 : 1000
+NEG count : acceptanceRatio    2000 : 1
+Precalculation time: 32
++----+---------+---------+
+|  N |    HR   |    FA   |
++----+---------+---------+
+|   1|        1|   0.0005|
++----+---------+---------+
+END>
+Training until now has taken 0 days 0 hours 1 minutes 2 seconds.
+
+===== TRAINING 1-stage =====
+<BEGIN
+POS count : consumed   1000 : 1000
+NEG count : acceptanceRatio    2000 : 0.0161007
+Precalculation time: 49
++----+---------+---------+
+|  N |    HR   |    FA   |
++----+---------+---------+
+|   1|    0.999|   0.0005|
++----+---------+---------+
+END>
+Training until now has taken 0 days 0 hours 2 minutes 33 seconds.
+
+===== TRAINING 2-stage =====
+<BEGIN
+POS count : consumed   1000 : 2001
+NEG count : acceptanceRatio    2000 : 4.32709e-05
+Precalculation time: 52
++----+---------+---------+
+|  N |    HR   |    FA   |
++----+---------+---------+
+|   1|    0.998|        0|
++----+---------+---------+
+END>
+Training until now has taken 0 days 0 hours 9 minutes 3 seconds.
+
+===== TRAINING 3-stage =====
+<BEGIN
+POS count : consumed   1000 : 2003
+NEG count : acceptanceRatio    0 : 0
+Required leaf false alarm rate achieved. Branch training terminated.
