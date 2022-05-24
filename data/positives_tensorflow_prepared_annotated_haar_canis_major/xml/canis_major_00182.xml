@@ -1,0 +1,26 @@
+<annotation>
+	<folder>canis_major</folder>
+	<filename>canis_major_00182.jpg</filename>
+	<path>C:\Users\easmsma\Desktop\projects\constellano\data\positives_tensorflow_prepared_annotated\canis_major\canis_major_00182.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1024</width>
+		<height>1024</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>canis_major</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>144</xmin>
+			<ymin>226</ymin>
+			<xmax>611</xmax>
+			<ymax>656</ymax>
+		</bndbox>
+	</object>
+</annotation>

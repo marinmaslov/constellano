@@ -9,6 +9,7 @@ import os
 import sys
 import cv2
 import getopt
+import inspect
 
 import collections
 import math
@@ -25,11 +26,6 @@ from PIL import ImageOps
 
 import tensorflow as tf
 import tensorflow_hub as hub
-
-
-
-
-
 
 import torch
 from torchvision import transforms
@@ -70,6 +66,13 @@ from object_detection.utils import visualization_utils as vis_util
 from datetime import datetime
 
 
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir) 
+
+import Resizer
+
+
 # patch tf1 into `utils.ops`
 utils_ops.tf = tf.compat.v1
 
@@ -88,110 +91,10 @@ __status__ = "Stable"
 # Constants --- START
 COMMAND_FORMAT = "Error! The command should be: py Classify.py --model <model_dir> --images <images_dir> --output <output_dir_name>"
 
-IMAGE_SIZE = (297, 297)
+DO_FINE_TUNING = False
+IMAGE_SIZE = (299, 299)
 BATCH_SIZE = 32
 # Constants --- END
-
-def run_inference_for_single_image(model, image):
-    #print(image)
-    #image = cv2.imread(image, cv2.COLOR_BGR2RGB)
-    #image = cv2.resize(image, (int(299), int(299)), interpolation=cv2.INTER_AREA)
-    """
-    #image = np.asarray(image)
-    im_arr32 = image.astype(np.float32)
-    im_tensor = torch.tensor(im_arr32)
-    #im_tensor = im_tensor.unsqueeze(0)
-    im_tensor = tf.expand_dims(im_tensor, 0)
-    """
-
-    # Convert image to float32
-    converted_img  = tf.image.convert_image_dtype(image, tf.float32)[tf.newaxis, ...]
-
-    # The input needs to be a tensor, convert it using `tf.convert_to_tensor`.
-    input_tensor = tf.convert_to_tensor(image)
-
-    # The model expects a batch of images, so add an axis with `tf.newaxis`.
-    input_tensor = input_tensor[tf.newaxis,...]
-    print("INPUT TENSOR")
-    print(input_tensor.shape)
-
-    
-
-    # Run inference
-    model_fn = model.signatures['serving_default']
-    output_dict = model_fn(input_tensor)
-
-    print(str(int(output_dict.pop('num_detections'))))
-
-    # All outputs are batches tensors.
-    # Convert to numpy arrays, and take index [0] to remove the batch dimension.
-    # We're only interested in the first num_detections.
-    num_detections = int(output_dict.pop('num_detections'))
-    output_dict = {key:value[0, :num_detections].numpy() 
-                    for key,value in output_dict.items()}
-    output_dict['num_detections'] = num_detections
-
-    # detection_classes should be ints.
-    output_dict['detection_classes'] = output_dict['detection_classes'].astype(np.int64)
-    
-    # Handle models with masks:
-    if 'detection_masks' in output_dict:
-        # Reframe the the bbox mask to the image size.
-        detection_masks_reframed = utils_ops.reframe_box_masks_to_image_masks(
-                output_dict['detection_masks'], output_dict['detection_boxes'],
-                image.shape[0], image.shape[1])      
-        detection_masks_reframed = tf.cast(detection_masks_reframed > 0.5,
-                                        tf.uint8)
-        output_dict['detection_masks_reframed'] = detection_masks_reframed.numpy()
-    
-    return output_dict
-
-def show_inference(model, image_path, category_index):
-    # the array based representation of the image will be used later in order to prepare the
-    # result image with boxes and labels on it.
-    #image_np = np.array(Image.open(image_path))
-    # Actual detection.
-    image_np = loadImage(image_path)
-    #image_np = cv2.resize(image_np, (int(879), int(879)), interpolation=cv2.INTER_AREA)
-    output_dict = run_inference_for_single_image(model, image_np)
-    # Visualization of the results of a detection.
-    vis_util.visualize_boxes_and_labels_on_image_array(
-        image_np,
-        output_dict['detection_boxes'],
-        output_dict['detection_classes'],
-        output_dict['detection_scores'],
-        category_index,
-        instance_masks=output_dict.get('detection_masks_reframed', None),
-        use_normalized_coordinates=True,
-        line_thickness=8)
-
-    display(Image.fromarray(image_np))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def loadImage(image_file):
-    pil_image = Image.open(image_file)
-    pil_image = ImageOps.fit(pil_image, IMAGE_SIZE, Image.Resampling.LANCZOS)
-    pil_image_bw = pil_image.convert('L')
-    pil_image_bw.save(image_file, format="JPEG", quality=100)
-
-    img = tf.io.read_file(image_file)
-    img = tf.image.decode_jpeg(img, channels=0)
-
-    return img
 
 def loadLabels(label_file):
     item_id = None
@@ -255,82 +158,27 @@ def main(argv):
 
     # LOAD THE MODEL
     model = tf.saved_model.load(str(model_name))
-
-    # Restore last checkpoint
-    #ckpt = tf.train.Checkpoint(model=model)
-    #ckpt.restore(os.path.join(model_dir))
-    #ckpt.restore("detection/fine_tuned_model/saved_model/")
-
-    #image, shapes = model.preprocess(image)
+    labels = loadLabels(label_file)
+    model = tf.keras.Sequential([
+        # Explicitly define the input shape so the model can be properly loaded by the TFLiteConverter
+        tf.keras.layers.InputLayer(input_shape = IMAGE_SIZE + (3,)),
+        hub.KerasLayer(str(model_name), trainable = DO_FINE_TUNING),
+        tf.keras.layers.Dropout(rate=0.2),
+        tf.keras.layers.Dense(len(labels), kernel_regularizer=tf.keras.regularizers.l2(0.0001))
+    ])
+    model.build((None,) + IMAGE_SIZE+(3,))
 
     for file in os.listdir(images_dir):
         if file.endswith(".jpg"):
-            #image_detect, shapes = model.preprocess(images_dir + file)
-            #prediction_dict = model.predict(image_detect, shapes)
-            #detections = model.postprocess(prediction_dict, shapes)
-            img = cv2.imread(images_dir + file)
-            im_arr = img.astype(np.uint8)
-            im_tensor = torch.tensor(im_arr)
-            #im_tensor = im_tensor.unsqueeze(0)
+            img = tf.keras.utils.load_img(
+                images_dir + file, target_size=(299, 299)
+            )
+            img_array = tf.keras.utils.img_to_array(img)
+            img_array = tf.expand_dims(img_array, 0) # Create a batch
 
-            im_tensor = tf.expand_dims(im_tensor, 0)
-
-            #converted_img  = tf.image.convert_image_dtype(images_dir + file, tf.unit8)[tf.newaxis, ...]
-
-            results = model(im_tensor)
-
-            #print(results)
-            print(str(int(results.pop('num_detections'))))
-
-    """
-    
-    print(model)
-    # LOAD THE LABELS
-    category_index = label_map_util.create_category_index_from_labelmap(label_file, use_display_name=True)
-    print(category_index)
-    print(model.signatures['serving_default'].output_dtypes)
-    print(model.signatures['serving_default'].output_shapes)
-    print(model.signatures['serving_default'].inputs)
-    #show_inference(model, images_dir, category_index)
-    
-    for file in os.listdir(images_dir):
-        if file.endswith(".jpg"):
-            show_inference(model, images_dir + file, category_index)
-    
-    
-    
-    img = loadImage(images_dir)
-    converted_img  = tf.image.convert_image_dtype(img, tf.float32)[tf.newaxis, ...]
-    results = model(converted_img)
-    
-    #result = {key:value.numpy() for key,value in results.items()}
-    print(results)
-    
-    label_id_offset = 0
-    image_np_with_detections = converted_img.copy()
-    # Use keypoints if available in detections
-    keypoints, keypoint_scores = None, None
-    if 'detection_keypoints' in result:
-    keypoints = result['detection_keypoints'][0]
-    keypoint_scores = result['detection_keypoint_scores'][0]
-    viz_utils.visualize_boxes_and_labels_on_image_array(
-        image_np_with_detections[0],
-        result['detection_boxes'][0],
-        (result['detection_classes'][0] + label_id_offset).astype(int),
-        result['detection_scores'][0],
-        category_index,
-        use_normalized_coordinates=True,
-        max_boxes_to_draw=200,
-        min_score_thresh=.30,
-        agnostic_mode=False,
-        keypoints=keypoints,
-        keypoint_scores=keypoint_scores,
-        keypoint_edges=COCO17_HUMAN_POSE_KEYPOINTS)
-    plt.figure(figsize=(24,32))
-    plt.imshow(image_np_with_detections[0])
-    plt.show()
-    
-    """
+            predictions = model.predict(img_array)
+            score = tf.nn.softmax(predictions[0])
+            print("[INFO]\tDetected " + str(labels[np.argmax(score)].upper()) + " (with accuracy: " + str(100 * np.max(score)) + "%) in image: " + str(file))
     print("------------------------------------")
     end_time = datetime.now()
     print("[INFO]\tTotal execution time: " + str(end_time - start_time) + ".")

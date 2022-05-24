@@ -1,0 +1,26 @@
+<annotation>
+	<folder>lyra</folder>
+	<filename>lyra_00187.jpg</filename>
+	<path>C:\Users\easmsma\Desktop\projects\constellano\data\positives_tensorflow_prepared_annotated_haar_canis_major\lyra\lyra_00187.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1024</width>
+		<height>1024</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>lyra</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>640</xmin>
+			<ymin>114</ymin>
+			<xmax>834</xmax>
+			<ymax>360</ymax>
+		</bndbox>
+	</object>
+</annotation>

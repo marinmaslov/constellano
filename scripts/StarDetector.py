@@ -16,9 +16,11 @@ import numpy as np
 from datetime import datetime
 import matplotlib.pyplot as plt
 
+import Resizer
+
 __author__ = "Marin Maslov"
 __license__ = "MIT Licence"
-__version__ = "3.2.8"
+__version__ = "3.3.8"
 __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
@@ -106,11 +108,13 @@ def trimContoursByMinMaxArea(contours, min_contour_area, max_contour_area):
             trimmed_contours.append(contour)
 
     # THERE SHOULD BE A MINIMUM OF 5 STARS
+    has_reached_limit = False
     if len(trimmed_contours) < 5:
         print("[WARN]\tNumber of stars should not be below 5. Adding back the biggest from the removed ones.")
         if len(contours) < 5:
             print("[ERROR]\tNo more stars in image.")
-            exit
+            has_reached_limit = True
+            pass
         while len(trimmed_contours) <= 5:
             min_contour_area = round(min_contour_area - 0.1, 2)
             trimmed_contours = []
@@ -120,23 +124,32 @@ def trimContoursByMinMaxArea(contours, min_contour_area, max_contour_area):
                     trimmed_contours_areas.append(cv2.contourArea(contour))
                     trimmed_contours.append(contour)
 
+            if has_reached_limit:
+                break
+
     return trimmed_contours
 
 # Function for star mask preparation
-def prepareStarMask(mask_size, cols):
+def prepareStarMask(mask_size, cols, rows):
     print("[INFO]\tSelecting dimensions for the mask based on image dimensions.")
 
     current_file_name = __file__.replace("\\", "/").split("/")[-1]
     current_file_parent_directory = __file__.replace(current_file_name, "")
     mark_path = current_file_parent_directory + '/img/target.png'
     mark = cv2.imread(mark_path)
-    mark_dimensions = int(math.floor(cols * float(mask_size)))
 
-    if mark_dimensions % 2 != 0:
-        mark_dimensions = mark_dimensions + 1
+    if mask_size > 0.0:
+        diagonal = int(math.sqrt(cols * cols + rows * rows))
+        mark_dimensions = int(math.floor(diagonal * float(mask_size)))
 
-    print("[INFO]\tMask dimensions selected: (" + str(mark_dimensions) + ", " + str(mark_dimensions) + ").")
-    mask_resized = cv2.resize(mark, (mark_dimensions, mark_dimensions))
+        if mark_dimensions % 2 != 0:
+            mark_dimensions = mark_dimensions + 1
+
+        print("[INFO]\tMask dimensions selected: (" + str(mark_dimensions) + ", " + str(mark_dimensions) + ").")
+        mask_resized = cv2.resize(mark, (mark_dimensions, mark_dimensions))
+    else:
+        print("[INFO]\tMask dimensions selected: (" + str(80) + ", " + str(80) + ").")
+        mask_resized = cv2.resize(mark, (80, 80))
     return mask_resized
 
 # Function for image overlay
@@ -238,7 +251,7 @@ def applyMask(file, new_file_name, trimmed_contours, mask, img, dimensions):
     print("------------------------------------")
     return img
 
-def detectStars(images_dir, output_name, mask_size, percision, file, output, counter):
+def detectStars(images_dir, output_name, mask_size, percision, file, output, counter, resize, skip_adjustment, loaded_image):
     # PREPARE OUTPUT NAME
     zeros = "00000"
     zeros_counter = len(str(counter))
@@ -249,10 +262,19 @@ def detectStars(images_dir, output_name, mask_size, percision, file, output, cou
 
     # READ IMAGE (RGB and BW)
     print("[INFO]\tReading: " + file)
-    img_rgb = cv2.imread(images_dir + file)
+    if not isinstance(loaded_image, type(None)):
+        img_rgb = loaded_image
+    else:
+        img_rgb = cv2.imread(images_dir + file)
+
+    if resize != None:
+        Resizer.resize(img_rgb, resize)
 
     # CONTRAST, BRIGHTNESS AND GAMMA CORRECTIONS, AND DENOISING
-    img_adjusted = imageCorrections(img_rgb)
+    if skip_adjustment != None:
+        img_adjusted = img_rgb
+    else:
+        img_adjusted = imageCorrections(img_rgb)
 
     # CONVERT IMAGE TO BW
     print("[INFO]\tConverting image to grayscale.")
@@ -279,12 +301,12 @@ def detectStars(images_dir, output_name, mask_size, percision, file, output, cou
     trimmed_contours = trimContoursByMinMaxArea(contours, min_contour_area, max_contour_area)
 
     # PREPARE THE STAR MASK
-    mask = prepareStarMask(mask_size, img_bw_resized.shape[1])
+    mask = prepareStarMask(mask_size, img_bw_resized.shape[1], img_bw_resized.shape[0])
 
     # APPLY THE STAR MASK
     img_rgb_with_masked_stars = applyMask(file, new_file_name, trimmed_contours, mask, img_rgb_resized.copy(), dimensions)
 
-    return img_rgb_with_masked_stars, new_file_name, img_rgb_resized
+    return img_rgb_with_masked_stars, new_file_name, img_rgb_resized, len(trimmed_contours)
 
 # Overall star detection function
 def starDetector(images_dir, output_name, mask_size, percision):
@@ -298,7 +320,7 @@ def starDetector(images_dir, output_name, mask_size, percision):
     counter = 0
     for file in os.listdir(images_dir):
         if file.endswith(".jpg"):
-            img_rgb, new_file_name, _ = detectStars(images_dir, output_name, mask_size, percision, file, output, counter)
+            img_rgb, new_file_name, _, _ = detectStars(images_dir, output_name, mask_size, percision, file, output, counter, None, None, None)
             # SAVE THE FINAL IMAGE
             print("[INFO]\tSaving image: " + str(new_file_name))
             cv2.imwrite(new_file_name, img_rgb)
