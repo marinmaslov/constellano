@@ -1,0 +1,26 @@
+<annotation>
+	<folder>images_haar</folder>
+	<filename>ursa_minor_haar_00009.jpg</filename>
+	<path>C:\Users\easmsma\Desktop\projects\constellano\data\data_annotated\ursa_minor\images_haar\ursa_minor_haar_00009.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>500</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>ursa_minor</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>84</xmin>
+			<ymin>77</ymin>
+			<xmax>277</xmax>
+			<ymax>299</ymax>
+		</bndbox>
+	</object>
+</annotation>

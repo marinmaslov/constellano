@@ -1,0 +1,26 @@
+<annotation>
+	<folder>images_haar</folder>
+	<filename>sagitta_haar_00025.jpg</filename>
+	<path>C:\Users\easmsma\Desktop\projects\constellano\data\data_annotated\sagitta\images_haar\sagitta_haar_00025.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>500</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>sagitta</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>88</xmin>
+			<ymin>94</ymin>
+			<xmax>320</xmax>
+			<ymax>271</ymax>
+		</bndbox>
+	</object>
+</annotation>

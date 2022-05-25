@@ -10,9 +10,39 @@
             "star-list": {
                 "type": "sorted-by-size",
                 "stars": {
+                    "0": {
+                        "name": "sirius",
+                        "greek": "alpha",
+                        "magnitude": "-1.45"
+                    },
+                    "1": {
+                        "name": "adhara",
+                        "greek": "epsilon",
+                        "magnitude": "1.50"
+                    },
+                    "2": {
+                        "name": "wezen",
+                        "greek": "delta",
+                        "magnitude": "1.80"
+                    },
+                    "3": {
+                        "name": "mirzam",
+                        "greek": "beta",
+                        "magnitude": "1.95"
+                    },
+                    "4": {
+                        "name": "aludra",
+                        "greek": "nu",
+                        "magnitude": "2.45"
+                    },
+                    "5": {
+                        "name": "al zara",
+                        "greek": "omicron",
+                        "magnitude": "3.0"
+                    }
                 }
             },
-            "connections": [],
+            "connections": [[0, 3], [0, 5], [2, 5], [1, 2], [2, 4]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "location": "Zagreb, Croatia",
@@ -27,7 +57,8 @@
                     },
                     "type": "decimal-degrees"
                 }
-            }
+            },
+            "min-neighbours": 0
         },
         "canis_minor": {
             "name": "Canis Minor",
@@ -39,9 +70,24 @@
             "star-list": {
                 "type": "sorted-by-size",
                 "stars": {
+                    "0": {
+                        "name": "procyon",
+                        "greek": "alpha",
+                        "magnitude": "0.40"
+                    },
+                    "1": {
+                        "name": "gomesia",
+                        "greek": "beta",
+                        "magnitude": "2.85"
+                    },
+                    "2": {
+                        "name": "gamma",
+                        "greek": "gamma",
+                        "magnitude": "4.30"
+                    }
                 }
             },
-            "connections": [],
+            "connections": [[0, 1]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "location": "Zagreb, Croatia",
@@ -56,7 +102,8 @@
                     },
                     "type": "decimal-degrees"
                 }
-            }
+            },
+            "min-neighbours": 0
         },
         "cassiopeia": {
             "name": "Cassiopeia",
@@ -122,9 +169,29 @@
             "star-list": {
                 "type": "sorted-by-size",
                 "stars": {
+                    "0": {
+                        "name": "beta",
+                        "greek": "beta",
+                        "magnitude": "4.20"
+                    },
+                    "1": {
+                        "name": "diadem",
+                        "greek": "alpha",
+                        "magnitude": "4.30"
+                    },
+                    "2": {
+                        "name": "al dafirah",
+                        "greek": "gamma",
+                        "magnitude": "4.35"
+                    },
+                    "3": {
+                        "name": "7 com",
+                        "greek": "7 com",
+                        "magnitude": "4.90"
+                    }
                 }
             },
-            "connections": [],
+            "connections": [[0, 2], [0, 1], [2, 3]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "location": "Zagreb, Croatia",
@@ -139,7 +206,8 @@
                     },
                     "type": "decimal-degrees"
                 }
-            }
+            },
+            "min-neighbours": 0
         },
         "corona_borealis": {
             "name": "Corona Borealis",
@@ -203,7 +271,8 @@
                     },
                     "type": "decimal-degrees"
                 }
-            }
+            },
+            "min-neighbours": 0
         },
         "cygnus": {
             "name": "Cygnus",
@@ -277,7 +346,8 @@
                     },
                     "type": "decimal-degrees"
                 }
-            }
+            },
+            "min-neighbours": 0
         },
         "delphinus": {
             "name": "Delphinus",
@@ -331,7 +401,8 @@
                     },
                     "type": "decimal-degrees"
                 }
-            }
+            },
+            "min-neighbours": 0
         },
         "gemini": {
             "name": "Gemini",
@@ -343,9 +414,74 @@
             "star-list": {
                 "type": "sorted-by-size",
                 "stars": {
+                    "0": {
+                        "name": "pollux",
+                        "greek": "beta",
+                        "magnitude": "1.15"
+                    },
+                    "1": {
+                        "name": "alhena",
+                        "greek": "gamma",
+                        "magnitude": "1.90"
+                    },
+                    "2": {
+                        "name": "castor",
+                        "greek": "alpha",
+                        "magnitude": "1.90"
+                    },
+                    "3": {
+                        "name": "tejat",
+                        "greek": "mu",
+                        "magnitude": "2.85"
+                    },
+                    "4": {
+                        "name": "mebsuta",
+                        "greek": "epsilon",
+                        "magnitude": "3.05"
+                    },
+                    "5": {
+                        "name": "propus",
+                        "greek": "nu",
+                        "magnitude": "3.30"
+                    },
+                    "6": {
+                        "name": "alzirr",
+                        "greek": "xi",
+                        "magnitude": "3.35"
+                    },
+                    "7": {
+                        "name": "lambda",
+                        "greek": "lambda",
+                        "magnitude": "3.55"
+                    },
+                    "8": {
+                        "name": "kapa",
+                        "greek": "kapa",
+                        "magnitude": "3.55"
+                    },
+                    "9": {
+                        "name": "wasat",
+                        "greek": "delta",
+                        "magnitude": "3.50"
+                    },
+                    "10": {
+                        "name": "theta",
+                        "greek": "theta",
+                        "magnitude": "3.60"
+                    },
+                    "11": {
+                        "name": "iota",
+                        "greek": "iota",
+                        "magnitude": "3.75"
+                    },
+                    "12": {
+                        "name": "mekbuda",
+                        "greek": "zeta",
+                        "magnitude": "4.00"
+                    }
                 }
             },
-            "connections": [],
+            "connections": [[0, 9], [8, 11], [10, 11], [2, 4], [9, 12], [7, 9], [6, 7], [1, 12], [3, 4], [3, 5]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "location": "Zagreb, Croatia",
@@ -360,7 +496,8 @@
                     },
                     "type": "decimal-degrees"
                 }
-            }
+            },
+            "min-neighbours": 0
         },
         "hercules": {
             "name": "Hercules",
@@ -372,9 +509,49 @@
             "star-list": {
                 "type": "sorted-by-size",
                 "stars": {
+                    "0": {
+                        "name": "kornephoros",
+                        "greek": "beta",
+                        "magnitude": "2.75"
+                    },
+                    "1": {
+                        "name": "rutilicus",
+                        "greek": "zeta",
+                        "magnitude": "2.85"
+                    },
+                    "2": {
+                        "name": "pi",
+                        "greek": "pi",
+                        "magnitude": "3.15"
+                    },
+                    "3": {
+                        "name": "nu",
+                        "greek": "nu",
+                        "magnitude": "3.45"
+                    },
+                    "4": {
+                        "name": "theta",
+                        "greek": "theta",
+                        "magnitude": "3.85"
+                    },
+                    "5": {
+                        "name": "epsilon",
+                        "greek": "epsilon",
+                        "magnitude": "3.90"
+                    },
+                    "6": {
+                        "name": "sigma",
+                        "greek": "sigma",
+                        "magnitude": "4.20"
+                    },
+                    "7": {
+                        "name": "maasym",
+                        "greek": "lambda",
+                        "magnitude": "4.4"
+                    }
                 }
             },
-            "connections": [],
+            "connections": [[5, 7], [1, 5], [0, 1], [2, 5], [2, 4], [2, 3], [3, 6], [1, 3]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "location": "Zagreb, Croatia",
@@ -389,7 +566,8 @@
                     },
                     "type": "decimal-degrees"
                 }
-            }
+            },
+            "min-neighbours": 0
         },
         "libra": {
             "name": "Libra",
@@ -401,9 +579,34 @@
             "star-list": {
                 "type": "sorted-by-size",
                 "stars": {
+                    "0": {
+                        "name": "zubeneschamali",
+                        "greek": "beta",
+                        "magnitude": "2.60"
+                    },
+                    "1": {
+                        "name": "zubenelgenubi II",
+                        "greek": "alpha",
+                        "magnitude": "2.75"
+                    },
+                    "2": {
+                        "name": "brachium",
+                        "greek": "sigma",
+                        "magnitude": "3.25"
+                    },
+                    "3": {
+                        "name": "zubenelhakrabi",
+                        "greek": "gamma",
+                        "magnitude": "3.90"
+                    },
+                    "4": {
+                        "name": "theta",
+                        "greek": "theta",
+                        "magnitude": "4.10"
+                    }
                 }
             },
-            "connections": [],
+            "connections": [[3, 4], [0, 3], [0, 1], [1, 2], [2, 3]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "location": "Zagreb, Croatia",
@@ -418,7 +621,8 @@
                     },
                     "type": "decimal-degrees"
                 }
-            }
+            },
+            "min-neighbours": 0
         },
         "lyra": {
             "name": "Lyra",
@@ -472,7 +676,8 @@
                     },
                     "type": "decimal-degrees"
                 }
-            }
+            },
+            "min-neighbours": 0
         },
         "sagitta": {
             "name": "Sagitta",
@@ -484,9 +689,29 @@
             "star-list": {
                 "type": "sorted-by-size",
                 "stars": {
+                    "0": {
+                        "name": "gamma",
+                        "greek": "gamma",
+                        "magnitude": "3.50"
+                    },
+                    "1": {
+                        "name": "delta",
+                        "greek": "delta",
+                        "magnitude": "4.30"
+                    },
+                    "2": {
+                        "name": "sham",
+                        "greek": "alpha",
+                        "magnitude": "4.35"
+                    },
+                    "3": {
+                        "name": "beta",
+                        "greek": "beta",
+                        "magnitude": "4.35"
+                    }
                 }
             },
-            "connections": [],
+            "connections": [[0, 1], [1, 2], [1, 3]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "location": "Zagreb, Croatia",
@@ -501,7 +726,8 @@
                     },
                     "type": "decimal-degrees"
                 }
-            }
+            },
+            "min-neighbours": 0
         },
         "ursa_minor": {
             "name": "Ursa Minor",
@@ -565,7 +791,8 @@
                     },
                     "type": "decimal-degrees"
                 }
-            }
+            },
+            "min-neighbours": 0
         },
         "vulpecula": {
             "name": "Vulpecula",
@@ -577,9 +804,24 @@
             "star-list": {
                 "type": "sorted-by-size",
                 "stars": {
+                    "0": {
+                        "name": "ansar",
+                        "greek": "alpha",
+                        "magnitude": "4.40"
+                    },
+                    "1": {
+                        "name": "15 vul",
+                        "greek": "15 vul",
+                        "magnitude": "4.65"
+                    },
+                    "2": {
+                        "name": "23 vul",
+                        "greek": "23 vul",
+                        "magnitude": "4.75"
+                    }
                 }
             },
-            "connections": [],
+            "connections": [[0, 1], [1, 2]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "location": "Zagreb, Croatia",
@@ -594,7 +836,8 @@
                     },
                     "type": "decimal-degrees"
                 }
-            }
+            },
+            "min-neighbours": 0
         }
     },
     "list-type": "IAU",

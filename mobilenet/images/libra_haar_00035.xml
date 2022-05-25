@@ -1,0 +1,26 @@
+<annotation>
+	<folder>images_haar</folder>
+	<filename>libra_haar_00035.jpg</filename>
+	<path>C:\Users\easmsma\Desktop\projects\constellano\data\data_annotated\libra\images_haar\libra_haar_00035.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>500</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>libra</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>154</xmin>
+			<ymin>127</ymin>
+			<xmax>404</xmax>
+			<ymax>343</ymax>
+		</bndbox>
+	</object>
+</annotation>

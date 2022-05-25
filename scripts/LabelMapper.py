@@ -54,7 +54,7 @@ def main(argv):
 
     # Save the label map
     print("[INFO]\tCreating label_map.pbtxt in " + str(images_dir))
-    label_file_path = output + "label_map.pbtxt"
+    label_file_path = output
     with open(label_file_path, 'w') as f:
         f.write(convertClassesToLabelMap(label_names))
 

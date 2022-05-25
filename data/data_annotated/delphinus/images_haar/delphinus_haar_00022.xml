@@ -1,0 +1,26 @@
+<annotation>
+	<folder>images_haar</folder>
+	<filename>delphinus_haar_00022.jpg</filename>
+	<path>C:\Users\easmsma\Desktop\projects\constellano\data\data_annotated\delphinus\images_haar\delphinus_haar_00022.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>500</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>delphinus</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>203</xmin>
+			<ymin>99</ymin>
+			<xmax>296</xmax>
+			<ymax>355</ymax>
+		</bndbox>
+	</object>
+</annotation>
