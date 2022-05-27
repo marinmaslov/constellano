@@ -1,0 +1,5 @@
+data/new_haar/libra/resized_00000.jpg
+data/new_haar/libra/resized_00004.jpg
+data/new_haar/libra/resized_00001.jpg
+data/new_haar/libra/resized_00002.jpg
+data/new_haar/libra/resized_00003.jpg
