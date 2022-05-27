@@ -253,6 +253,11 @@
                         "name": "iota",
                         "greek": "iota",
                         "magnitude": "4.95"
+                    },
+                    "7": {
+                        "name": "iota",
+                        "greek": "iota",
+                        "magnitude": "4.95"
                     }
                 },
                 "connections": [[0, 1], [0, 2], [1, 4], [2, 5], [3, 5], [3, 6]]
