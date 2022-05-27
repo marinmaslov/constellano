@@ -189,9 +189,9 @@
                         "greek": "7 com",
                         "magnitude": "4.90"
                     }
-                }
+                },
+                "connections": [[0, 2], [0, 1], [2, 3]]
             },
-            "connections": [[0, 2], [0, 1], [2, 3]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "location": "Zagreb, Croatia",
@@ -479,9 +479,9 @@
                         "greek": "zeta",
                         "magnitude": "4.00"
                     }
-                }
+                },
+                "connections": [[0, 9], [8, 11], [10, 11], [2, 4], [9, 12], [7, 9], [6, 7], [1, 12], [3, 4], [3, 5]]
             },
-            "connections": [[0, 9], [8, 11], [10, 11], [2, 4], [9, 12], [7, 9], [6, 7], [1, 12], [3, 4], [3, 5]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "location": "Zagreb, Croatia",
@@ -549,9 +549,9 @@
                         "greek": "lambda",
                         "magnitude": "4.4"
                     }
-                }
+                },
+                "connections": [[5, 7], [1, 5], [0, 1], [2, 5], [2, 4], [2, 3], [3, 6], [1, 3]]
             },
-            "connections": [[5, 7], [1, 5], [0, 1], [2, 5], [2, 4], [2, 3], [3, 6], [1, 3]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "location": "Zagreb, Croatia",
@@ -604,9 +604,9 @@
                         "greek": "theta",
                         "magnitude": "4.10"
                     }
-                }
+                },
+                "connections": [[3, 4], [0, 3], [0, 1], [1, 2], [2, 3]]
             },
-            "connections": [[3, 4], [0, 3], [0, 1], [1, 2], [2, 3]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "location": "Zagreb, Croatia",
@@ -709,9 +709,9 @@
                         "greek": "beta",
                         "magnitude": "4.35"
                     }
-                }
+                },
+                "connections": [[0, 1], [1, 2], [1, 3]]
             },
-            "connections": [[0, 1], [1, 2], [1, 3]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "location": "Zagreb, Croatia",
@@ -819,9 +819,9 @@
                         "greek": "23 vul",
                         "magnitude": "4.75"
                     }
-                }
+                },
+                "connections": [[0, 1], [1, 2]]
             },
-            "connections": [[0, 1], [1, 2]],
             "coordinates": {
                 "date": "2000-01-01 00:00:00 UTC+01:00",
                 "location": "Zagreb, Croatia",

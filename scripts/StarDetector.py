@@ -74,7 +74,7 @@ def resizeImage(img_rgb, img_bw):
     # Defining new dimensions
     dimensions = (new_cols, 3000)
 
-    print("[INFO]\tResizing image from: (" + str(rows) + ", " + str(cols) + ") to (" + str(1000) + ", " + str(new_cols) + ").")
+    print("[INFO]\tResizing image from: (" + str(rows) + ", " + str(cols) + ") to (" + str(3000) + ", " + str(new_cols) + ").")
     img_rgb_resized = cv2.resize(img_rgb, dimensions)
     img_bw_resized = cv2.resize(img_bw, dimensions)
 
@@ -111,10 +111,12 @@ def trimContoursByMinMaxArea(contours, min_contour_area, max_contour_area):
     has_reached_limit = False
     if len(trimmed_contours) < 5:
         print("[WARN]\tNumber of stars should not be below 5. Adding back the biggest from the removed ones.")
-        if len(contours) < 5:
+
+        if len(contours) <= 5:
             print("[ERROR]\tNo more stars in image.")
             has_reached_limit = True
             pass
+
         while len(trimmed_contours) <= 5:
             min_contour_area = round(min_contour_area - 0.1, 2)
             trimmed_contours = []
@@ -296,6 +298,9 @@ def detectStars(images_dir, output_name, mask_size, percision, file, output, cou
 
     # DEFINE MIN-MAX CONTOUR AREA
     min_contour_area, max_contour_area = findMinMaxContours(contours_areas, percision)
+
+    if min_contour_area == 0 and max_contour_area == 0:
+        return None, None, None, None
 
     # TRIM CONTOURS BY MIN-MAX CONTOUR AREA
     trimmed_contours = trimContoursByMinMaxArea(contours, min_contour_area, max_contour_area)
