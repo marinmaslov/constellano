@@ -253,11 +253,6 @@
                         "name": "iota",
                         "greek": "iota",
                         "magnitude": "4.95"
-                    },
-                    "7": {
-                        "name": "iota",
-                        "greek": "iota",
-                        "magnitude": "4.95"
                     }
                 },
                 "connections": [[0, 1], [0, 2], [1, 4], [2, 5], [3, 5], [3, 6]]
@@ -605,6 +600,21 @@
                         "magnitude": "3.90"
                     },
                     "4": {
+                        "name": "theta",
+                        "greek": "theta",
+                        "magnitude": "4.10"
+                    },
+                    "5": {
+                        "name": "theta",
+                        "greek": "theta",
+                        "magnitude": "4.10"
+                    },
+                    "6": {
+                        "name": "theta",
+                        "greek": "theta",
+                        "magnitude": "4.10"
+                    },
+                    "7": {
                         "name": "theta",
                         "greek": "theta",
                         "magnitude": "4.10"
