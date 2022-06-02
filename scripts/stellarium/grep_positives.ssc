@@ -1,0 +1,79 @@
+// Name: Grep Positive Images
+// License: MIT License
+// Author: marinmaslov
+// Last Modified: 2022/04/16
+// Description: Use RA/DEC coordinates to take screenshots of ROI
+
+// CONSTS
+const ZOOM_FACTOR = 18.0;
+const STEP = 1.5;
+
+// DESTINATION PATH
+const DESTINATION_PATH = "C:/Users/easmsma/Desktop/data/lyra/positives/"
+
+// EQ COORDINATES
+// RA coordinates (decimal) [right-left]
+const RA_TARGET_START = 279.23;
+const RA_TARGET_END = 284.73;
+
+// DEC coordinates (decimal) [up-down]
+const DEC_TARGET_START = 32.69069;
+const DEC_TARGET_END = 38.78472;
+
+LabelMgr.labelScreen("Taking positive shoots.", 200, 200, true, 20, "#ff0000");
+core.wait(1);
+LabelMgr.deleteAllLabels();
+StelMovementMgr.zoomTo(ZOOM_FACTOR, 1);
+StelSkyDrawer.setFlagStarMagnitudeLimit(true);
+StelSkyDrawer.setCustomStarMagnitudeLimit(4.5);
+core.setGuiVisible(false);
+core.setProjectionMode("ProjectionPerspective");
+core.wait(1);
+
+//Movement code
+LabelMgr.deleteAllLabels();
+LabelMgr.labelScreen("Capturing sample images.", 200, 200, true, 20, "#ff0000");
+core.wait(1);
+LabelMgr.deleteAllLabels();
+core.wait(1);
+
+var targetRadiusCheck = StelMovementMgr.getCurrentFov() / 2;
+for (var i = DEC_TARGET_START; i <= DEC_TARGET_END; i=i+STEP) {
+	if ((i > 0 && ((i + targetRadiusCheck >= DEC_TARGET_END) && (i - targetRadiusCheck <= DEC_TARGET_START))) || (i < 0 && ((i - targetRadiusCheck <= DEC_TARGET_START) && (i + targetRadiusCheck >= DEC_TARGET_END)))) {
+		if (RA_TARGET_START < RA_TARGET_END) {
+			for (var j = RA_TARGET_START; j <= RA_TARGET_END; j=j+STEP) {
+				core.moveToRaDec(j, i, 0);
+				core.screenshot("target_", false, DESTINATION_PATH, false, "png");
+				core.wait(0.1);
+			}
+			core.wait(0.1);
+		}
+		else {
+			for (var j = RA_TARGET_START; j <= 360.0; j=j+STEP) {
+				if ((targetRadiusCheck - 360 - j <= RA_TARGET_END) && (j - targetRadiusCheck >= RA_TARGET_START)) {
+					core.moveToRaDec(j, i, 0);
+					core.screenshot("target_", false, DESTINATION_PATH, false, "png");
+					core.wait(0.1);
+				} 
+			}
+			core.wait(0.1);
+			
+			for (var j = 0; j <= RA_TARGET_END; j=j+STEP) {
+				if ((j + targetRadiusCheck <= RA_TARGET_END) && (360 - targetRadiusCheck + j >= RA_TARGET_START)) {
+					core.moveToRaDec(j, i, 0);
+					core.screenshot("positive_", false, DESTINATION_PATH, false, "png");
+					core.wait(0.1);
+				}
+			}
+			core.wait(0.1);
+		}
+	}
+	core.wait(0.1);
+}
+core.wait(3);
+LabelMgr.deleteAllLabels();
+LabelMgr.labelScreen("Capturing finished.", 200, 200, true, 20, "#ff0000");
+core.wait(2);
+LabelMgr.deleteAllLabels();
+core.wait(2);
+core.setGuiVisible(true);
