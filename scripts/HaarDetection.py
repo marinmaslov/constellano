@@ -8,6 +8,7 @@ Command format:
 
 import sys
 import os
+from xmlrpc.client import Boolean
 import cv2
 import getopt
 import math
@@ -19,7 +20,7 @@ import Streacher
 
 __author__ = "Marin Maslov"
 __license__ = "MIT Licence"
-__version__ = "5.3.0"
+__version__ = "5.3.1"
 __maintainer__ = "Marin Maslov"
 __email__ = "mmaslo00@fesb.hr"
 __status__ = "Stable"
@@ -40,7 +41,7 @@ def haarDetection(images_dir, output_name, mask_size_min, mask_size_max, percisi
         constellations_data = json.load(file)
 
     # Should Star mask be applyed?
-    constellation_stars_apply = bool(((constellations_data["constellations"])[str(cascade_name)])["draw-star-mask"] == 'true')
+    constellation_stars_apply = Boolean(((constellations_data["constellations"])[str(cascade_name)])["draw-star-mask"])
     print("[INFO]\tShould constellation masks be applyed: " + str(constellation_stars_apply))
 
     # Fetch star data
@@ -51,6 +52,7 @@ def haarDetection(images_dir, output_name, mask_size_min, mask_size_max, percisi
 
     counter = 0
     detected_constellations = 0
+    constellation_name = cascade_name.replace("_", " ")
     for file in os.listdir(images_dir):
         if file.endswith(".jpg"):
             detected_constellations = 0
@@ -164,8 +166,6 @@ def haarDetection(images_dir, output_name, mask_size_min, mask_size_max, percisi
                                             print("[INFO]\tConnecting stars: " + str(haar_contours_sorted_coordinates[connection[0]]) + " and " + str(haar_contours_sorted_coordinates[connection[1]]) + ".")
                                         files_created = files_created + 1
                                 else:
-                                    constellation_name = cascade_name.replace("_", " ")
-                                    
                                     if y - 40 < 0:
                                         cv2.putText(img_rgb_resized, constellation_name.title(), (x, y + h + 100), font, 2.5, RGB_WHITE, 10, cv2.LINE_AA)
                                     else:
