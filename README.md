@@ -187,7 +187,7 @@ The parameters are:
 - `OUTPUT_NAME` name of the output directory and files
 - `PERCISION_MIN` minimum percision in percentage as described in 4.2.2. (preferably `0.0`)
 - `PERCISION_MAX` maximum percision in percentage as described in 4.2.2.
-- `CASCADES_DIR` directory containing all the cascade files
+- `CASCADES_DIR` directory containing all the cascade files (the output files from step 4.3. should be placed into this directory and renamed to the desired name of the object question)
 - `JSON_FILE` path to the json file
 
 Other parameters should be as they are. If detection is unsucessful change the `streach` parameter to `1`, if you want to plot every image in every step of the detectio script change the `plot` parameter to `1`.
