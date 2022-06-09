@@ -39,24 +39,17 @@ flask run
 A quick look at the apps files and directories.
 
     .
-    ├── constellation-recognition
+    ├── cascades
+    |       |── pretrained_001.xml
     |       |── ...
-    |       |── images of stars
-    |       └── and python code live here (for now, will be displaced)
-    ├── static
-    |       |── ...
-    |       └── static files live here
-    ├── templates
-    |       |── ...
-    |       └── mostly html files live here
-    ├── static
-    |       |── mostly static files used by Flask app live here
-    |       |       |── ...
-    |       |       |── ...
-    |       |       └── ...
-    |       └── ...
-    |               |── ...
-    |               └── ...
+    |       └── pretrained_NNN.xml
+    ├── data
+    |       |── negatives
+    |       └── positives
+    ├── scripts
+    |       └── all scripts explained in section 4.
+    ├── testing
+    |       └── mostly testing images
     ├── .gitignore
     ├── Procfile
     ├── README.md
