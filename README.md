@@ -2,10 +2,10 @@
 
 An app written in Python (Flask) that enables you to recognize 👀 constellations on a static picture, using HAAR cascade 🤖.
 
-## 0. Prerequisite ⚙️
+## 1. Prerequisite ⚙️
 To run this app you'll need to install `python 3.10.x`.
 
-## 1. How to run? 🚀
+## 2. How to run? 🚀
 Clone the repo using the following command:
 ```bash
 git clone git@github.com:marinmaslov/constellano.git
