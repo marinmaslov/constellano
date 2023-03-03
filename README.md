@@ -190,5 +190,5 @@ Other parameters should be as they are. If detection is unsucessful change the `
 > "The real friends of the space voyager are the stars. Their friendly, familiar patterns are constant companions, unchanging, out there." - James Lovell, Apollo Astronaut
 
 <p align="center">
-  Flask (Python) App created by Marin Maslov @ <a href="https://www.fesb.unist.hr/">FESB (UNIST)</a>
+  Python Script created by Marin Maslov @ <a href="https://www.fesb.unist.hr/">FESB (UNIST)</a>
 </p>
